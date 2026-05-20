@@ -13,9 +13,9 @@
   --bg-card:      #131310;
   --bg-elevated:  #1b1b15;
   --bg-header:    rgba(10, 10, 7, 0.96);
-  --gold:         #D99D2C;
-  --gold-light:   #e8b44e;
-  --gold-dim:     rgba(217, 157, 44, 0.18);
+  --gold:         #f2e9d2;
+  --gold-light:   #e8dfc2;
+  --gold-dim:     rgba(242, 233, 210, 0.10);
   --text-primary: #f0ead6;
   --text-sec:     #8e8372;
   --text-muted:   #565044;
@@ -60,7 +60,7 @@ button { cursor: pointer; font-family: var(--font-body); }
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(217, 157, 44, 0.5), transparent);
+  background: linear-gradient(to right, transparent, rgba(242, 233, 210, 0.2), transparent);
 }
 
 .header-inner {
@@ -182,13 +182,13 @@ button { cursor: pointer; font-family: var(--font-body); }
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(217, 157, 44, 0.55);
+  background: rgba(242, 233, 210, 0.22);
 }
 
 .hero-divider-diamond {
   width: 9px;
   height: 9px;
-  border: 1px solid rgba(217, 157, 44, 0.7);
+  border: 1px solid rgba(242, 233, 210, 0.35);
   transform: rotate(45deg);
   flex-shrink: 0;
   margin: 0 10px;
@@ -290,7 +290,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .filter-btn:hover {
-  border-color: rgba(217, 157, 44, 0.35);
+  border-color: rgba(242, 233, 210, 0.18);
   color: var(--text-primary);
 }
 
@@ -306,7 +306,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .filter-btn.active:hover {
-  background: rgba(217, 157, 44, 0.06);
+  background: rgba(242, 233, 210, 0.04);
   border-color: var(--gold-light);
   color: var(--gold-light);
 }
@@ -369,11 +369,11 @@ button { cursor: pointer; font-family: var(--font-body); }
   min-width: 210px;
   background: var(--bg-elevated);
   border: 1px solid var(--border-card);
-  border-top: 1px solid rgba(217, 157, 44, 0.28);
+  border-top: 1px solid rgba(242, 233, 210, 0.12);
   border-radius: var(--radius);
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.55),
-    0 2px 8px rgba(217, 157, 44, 0.07);
+    0 2px 8px rgba(242, 233, 210, 0.04);
   z-index: 300;
   overflow: hidden;
   opacity: 0;
@@ -413,7 +413,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .sort-option:hover {
-  background: rgba(217, 157, 44, 0.06);
+  background: rgba(242, 233, 210, 0.04);
   color: var(--text-primary);
 }
 
@@ -472,11 +472,11 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .product-card:hover {
-  border-color: rgba(217, 157, 44, 0.38);
+  border-color: rgba(242, 233, 210, 0.18);
   transform: translateY(-3px);
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.5),
-    0 2px 8px rgba(217, 157, 44, 0.06);
+    0 2px 8px rgba(242, 233, 210, 0.04);
 }
 
 .product-card:focus-visible {
@@ -585,7 +585,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 .btn-load-more:hover {
   border-color: var(--gold);
   color: var(--gold);
-  background: rgba(217, 157, 44, 0.04);
+  background: rgba(242, 233, 210, 0.03);
 }
 
 .btn-load-more:focus-visible {
@@ -594,7 +594,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .btn-load-more:active {
-  background: rgba(217, 157, 44, 0.08);
+  background: rgba(242, 233, 210, 0.06);
 }
 
 
@@ -702,7 +702,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 .social-icon:hover {
   border-color: var(--gold);
   color: var(--gold);
-  background: rgba(217, 157, 44, 0.05);
+  background: rgba(242, 233, 210, 0.04);
 }
 
 .social-icon:focus-visible {
@@ -829,9 +829,9 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .card-add-btn:hover {
-  border-color: rgba(217, 157, 44, 0.5);
+  border-color: rgba(242, 233, 210, 0.25);
   color: var(--gold);
-  background: rgba(217, 157, 44, 0.05);
+  background: rgba(242, 233, 210, 0.04);
 }
 
 .card-add-btn:focus-visible {
@@ -840,23 +840,23 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .card-add-btn:active {
-  background: rgba(217, 157, 44, 0.1);
+  background: rgba(242, 233, 210, 0.06);
 }
 
 .card-add-btn.in-cart {
   border-color: var(--gold);
   color: var(--gold);
-  background: rgba(217, 157, 44, 0.09);
+  background: rgba(242, 233, 210, 0.06);
 }
 
 .card-add-btn.in-cart:hover {
   border-color: var(--gold-light);
   color: var(--gold-light);
-  background: rgba(217, 157, 44, 0.14);
+  background: rgba(242, 233, 210, 0.08);
 }
 
 .card-add-btn.in-cart:active {
-  background: rgba(217, 157, 44, 0.2);
+  background: rgba(242, 233, 210, 0.1);
 }
 
 
@@ -910,7 +910,7 @@ button { cursor: pointer; font-family: var(--font-body); }
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(217, 157, 44, 0.5), transparent);
+  background: linear-gradient(to right, transparent, rgba(242, 233, 210, 0.2), transparent);
   z-index: 1;
 }
 
@@ -948,9 +948,9 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .cart-close-btn:hover {
-  border-color: rgba(217, 157, 44, 0.4);
+  border-color: rgba(242, 233, 210, 0.2);
   color: var(--text-primary);
-  background: rgba(217, 157, 44, 0.04);
+  background: rgba(242, 233, 210, 0.04);
 }
 
 .cart-close-btn:focus-visible {
@@ -959,7 +959,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .cart-close-btn:active {
-  background: rgba(217, 157, 44, 0.08);
+  background: rgba(242, 233, 210, 0.05);
 }
 
 /* ── CART ITEMS ───────────────────────────── */
@@ -993,7 +993,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 
 .cart-item:last-child { border-bottom: none; }
 
-.cart-item:hover { background: rgba(255, 255, 255, 0.015); }
+.cart-item:hover { background: rgba(242, 233, 210, 0.015); }
 
 .cart-item-img-wrap {
   width: 68px;
@@ -1039,7 +1039,7 @@ button { cursor: pointer; font-family: var(--font-body); }
   width: 100%;
   margin-top: 8px;
   padding: 7px 10px;
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(242, 233, 210, 0.025);
   border: 1px solid var(--border-card);
   border-radius: var(--radius);
   color: var(--text-sec);
@@ -1052,7 +1052,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 
 .cart-item-comment:focus {
   outline: none;
-  border-color: rgba(217, 157, 44, 0.4);
+  border-color: rgba(242, 233, 210, 0.2);
 }
 
 .cart-item-comment::placeholder {
@@ -1077,7 +1077,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 
 .cart-item-remove:hover {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(242, 233, 210, 0.04);
 }
 
 .cart-item-remove:focus-visible {
@@ -1102,7 +1102,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 .cart-empty-diamond {
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(217, 157, 44, 0.3);
+  border: 1px solid rgba(242, 233, 210, 0.15);
   transform: rotate(45deg);
   flex-shrink: 0;
   opacity: 0.6;
@@ -1540,7 +1540,7 @@ button { cursor: pointer; font-family: var(--font-body); }
     margin-top: 28px;
     background: var(--bg-elevated);
     border: 1px solid var(--border-card);
-    border-top: 2px solid rgba(217, 157, 44, 0.4);
+    border-top: 2px solid rgba(242, 233, 210, 0.15);
     border-radius: 6px;
     padding: 20px 20px 16px;
   }
