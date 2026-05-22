@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdamasGold — Оформление заказа</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link" aria-label="Adamas Gold">
+        <span class="brand"></span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link" data-i18n="nav_catalog">Каталог</a>
+        <a href="#" class="nav-link" data-i18n="nav_workshop">Ювелирная мастерская</a>
+        <a href="#" class="nav-link" data-i18n="nav_news">Новости</a>
+        <a href="#" class="nav-link" data-i18n="nav_contacts">Контакты</a>
+      </nav>
+      <div class="header-right">
+        <div class="lang-switcher">
+          <span class="lang active" data-lang="ru">Ru</span>
+          <span class="lang-sep">/</span>
+          <span class="lang" data-lang="ro">Ro</span>
+        </div>
+        <button class="header-cart-btn" id="header-cart-btn" aria-label="Корзина">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Меню" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-nav-link" data-i18n="nav_catalog">Каталог</a>
+      <a href="#" class="mobile-nav-link" data-i18n="nav_workshop">Ювелирная мастерская</a>
+      <a href="#" class="mobile-nav-link" data-i18n="nav_news">Новости</a>
+      <a href="#" class="mobile-nav-link" data-i18n="nav_contacts">Контакты</a>
+    </nav>
+    <div class="mobile-lang-switcher">
+      <span class="lang active" data-lang="ru">Ru</span>
+      <span class="lang-sep">/</span>
+      <span class="lang" data-lang="ro">Ro</span>
+    </div>
+  </div>
+
+  <!-- CHECKOUT HERO -->
+  <section class="checkout-hero">
+    <div class="checkout-hero-grain"></div>
+    <div class="checkout-hero-inner">
+      <a href="index.html" class="checkout-back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        <span data-i18n="checkout_back">Вернуться в каталог</span>
+      </a>
+      <h1 class="checkout-hero-title" data-i18n="checkout_title">ОФОРМЛЕНИЕ ЗАКАЗА</h1>
+    </div>
+  </section>
+
+  <!-- CHECKOUT MAIN -->
+  <main class="checkout-main">
+
+    <!-- EMPTY STATE -->
+    <div class="checkout-empty" id="checkout-empty" style="display:none">
+      <svg class="checkout-empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <h2 class="checkout-empty-title" data-i18n="checkout_empty_title">Корзина пуста</h2>
+      <p class="checkout-empty-text" data-i18n="checkout_empty_text">Добавьте изделия в корзину, чтобы оформить заказ.</p>
+      <a href="index.html" class="checkout-empty-btn" data-i18n="checkout_empty_btn">Перейти в каталог</a>
+    </div>
+
+    <!-- CHECKOUT GRID -->
+    <div class="checkout-grid" id="checkout-grid">
+
+      <!-- LEFT: ORDER SUMMARY -->
+      <section class="checkout-orders-col">
+        <div class="checkout-col-header">
+          <h2 class="checkout-col-title">
+            <span data-i18n="checkout_order_col">Ваш заказ</span>
+            <span class="checkout-count" id="checkout-count"></span>
+          </h2>
+        </div>
+        <div class="checkout-items" id="checkout-items"></div>
+      </section>
+
+      <!-- RIGHT: FORM + INFO -->
+      <section class="checkout-form-col">
+
+        <!-- Form -->
+        <div class="checkout-form-wrap">
+          <h3 class="checkout-form-title" data-i18n="checkout_form_title">Данные для связи</h3>
+          <form class="checkout-form" id="checkout-form" novalidate>
+            <div class="checkout-form-row">
+              <div class="checkout-field">
+                <label class="checkout-label" for="field-firstname" data-i18n="checkout_firstname">Имя</label>
+                <input type="text" class="checkout-input" id="field-firstname" name="firstname"
+                       data-i18n-placeholder="checkout_name_placeholder" placeholder="Введите имя" required autocomplete="given-name">
+                <span class="checkout-field-error" id="err-firstname"></span>
+              </div>
+              <div class="checkout-field">
+                <label class="checkout-label" for="field-lastname" data-i18n="checkout_lastname">Фамилия</label>
+                <input type="text" class="checkout-input" id="field-lastname" name="lastname"
+                       data-i18n-placeholder="checkout_lastname_placeholder" placeholder="Введите фамилию" required autocomplete="family-name">
+                <span class="checkout-field-error" id="err-lastname"></span>
+              </div>
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="field-phone" data-i18n="checkout_phone">Номер телефона</label>
+              <input type="tel" class="checkout-input" id="field-phone" name="phone"
+                     data-i18n-placeholder="checkout_phone_placeholder" placeholder="+373 xxx xx xx" required autocomplete="tel">
+              <span class="checkout-field-error" id="err-phone"></span>
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="field-email">
+                <span data-i18n="checkout_email">Email</span>
+                <span class="checkout-label-optional" data-i18n="checkout_email_optional">необязательно</span>
+              </label>
+              <input type="email" class="checkout-input" id="field-email" name="email"
+                     data-i18n-placeholder="checkout_email_placeholder" placeholder="email@example.com" autocomplete="email">
+            </div>
+            <button type="submit" class="checkout-submit">
+              <span data-i18n="checkout_submit">Отправить заявку</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Info block (accordion) -->
+        <div class="checkout-info-block checkout-info-collapsed" id="checkout-info-block">
+          <button class="checkout-info-toggle" id="checkout-info-toggle" aria-expanded="false" aria-controls="checkout-info-body">
+            <h3 class="checkout-info-title" data-i18n="checkout_info_title">Как мы работаем</h3>
+            <svg class="checkout-info-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="checkout-info-body" id="checkout-info-body">
+            <div class="checkout-info-inner">
+            <div class="checkout-steps">
+              <div class="checkout-step">
+                <span class="checkout-step-num">01</span>
+                <div class="checkout-step-body">
+                  <p class="checkout-step-title" data-i18n="checkout_step1">Обсуждение деталей</p>
+                  <p class="checkout-step-text" data-i18n="checkout_step1_text">Мастер свяжется с вами в течение 1–2 рабочих дней</p>
+                </div>
+              </div>
+              <div class="checkout-step">
+                <span class="checkout-step-num">02</span>
+                <div class="checkout-step-body">
+                  <p class="checkout-step-title" data-i18n="checkout_step2">Изготовление</p>
+                  <p class="checkout-step-text" data-i18n="checkout_step2_text">Вручную, в нашей мастерской — 25–35 рабочих дней</p>
+                </div>
+              </div>
+              <div class="checkout-step">
+                <span class="checkout-step-num">03</span>
+                <div class="checkout-step-body">
+                  <p class="checkout-step-title" data-i18n="checkout_step3">Получение</p>
+                  <p class="checkout-step-text" data-i18n="checkout_step3_text">Самовывоз или курьер — согласуем при звонке</p>
+                </div>
+              </div>
+            </div>
+            <p class="checkout-info-note" data-i18n="checkout_info_text">После отправки заявки наш мастер лично свяжется с вами...</p>
+            </div><!-- /.checkout-info-inner -->
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- SUCCESS OVERLAY -->
+  <div class="checkout-success-overlay" id="checkout-success" aria-hidden="true">
+    <div class="checkout-success-card">
+      <div class="checkout-success-icon-wrap">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 class="checkout-success-title" data-i18n="checkout_success_title">Заявка принята</h2>
+      <p class="checkout-success-text" data-i18n="checkout_success_text">Спасибо за ваш заказ! Наш мастер свяжется с вами в течение 1–2 рабочих дней.</p>
+      <a href="index.html" class="checkout-success-back" data-i18n="checkout_success_back">Вернуться в каталог</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand brand--footer" aria-label="Adamas Gold"></span>
+        <p class="footer-tagline" data-i18n="footer_tagline">Ювелирная мастерская</p>
+        <p class="footer-desc" data-i18n="footer_desc">Авторские ювелирные изделия на заказ. От идеи — до воплощения в драгоценном металле.</p>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col1_title">О нас</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="index.html" data-i18n="footer_link_catalog">Каталог изделий</a></li>
+          <li><a href="#" data-i18n="footer_link_workshop">Ювелирная мастерская</a></li>
+          <li><a href="#" data-i18n="footer_link_news">Новости</a></li>
+          <li><a href="#" data-i18n="footer_link_about">О компании</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col2_title">Наши услуги</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="#" data-i18n="footer_link_custom">Изготовление на заказ</a></li>
+          <li><a href="#" data-i18n="footer_link_repair">Ремонт украшений</a></li>
+          <li><a href="#" data-i18n="footer_link_engrave">Гравировка</a></li>
+          <li><a href="#" data-i18n="footer_link_appraise">Оценка изделий</a></li>
+        </ul>
+      </div>
+      <div class="footer-contacts-social-wrap">
+        <div class="footer-col">
+          <h4 class="footer-col-title" data-i18n="footer_col3_title">Контакты</h4>
+          <ul class="footer-contacts">
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.4 1.24h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 7.91 7.91l1.12-1.12a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+373 621 936 54</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+              <span>juwelir@adamasgold.md</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-i18n-html="footer_address">г.&nbsp;Кишинёв,<br>ул.&nbsp;Бухарест,&nbsp;49</span>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <a href="https://instagram.com/adamasgold.md" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/juwelirmoldova" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer_copyright">© 2026 AdamasGold. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <!-- CART BACKDROP -->
+  <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
+
+  <!-- CART SIDEBAR -->
+  <aside class="cart-sidebar" id="cart-sidebar" aria-hidden="true" aria-label="Ваш заказ">
+    <div class="cart-sidebar-head">
+      <h2 class="cart-sidebar-title" data-i18n="cart_title">Ваш заказ</h2>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Закрыть корзину">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cart-items-wrap" id="cart-items-wrap"></div>
+
+    <div class="cart-empty-state" id="cart-empty-state">
+      <svg class="cart-empty-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <p data-i18n="cart_empty">Здесь пока пусто</p>
+      <a class="cart-empty-link" href="index.html" id="cart-empty-link" data-i18n="cart_empty_link">
+        Перейти к покупкам
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="cart-sidebar-foot" id="cart-sidebar-foot">
+      <button class="btn-cart-checkout" data-i18n="cart_checkout">Оформить заказ</button>
+    </div>
+  </aside>
+
+  <!-- ADD-TO-CART MODAL -->
+  <div class="add-modal-overlay" id="add-modal-overlay" aria-hidden="true">
+    <div class="add-modal" id="add-modal" role="dialog" aria-modal="true" tabindex="-1">
+      <button class="add-modal-close" id="add-modal-close" aria-label="Закрыть">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="add-modal-image-wrap">
+        <img class="add-modal-img" id="add-modal-img" src="" alt="">
+      </div>
+      <div class="add-modal-body">
+        <div class="add-modal-head">
+          <p class="add-modal-subtitle" id="add-modal-subtitle"></p>
+          <h3 class="add-modal-title" id="add-modal-title"></h3>
+        </div>
+        <div class="add-modal-divider"><span class="add-modal-diamond"></span></div>
+        <div class="add-modal-options">
+          <div class="add-modal-option-group">
+            <span class="add-modal-option-label" id="add-modal-metal-label"></span>
+            <div class="add-modal-metal-wrap">
+              <div class="add-modal-metal-dots" id="add-modal-metal-options"></div>
+              <span class="add-modal-metal-name" id="add-modal-metal-name"></span>
+            </div>
+          </div>
+          <div class="add-modal-option-group">
+            <span class="add-modal-option-label" id="add-modal-purity-label"></span>
+            <div class="add-modal-pills" id="add-modal-purity-options"></div>
+          </div>
+          <div class="add-modal-option-group add-modal-size-group" id="add-modal-size-group" style="display:none">
+            <div class="add-modal-size-label-row">
+              <span class="add-modal-option-label" id="add-modal-size-label"></span>
+              <span class="add-modal-size-error" id="add-modal-size-error" style="display:none"></span>
+            </div>
+            <div class="add-modal-pills add-modal-size-pills" id="add-modal-size-options"></div>
+          </div>
+        </div>
+        <div class="add-modal-actions">
+          <button class="add-modal-btn-continue" id="add-modal-continue"></button>
+          <button class="add-modal-btn-orders" id="add-modal-orders">
+            <span id="add-modal-orders-label"></span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="products.js"></script>
+  <script src="translations.js"></script>
+  <script src="cart.js"></script>
+  <script src="add-modal.js"></script>
+  <script src="mobile.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>

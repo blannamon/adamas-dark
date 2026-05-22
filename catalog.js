@@ -10,7 +10,7 @@
 
   const PER_PAGE = 6;
   let currentCategory = 'all';
-  let currentSort     = 'popular';
+  let currentSort     = 'popular_desc';
   let visibleCount    = PER_PAGE;
 
   function filtered() {
@@ -18,7 +18,11 @@
     if (currentCategory !== 'all') {
       items = items.filter(p => p.category === currentCategory);
     }
-    items.sort((a, b) => b.popular - a.popular);
+    if (currentSort === 'popular_asc') {
+      items.sort((a, b) => a.popular - b.popular);
+    } else {
+      items.sort((a, b) => b.popular - a.popular);
+    }
     return items;
   }
 
@@ -36,7 +40,6 @@
     card.dataset.productId = p.id;
     card.style.animationDelay = delay + 'ms';
     const mat    = parseMaterial(p.material[l]);
-    const puritySpan = mat.purity ? `<span class="meta-mat-purity"> ${mat.purity}</span>` : '';
     card.innerHTML = `
       <div class="card-image-wrap">
         <img class="card-img" src="assets/renders/Dark/renders_thumbs/m${p.id}.webp" alt="${p.type[l]}" loading="lazy">
@@ -44,18 +47,17 @@
       <div class="card-body">
         <div class="card-info">
           <p class="card-title">${p.title[l]}</p>
-          <p class="card-meta"><span class="meta-type">${p.type[l]}</span><span class="meta-sep"> · </span><span class="meta-mat-name">${mat.name}</span>${puritySpan}</p>
+          <p class="card-meta"><span class="meta-type">${p.type[l]}</span></p>
           <p class="card-stones">${p.stones[l]}</p>
         </div>
         <div class="card-footer">
-          <button class="card-add-btn${inCart ? ' in-cart' : ''}" aria-label="${window.t('cart_add_aria')}">
+          <button class="card-add-btn${inCart ? ' in-cart' : ''}" aria-label="${window.t('cart_add_aria')}" data-tooltip="${inCart ? window.t('cart_remove_tooltip') : window.t('cart_add_aria')}">
+            <span class="card-add-label">${inCart ? window.t('cart_in_cart_label') : window.t('cart_add_label')}</span>
             <span class="card-add-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
               </svg>
             </span>
-            <span class="card-add-label">${inCart ? window.t('cart_in_cart_label') : window.t('cart_add_label')}</span>
           </button>
         </div>
       </div>
@@ -66,7 +68,18 @@
       if (typeof window.isInCart === 'function' && window.isInCart(p.id)) {
         if (typeof window.removeFromCart === 'function') window.removeFromCart(p.id);
       } else {
-        if (typeof window.addToCart === 'function') window.addToCart(p);
+        if (typeof window.showAddModal === 'function') window.showAddModal(p);
+      }
+    });
+
+    card.addEventListener('click', () => {
+      window.location.href = 'product.html?id=' + p.id;
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = 'product.html?id=' + p.id;
       }
     });
 
@@ -103,6 +116,7 @@
       var inCart = typeof window.isInCart === 'function' && window.isInCart(id);
       btn.classList.toggle('in-cart', inCart);
       if (label) label.textContent = inCart ? window.t('cart_in_cart_label') : window.t('cart_add_label');
+      btn.dataset.tooltip = inCart ? window.t('cart_remove_tooltip') : window.t('cart_add_aria');
     });
   };
 
@@ -153,8 +167,13 @@
   });
 
   loadMoreBtn.addEventListener('click', () => {
-    visibleCount += PER_PAGE;
-    render();
+    const items = filtered();
+    const prevCount = visibleCount;
+    visibleCount = Math.min(visibleCount + PER_PAGE, items.length);
+    const newCards = items.slice(prevCount, visibleCount);
+    newCards.forEach((p, i) => grid.appendChild(makeCard(p, i * 60)));
+    loadMoreBtn.style.display = visibleCount >= items.length ? 'none' : '';
+    fixCardMetaOverflow();
   });
 
   window.renderCatalog = render;

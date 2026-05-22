@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdamasGold — Изделие</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="product-page.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link" aria-label="Adamas Gold">
+        <span class="brand"></span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active" data-i18n="nav_catalog">Каталог</a>
+        <a href="#" class="nav-link" data-i18n="nav_workshop">Ювелирная мастерская</a>
+        <a href="#" class="nav-link" data-i18n="nav_news">Новости</a>
+        <a href="#" class="nav-link" data-i18n="nav_contacts">Контакты</a>
+      </nav>
+      <div class="header-right">
+        <div class="lang-switcher">
+          <span class="lang active" data-lang="ru">Ru</span>
+          <span class="lang-sep">/</span>
+          <span class="lang" data-lang="ro">Ro</span>
+        </div>
+        <button class="header-cart-btn" id="header-cart-btn" aria-label="Корзина">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Меню" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-nav-link active" data-i18n="nav_catalog">Каталог</a>
+      <a href="#" class="mobile-nav-link" data-i18n="nav_workshop">Ювелирная мастерская</a>
+      <a href="#" class="mobile-nav-link" data-i18n="nav_news">Новости</a>
+      <a href="#" class="mobile-nav-link" data-i18n="nav_contacts">Контакты</a>
+    </nav>
+    <div class="mobile-lang-switcher">
+      <span class="lang active" data-lang="ru">Ru</span>
+      <span class="lang-sep">/</span>
+      <span class="lang" data-lang="ro">Ro</span>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb-bar" aria-label="Навигация по сайту">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html" data-i18n="nav_catalog">Каталог</a>
+      </li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-sep">›</span>
+        <span id="breadcrumb-category">—</span>
+      </li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-sep">›</span>
+        <span id="breadcrumb-product">—</span>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- PRODUCT SECTION -->
+  <section class="product-section">
+    <div class="product-inner">
+
+      <!-- GALLERY -->
+      <div class="product-gallery">
+        <div class="gallery-main">
+          <img class="gallery-main-img" id="gallery-main-img" src="" alt="" loading="eager">
+        </div>
+        <div class="gallery-thumbs">
+          <button class="gallery-thumb active" data-index="0" aria-label="Вид 1">
+            <img class="gallery-thumb-img" src="" alt="" loading="lazy">
+          </button>
+          <button class="gallery-thumb" data-index="1" aria-label="Вид 2">
+            <img class="gallery-thumb-img" src="" alt="" loading="lazy">
+          </button>
+          <button class="gallery-thumb" data-index="2" aria-label="Вид 3">
+            <img class="gallery-thumb-img" src="" alt="" loading="lazy">
+          </button>
+          <button class="gallery-thumb" data-index="3" aria-label="Вид 4">
+            <img class="gallery-thumb-img" src="" alt="" loading="lazy">
+          </button>
+        </div>
+      </div>
+
+      <!-- PRODUCT INFO -->
+      <div class="product-info">
+
+        <p class="product-category-tag" id="product-category-tag">—</p>
+        <h1 class="product-title" id="product-title">—</h1>
+
+        <div class="product-divider">
+          <span class="product-divider-diamond"></span>
+        </div>
+
+        <ul class="product-specs-list" aria-label="Параметры изделия">
+          <li class="spec-row">
+            <span class="spec-label" data-i18n="product_spec_article">Артикул</span>
+            <span class="spec-value" id="spec-type">—</span>
+          </li>
+          <li class="spec-row spec-row--metal">
+            <span class="spec-label" data-i18n="product_spec_material">Металл</span>
+            <div class="metal-swatches">
+              <span class="metal-selected-name" id="metal-selected-name">Жёлтое золото</span>
+              <div class="metal-dots-row">
+                <button class="metal-swatch-dot metal-dot--yellow active" data-metal-key="metal_yellow_gold" aria-label="Жёлтое золото">
+                  <span class="metal-tooltip" aria-hidden="true" data-i18n="metal_yellow_gold">Жёлтое золото</span>
+                </button>
+                <button class="metal-swatch-dot metal-dot--rose" data-metal-key="metal_rose_gold" aria-label="Розовое золото">
+                  <span class="metal-tooltip" aria-hidden="true" data-i18n="metal_rose_gold">Розовое золото</span>
+                </button>
+                <button class="metal-swatch-dot metal-dot--white" data-metal-key="metal_white_gold" aria-label="Белое золото">
+                  <span class="metal-tooltip" aria-hidden="true" data-i18n="metal_white_gold">Белое золото</span>
+                </button>
+                <button class="metal-swatch-dot metal-dot--silver" data-metal-key="metal_silver" aria-label="Серебро">
+                  <span class="metal-tooltip" aria-hidden="true" data-i18n="metal_silver">Серебро</span>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="spec-row">
+            <span class="spec-label" data-i18n="product_spec_purity">Проба</span>
+            <div class="purity-control">
+              <span class="spec-value purity-static" id="spec-purity" style="display:none">925</span>
+              <div class="purity-dropdown-wrap" id="purity-dropdown-wrap">
+                <button class="purity-trigger" id="purity-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="purity-trigger-val" id="purity-trigger-value">585</span>
+                  <svg class="purity-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <ul class="purity-menu" id="purity-menu" role="listbox" aria-label="Проба золота">
+                  <li class="purity-option" role="option" data-value="375">375</li>
+                  <li class="purity-option purity-option--selected" role="option" data-value="585">585</li>
+                  <li class="purity-option" role="option" data-value="750">750</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="spec-row" id="spec-size-row" style="display:none">
+            <span class="spec-label" data-i18n="product_spec_size">Размер</span>
+            <div class="size-pills-wrap" id="size-pills-wrap"></div>
+          </li>
+          <li class="spec-row">
+            <span class="spec-label" data-i18n="product_spec_stones">Детали</span>
+            <span class="spec-value" id="spec-stones">—</span>
+          </li>
+        </ul>
+
+        <div class="product-customize-note">
+          <p class="product-customize-text" data-i18n="product_customize_note">Любое изделие можно адаптировать под ваши пожелания: металл, размер, гравировка, выбор камней. Укажите пожелания в комментарии к заказу — мастер учтёт их при изготовлении.</p>
+        </div>
+
+        <button class="btn-product-cart" id="btn-add-to-cart">
+          <span class="btn-cart-label" data-i18n="cart_add_label">Заказать</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </button>
+
+        <div class="product-features">
+          <div class="feature-badge">
+            <div class="feature-badge-header">
+              <div class="feature-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <span class="feature-label" data-i18n="product_feature_handmade">Ручная работа</span>
+            </div>
+            <p class="feature-desc" data-i18n="product_feature_handmade_desc">Каждое украшение создаётся мастером вручную — от воскового слепка до финишной полировки.</p>
+          </div>
+          <div class="feature-badge">
+            <div class="feature-badge-header">
+              <div class="feature-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <span class="feature-label" data-i18n="product_feature_warranty">Гарантия</span>
+            </div>
+            <p class="feature-desc" data-i18n="product_feature_warranty_desc">Подтверждаем качество каждого изделия. Производственные дефекты устраняем бесплатно.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT TABS -->
+  <section class="product-tabs-section">
+    <div class="tabs-nav" role="tablist" aria-label="Информация об изделии">
+      <button class="tab-btn active" role="tab" aria-selected="true"  data-tab="tab-desc"  data-i18n="product_tab_desc">Описание</button>
+      <button class="tab-btn"        role="tab" aria-selected="false" data-tab="tab-order" data-i18n="product_tab_order">Заказ</button>
+    </div>
+
+    <!-- Description -->
+    <div class="tab-panel active" id="tab-desc" role="tabpanel">
+      <p class="tab-desc-text" data-i18n="product_tab_desc_text">
+        Авторское ювелирное изделие, созданное вручную в нашей мастерской в Кишинёве. Каждая модель изготавливается персонально — с учётом пожеланий клиента по металлу, пробе, размеру и камням. Точная копия эскиза или вариация на тему: мы воплощаем любой замысел в драгоценном металле. Все изделия проходят контроль качества и сертифицируются.
+      </p>
+    </div>
+
+    <!-- Order process -->
+    <div class="tab-panel" id="tab-order" role="tabpanel">
+      <div class="order-info">
+        <div class="order-step">
+          <div class="order-step-num">1</div>
+          <div class="order-step-body">
+            <p class="order-step-title" data-i18n="order_step1_title">Добавьте в корзину</p>
+            <p class="order-step-text" data-i18n="order_step1_text">Выберите понравившееся изделие и добавьте в корзину. При оформлении укажите пожелания по металлу, пробе и камням.</p>
+          </div>
+        </div>
+        <div class="order-step">
+          <div class="order-step-num">2</div>
+          <div class="order-step-body">
+            <p class="order-step-title" data-i18n="order_step2_title">Обсуждение деталей</p>
+            <p class="order-step-text" data-i18n="order_step2_text">Наш мастер свяжется с вами в течение 1–2 рабочих дней. Мы уточним все детали и согласуем финальный вид изделия.</p>
+          </div>
+        </div>
+        <div class="order-step">
+          <div class="order-step-num">3</div>
+          <div class="order-step-body">
+            <p class="order-step-title" data-i18n="order_step3_title">Изготовление</p>
+            <p class="order-step-text" data-i18n="order_step3_text">Срок изготовления — от 25 до 35 рабочих дней. Каждое изделие создаётся вручную с использованием техник литья и ювелирной огранки.</p>
+          </div>
+        </div>
+        <div class="order-step">
+          <div class="order-step-num">4</div>
+          <div class="order-step-body">
+            <p class="order-step-title" data-i18n="order_step4_title">Передача изделия</p>
+            <p class="order-step-text" data-i18n="order_step4_text">Готовое изделие можно получить в нашей мастерской по адресу: г. Кишинёв, ул. Бухарест 49. Возможна курьерская доставка.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- RELATED PRODUCTS -->
+  <section class="related-section">
+    <div class="related-header">
+      <h2 class="related-title" id="related-title" data-i18n="product_related_title">Похожие изделия</h2>
+      <div class="related-divider"></div>
+    </div>
+    <div class="related-grid" id="related-grid"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand brand--footer" aria-label="Adamas Gold"></span>
+        <p class="footer-tagline" data-i18n="footer_tagline">Ювелирная мастерская</p>
+        <p class="footer-desc" data-i18n="footer_desc">Авторские ювелирные изделия на заказ. От идеи — до воплощения в драгоценном металле.</p>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col1_title">О нас</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="index.html" data-i18n="footer_link_catalog">Каталог изделий</a></li>
+          <li><a href="#" data-i18n="footer_link_workshop">Ювелирная мастерская</a></li>
+          <li><a href="#" data-i18n="footer_link_news">Новости</a></li>
+          <li><a href="#" data-i18n="footer_link_about">О компании</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col2_title">Наши услуги</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="#" data-i18n="footer_link_custom">Изготовление на заказ</a></li>
+          <li><a href="#" data-i18n="footer_link_repair">Ремонт украшений</a></li>
+          <li><a href="#" data-i18n="footer_link_engrave">Гравировка</a></li>
+          <li><a href="#" data-i18n="footer_link_appraise">Оценка изделий</a></li>
+        </ul>
+      </div>
+      <div class="footer-contacts-social-wrap">
+        <div class="footer-col">
+          <h4 class="footer-col-title" data-i18n="footer_col3_title">Контакты</h4>
+          <ul class="footer-contacts">
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.4 1.24h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 7.91 7.91l1.12-1.12a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+373 621 936 54</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+              <span>juwelir@adamasgold.md</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-i18n-html="footer_address">г.&nbsp;Кишинёв,<br>ул.&nbsp;Бухарест,&nbsp;49</span>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <a href="https://instagram.com/adamasgold.md" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/juwelirmoldova" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+          <a href="https://www.google.com/maps/place/Adamas+Gold/@47.762795,27.927337,15z" target="_blank" rel="noopener" class="social-icon" aria-label="Google Maps">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer_copyright">© 2026 AdamasGold. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <!-- CART BACKDROP -->
+  <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
+
+  <!-- CART SIDEBAR -->
+  <aside class="cart-sidebar" id="cart-sidebar" aria-hidden="true" aria-label="Ваш заказ">
+    <div class="cart-sidebar-head">
+      <h2 class="cart-sidebar-title" data-i18n="cart_title">Ваш заказ</h2>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Закрыть корзину">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="cart-items-wrap" id="cart-items-wrap"></div>
+    <div class="cart-empty-state" id="cart-empty-state">
+      <svg class="cart-empty-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <p data-i18n="cart_empty">Здесь пока пусто</p>
+      <a class="cart-empty-link" href="index.html" id="cart-empty-link" data-i18n="cart_empty_link">
+        Перейти к покупкам
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="cart-sidebar-foot" id="cart-sidebar-foot">
+      <button class="btn-cart-checkout" data-i18n="cart_checkout">Оформить заказ</button>
+    </div>
+  </aside>
+
+  <!-- ADD-TO-CART MODAL -->
+  <div class="add-modal-overlay" id="add-modal-overlay" aria-hidden="true">
+    <div class="add-modal" id="add-modal" role="dialog" aria-modal="true" tabindex="-1">
+      <button class="add-modal-close" id="add-modal-close" aria-label="Закрыть">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="add-modal-image-wrap">
+        <img class="add-modal-img" id="add-modal-img" src="" alt="">
+      </div>
+      <div class="add-modal-body">
+        <div class="add-modal-head">
+          <p class="add-modal-subtitle" id="add-modal-subtitle"></p>
+          <h3 class="add-modal-title" id="add-modal-title"></h3>
+        </div>
+        <div class="add-modal-divider"><span class="add-modal-diamond"></span></div>
+        <div class="add-modal-options">
+          <div class="add-modal-option-group">
+            <span class="add-modal-option-label" id="add-modal-metal-label"></span>
+            <div class="add-modal-metal-wrap">
+              <div class="add-modal-metal-dots" id="add-modal-metal-options"></div>
+              <span class="add-modal-metal-name" id="add-modal-metal-name"></span>
+            </div>
+          </div>
+          <div class="add-modal-option-group">
+            <span class="add-modal-option-label" id="add-modal-purity-label"></span>
+            <div class="add-modal-pills" id="add-modal-purity-options"></div>
+          </div>
+          <div class="add-modal-option-group add-modal-size-group" id="add-modal-size-group" style="display:none">
+            <div class="add-modal-size-label-row">
+              <span class="add-modal-option-label" id="add-modal-size-label"></span>
+              <span class="add-modal-size-error" id="add-modal-size-error" style="display:none"></span>
+            </div>
+            <div class="add-modal-pills add-modal-size-pills" id="add-modal-size-options"></div>
+          </div>
+        </div>
+        <div class="add-modal-actions">
+          <button class="add-modal-btn-continue" id="add-modal-continue"></button>
+          <button class="add-modal-btn-orders" id="add-modal-orders">
+            <span id="add-modal-orders-label"></span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="products.js"></script>
+  <script src="translations.js"></script>
+  <script src="product-page.js"></script>
+  <script src="mobile.js"></script>
+  <script src="cart.js"></script>
+  <script src="add-modal.js"></script>
+</body>
+</html>

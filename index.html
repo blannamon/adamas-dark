@@ -107,10 +107,26 @@
             <path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <select class="sort-select" id="sort-select" data-i18n-aria="aria_sort" aria-label="Сортировка">
-            <option value="popular"    selected data-i18n="sort_popular">По популярности</option>
+            <option value="popular_desc" selected data-i18n="sort_popular_desc">Популярность: убывание</option>
+            <option value="popular_asc"          data-i18n="sort_popular_asc">Популярность: возрастание</option>
           </select>
           <div class="sort-dropdown" id="sort-dropdown" role="listbox" aria-label="Сортировка">
-            <button class="sort-option selected" data-value="popular"    role="option" data-i18n="sort_popular">По популярности</button>
+            <button class="sort-option selected" data-value="popular_desc" role="option">
+              <svg class="sort-option-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                <rect x="0" y="0" width="3.5" height="14" rx="1"/>
+                <rect x="5" y="4" width="3.5" height="10" rx="1"/>
+                <rect x="10" y="8" width="4" height="6" rx="1"/>
+              </svg>
+              <span data-i18n="sort_popular_desc">Популярность: убывание</span>
+            </button>
+            <button class="sort-option" data-value="popular_asc" role="option">
+              <svg class="sort-option-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                <rect x="0" y="8" width="3.5" height="6" rx="1"/>
+                <rect x="5" y="4" width="3.5" height="10" rx="1"/>
+                <rect x="10" y="0" width="4" height="14" rx="1"/>
+              </svg>
+              <span data-i18n="sort_popular_asc">Популярность: возрастание</span>
+            </button>
           </div>
         </div>
       </div>
@@ -189,7 +205,7 @@
       </div><!-- /.footer-contacts-social-wrap -->
     </div>
     <div class="footer-bottom">
-      <p data-i18n="footer_copyright">© 2024 AdamasGold. Все права защищены.</p>
+      <p data-i18n="footer_copyright">© 2026 AdamasGold. Все права защищены.</p>
     </div>
   </footer>
 
@@ -197,9 +213,9 @@
   <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
 
   <!-- CART SIDEBAR -->
-  <aside class="cart-sidebar" id="cart-sidebar" aria-hidden="true" aria-label="Корзина">
+  <aside class="cart-sidebar" id="cart-sidebar" aria-hidden="true" aria-label="Ваш заказ">
     <div class="cart-sidebar-head">
-      <h2 class="cart-sidebar-title" data-i18n="cart_title">Корзина</h2>
+      <h2 class="cart-sidebar-title" data-i18n="cart_title">Ваш заказ</h2>
       <button class="cart-close-btn" id="cart-close-btn" aria-label="Закрыть корзину">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
           <path d="M18 6L6 18M6 6l12 12"/>
@@ -210,8 +226,16 @@
     <div class="cart-items-wrap" id="cart-items-wrap"></div>
 
     <div class="cart-empty-state" id="cart-empty-state">
-      <div class="cart-empty-diamond"></div>
-      <p data-i18n="cart_empty">Ваша корзина пуста</p>
+      <svg class="cart-empty-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <p data-i18n="cart_empty">Здесь пока пусто</p>
+      <a class="cart-empty-link" href="index.html" id="cart-empty-link" data-i18n="cart_empty_link">
+        Перейти к покупкам
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
 
     <div class="cart-sidebar-foot" id="cart-sidebar-foot">
@@ -219,10 +243,57 @@
     </div>
   </aside>
 
+  <!-- ADD-TO-CART MODAL -->
+  <div class="add-modal-overlay" id="add-modal-overlay" aria-hidden="true">
+    <div class="add-modal" id="add-modal" role="dialog" aria-modal="true" tabindex="-1">
+      <button class="add-modal-close" id="add-modal-close" aria-label="Закрыть">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="add-modal-image-wrap">
+        <img class="add-modal-img" id="add-modal-img" src="" alt="">
+      </div>
+      <div class="add-modal-body">
+        <div class="add-modal-head">
+          <p class="add-modal-subtitle" id="add-modal-subtitle"></p>
+          <h3 class="add-modal-title" id="add-modal-title"></h3>
+        </div>
+        <div class="add-modal-divider"><span class="add-modal-diamond"></span></div>
+        <div class="add-modal-options">
+          <div class="add-modal-option-group">
+            <span class="add-modal-option-label" id="add-modal-metal-label"></span>
+            <div class="add-modal-metal-wrap">
+              <div class="add-modal-metal-dots" id="add-modal-metal-options"></div>
+              <span class="add-modal-metal-name" id="add-modal-metal-name"></span>
+            </div>
+          </div>
+          <div class="add-modal-option-group">
+            <span class="add-modal-option-label" id="add-modal-purity-label"></span>
+            <div class="add-modal-pills" id="add-modal-purity-options"></div>
+          </div>
+          <div class="add-modal-option-group add-modal-size-group" id="add-modal-size-group" style="display:none">
+            <div class="add-modal-size-label-row">
+              <span class="add-modal-option-label" id="add-modal-size-label"></span>
+              <span class="add-modal-size-error" id="add-modal-size-error" style="display:none"></span>
+            </div>
+            <div class="add-modal-pills add-modal-size-pills" id="add-modal-size-options"></div>
+          </div>
+        </div>
+        <div class="add-modal-actions">
+          <button class="add-modal-btn-continue" id="add-modal-continue"></button>
+          <button class="add-modal-btn-orders" id="add-modal-orders">
+            <span id="add-modal-orders-label"></span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="products.js"></script>
   <script src="translations.js"></script>
   <script src="catalog.js"></script>
   <script src="mobile.js"></script>
   <script src="cart.js"></script>
+  <script src="add-modal.js"></script>
 </body>
 </html>
