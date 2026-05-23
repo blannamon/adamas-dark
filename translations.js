@@ -35,7 +35,7 @@ window.TRANSLATIONS = {
     card_price_label:     'Стоимость:',
     btn_load_more:        'Показать ещё',
 
-    footer_tagline:       'Ювелирная мастерская',
+    footer_tagline:       'Ювелирная мастерская Adamas Gold',
     footer_desc:          'Авторские ювелирные изделия на заказ. От идеи — до воплощения в драгоценном металле.',
     footer_col1_title:    'О нас',
     footer_link_catalog:  'Каталог изделий',
@@ -184,7 +184,7 @@ window.TRANSLATIONS = {
     card_price_label:     'Preț:',
     btn_load_more:        'Arată mai mult',
 
-    footer_tagline:       'Atelier de bijuterii',
+    footer_tagline:       'Atelier de bijuterii Adamas Gold',
     footer_desc:          'Bijuterii de autor la comandă. De la idee — până la realizare în metal prețios.',
     footer_col1_title:    'Despre noi',
     footer_link_catalog:  'Catalogul produselor',

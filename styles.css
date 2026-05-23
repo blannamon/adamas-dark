@@ -627,16 +627,27 @@ button { cursor: pointer; font-family: var(--font-body); }
   margin: 0 auto;
   padding: 64px 48px 56px;
   display: grid;
-  grid-template-columns: 220px repeat(3, 1fr) 48px;
-  gap: 32px 40px;
+  grid-template-columns: 280px 32px repeat(3, 1fr) 48px;
+  gap: 32px 24px;
   align-items: start;
 }
+
 
 .brand--footer {
   height: 48px;
   width: 182px;
   opacity: 0.85;
   margin-bottom: 12px;
+}
+
+.footer-logo-img {
+  display: block;
+  height: 48px;
+  width: 182px;
+  margin-bottom: 12px;
+  background: var(--text-primary);
+  -webkit-mask: url(assets/footer-logo.png) left top / contain no-repeat;
+  mask: url(assets/footer-logo.png) left top / contain no-repeat;
 }
 
 .footer-tagline {
@@ -1356,6 +1367,11 @@ button { cursor: pointer; font-family: var(--font-body); }
   display: contents;
 }
 
+.footer-inner > :nth-child(2) { grid-column: 3; }
+.footer-inner > :nth-child(3) { grid-column: 4; }
+.footer-contacts-social-wrap > .footer-col { grid-column: 5; }
+.footer-contacts-social-wrap > .footer-social { grid-column: 6; }
+
 /* Accordion chevron: hidden on desktop */
 .footer-accordion-chevron {
   display: none;
@@ -1975,6 +1991,9 @@ button { cursor: pointer; font-family: var(--font-body); }
     padding: 48px 20px 40px;
     gap: 0;
   }
+
+  .footer-inner > :nth-child(2),
+  .footer-inner > :nth-child(3) { grid-column: auto; }
 
   .brand--footer { width: 150px; height: 40px; }
 
