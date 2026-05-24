@@ -9,6 +9,35 @@
     return;
   }
 
+  // TODO (Supabase): update baseUrl to production domain and pageUrl format when routing changes
+  var baseUrl = 'https://adamasdark.netlify.app';
+  var pageUrl = baseUrl + '/product.html?id=' + product.id;
+
+  /* ── canonical ─────────────────────────── */
+  (function () {
+    var link = document.createElement('link');
+    link.rel  = 'canonical';
+    link.href = pageUrl;
+    document.head.appendChild(link);
+  }());
+
+  /* ── breadcrumb schema ──────────────────── */
+  // TODO (Supabase): update catalog item URL from /catalog when route is live
+  (function () {
+    var s = document.createElement('script');
+    s.type        = 'application/ld+json';
+    s.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'AdamasGold', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: 'Каталог',    item: baseUrl + '/catalog' },
+        { '@type': 'ListItem', position: 3, name: product.title.ru, item: pageUrl }
+      ]
+    });
+    document.head.appendChild(s);
+  }());
+
   /* ── helpers ───────────────────────────── */
   function parseMaterial(mat) {
     var m = mat.match(/^(.*?)\s*(\d{3,4})\s*$/);
@@ -20,6 +49,18 @@
     if (el) el.textContent = val;
   }
 
+  function setMeta(name, content) {
+    var el = document.querySelector('meta[name="' + name + '"]');
+    if (!el) { el = document.createElement('meta'); el.name = name; document.head.appendChild(el); }
+    el.content = content;
+  }
+
+  function setOg(prop, content) {
+    var el = document.querySelector('meta[property="' + prop + '"]');
+    if (!el) { el = document.createElement('meta'); el.setAttribute('property', prop); document.head.appendChild(el); }
+    el.content = content;
+  }
+
   /* ── render product info ───────────────── */
   function renderProduct() {
     var l       = window.currentLang || 'ru';
@@ -27,6 +68,19 @@
     var imgPath = 'assets/renders/Dark/renders_thumbs/m' + product.id + '.webp';
 
     document.title = 'AdamasGold — ' + product.title[l];
+
+    /* ── seo meta + og ──────────────────────── */
+    // TODO (Supabase): replace image URL with Supabase Storage URL
+    var descSuffix = l === 'ro'
+      ? 'Fabricat la comandă — alegeți metalul, mărimea și pietrele.'
+      : 'Изготовление на заказ — выберите металл, размер и камни.';
+    var metaDesc = product.type[l] + ' ' + product.material[l] + ' ' + product.stones[l] + '. ' + descSuffix;
+    setMeta('description', metaDesc);
+    setOg('og:title',       'AdamasGold — ' + product.title[l]);
+    setOg('og:description', metaDesc);
+    setOg('og:image',       baseUrl + '/assets/renders/Dark/renders_thumbs/m' + product.id + '.webp');
+    setOg('og:url',         pageUrl);
+    setOg('og:type',        'product');
 
     setText('breadcrumb-category', product.type[l]);
     setText('breadcrumb-product',  product.title[l]);

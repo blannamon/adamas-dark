@@ -1,0 +1,16 @@
+{
+  "name": "AdamasGold",
+  "short_name": "AdamasGold",
+  "description": "Украшения ручной работы на заказ",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0b0b08",
+  "theme_color": "#f2e9d2",
+  "icons": [
+    {
+      "src": "assets/favicon-ivory.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}
