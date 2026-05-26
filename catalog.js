@@ -178,5 +178,6 @@
 
   window.renderCatalog = render;
 
-  render();
+  if (window.PRODUCTS && window.PRODUCTS.length) render();
+  window.addEventListener('productsReady', render);
 })();

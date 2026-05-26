@@ -5,10 +5,14 @@
   var product   = (window.PRODUCTS || []).find(function (p) { return p.id === productId; });
 
   if (!product) {
-    window.location.href = 'index.html';
+    window.addEventListener('productsReady', function () {
+      product = (window.PRODUCTS || []).find(function (p) { return p.id === productId; });
+      if (!product) { window.location.href = 'index.html'; } else { init(); }
+    }, { once: true });
     return;
   }
 
+  function init() {
   // TODO (Supabase): update baseUrl to production domain and pageUrl format when routing changes
   var baseUrl = 'https://adamasdark.netlify.app';
   var pageUrl = baseUrl + '/product.html?id=' + product.id;
@@ -431,4 +435,7 @@
   renderProduct();
   renderRelated();
   updateMetalLabel();
+  } // end init()
+
+  init();
 })();
