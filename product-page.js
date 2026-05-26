@@ -237,7 +237,7 @@
             '<p class="card-stones">' + p.stones[l] + '</p>' +
           '</div>' +
           '<div class="card-footer">' +
-            '<button class="card-add-btn' + (inCart ? ' in-cart' : '') + '" aria-label="' + window.t('cart_add_aria') + '">' +
+            '<button class="card-add-btn' + (inCart ? ' in-cart' : '') + '" aria-label="' + window.t('cart_add_aria') + '" data-tooltip="' + (inCart ? window.t('cart_remove_tooltip') : window.t('cart_add_aria')) + '">' +
               '<span class="card-add-label">' + (inCart ? window.t('cart_in_cart_label') : window.t('cart_add_label')) + '</span>' +
               '<span class="card-add-icon">' +
                 '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -281,6 +281,7 @@
       if (!btn) return;
       var inCart = typeof window.isInCart === 'function' && window.isInCart(id);
       btn.classList.toggle('in-cart', inCart);
+      btn.dataset.tooltip = inCart ? window.t('cart_remove_tooltip') : window.t('cart_add_aria');
       if (label) label.textContent = inCart ? window.t('cart_in_cart_label') : window.t('cart_add_label');
     });
   }

@@ -27,6 +27,7 @@
 }
 
 html {
+  overflow-x: hidden;
   background-color: var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -464,7 +465,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -1956,7 +1957,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 
   /* Product grid — 2 columns */
   .products-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 
