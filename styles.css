@@ -2006,6 +2006,13 @@ button { cursor: pointer; font-family: var(--font-body); }
     padding-bottom: 20px;
   }
 
+  .footer-logo-img {
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-mask-position: center top;
+    mask-position: center top;
+  }
+
   .footer-tagline,
   .footer-desc {
     text-align: center;
