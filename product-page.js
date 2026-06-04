@@ -43,11 +43,6 @@
   }());
 
   /* ── helpers ───────────────────────────── */
-  function parseMaterial(mat) {
-    var m = mat.match(/^(.*?)\s*(\d{3,4})\s*$/);
-    return m ? { name: m[1].trim(), purity: m[2] } : { name: mat, purity: '' };
-  }
-
   function setText(id, val) {
     var el = document.getElementById(id);
     if (el) el.textContent = val;
@@ -67,8 +62,7 @@
 
   /* ── render product info ───────────────── */
   function renderProduct() {
-    var l       = window.currentLang || 'ru';
-    var mat     = parseMaterial(product.material[l]);
+    var l   = window.currentLang || 'ru';
     var _sb = 'https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/';
     var imgPath = _sb + 'm' + product.id + '.webp';
     var photoCandidates = [
@@ -81,11 +75,10 @@
     document.title = 'AdamasGold — ' + product.title[l];
 
     /* ── seo meta + og ──────────────────────── */
-    // TODO (Supabase): replace image URL with Supabase Storage URL
     var descSuffix = l === 'ro'
       ? 'Fabricat la comandă — alegeți metalul, mărimea și pietrele.'
       : 'Изготовление на заказ — выберите металл, размер и камни.';
-    var metaDesc = product.type[l] + ' ' + product.material[l] + ' ' + product.stones[l] + '. ' + descSuffix;
+    var metaDesc = product.type[l] + ' ' + product.stones[l] + '. ' + descSuffix;
     setMeta('description', metaDesc);
     setOg('og:title',       'AdamasGold — ' + product.title[l]);
     setOg('og:description', metaDesc);
@@ -116,22 +109,10 @@
       };
     });
 
-    setText('spec-type',     product.id);
-    setText('spec-material', mat.name);
-    /* spec-purity display is managed by the purity dropdown module */
-    setText('spec-stones',   product.stones[l]);
-
-    setText('tab-spec-type',     product.id);
-    setText('tab-spec-material', mat.name);
-    setText('tab-spec-purity',   mat.purity || '—');
-    setText('tab-spec-stones',   product.stones[l]);
-
-    var purityBadge = document.getElementById('feature-purity-label');
-    if (purityBadge) {
-      purityBadge.textContent = mat.purity
-        ? window.t('product_feature_purity_prefix') + ' ' + mat.purity
-        : window.t('product_feature_certified');
-    }
+    setText('spec-type',       product.id);
+    setText('spec-stones',     product.stones[l]);
+    setText('tab-spec-type',   product.id);
+    setText('tab-spec-stones', product.stones[l]);
 
     updateCartButton();
   }
@@ -231,9 +212,7 @@
     grid.innerHTML = '';
 
     items.forEach(function (p, i) {
-      var mat       = parseMaterial(p.material[l]);
-      var puritySpan = mat.purity ? '<span class="meta-mat-purity"> ' + mat.purity + '</span>' : '';
-      var inCart     = typeof window.isInCart === 'function' && window.isInCart(p.id);
+      var inCart = typeof window.isInCart === 'function' && window.isInCart(p.id);
 
       var card = document.createElement('article');
       card.className         = 'product-card';
@@ -248,9 +227,7 @@
         '<div class="card-body">' +
           '<div class="card-info">' +
             '<p class="card-title">' + p.title[l] + '</p>' +
-            '<p class="card-meta"><span class="meta-type">' + p.type[l] + '</span>' +
-              '<span class="meta-sep"> · </span>' +
-              '<span class="meta-mat-name">' + mat.name + '</span>' + puritySpan + '</p>' +
+            '<p class="card-meta"><span class="meta-type">' + p.type[l] + '</span></p>' +
             '<p class="card-stones">' + p.stones[l] + '</p>' +
           '</div>' +
           '<div class="card-footer">' +

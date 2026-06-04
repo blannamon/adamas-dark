@@ -6,11 +6,9 @@
     return {
       id:       p.id,
       category: p.category,
-      title:    { ru: p.title_ru,    ro: p.title_ro },
-      type:     { ru: p.type_ru,     ro: p.type_ro },
-      material: { ru: p.material_ru, ro: p.material_ro },
-      stones:   { ru: p.stones_ru,   ro: p.stones_ro },
-      visual:   p.visual,
+      title:    { ru: p.title_ru, ro: p.title_ro },
+      type:     { ru: p.type_ru,  ro: p.type_ro },
+      stones:   { ru: p.stones_ru, ro: p.stones_ro },
       popular:  p.popular
     };
   }

@@ -4,9 +4,7 @@ window.PRODUCTS = [
     category: "ring",
     title: { ru: "Модель 1024", ro: "Model 1024" },
     type: { ru: "Кольцо", ro: "Inel" },
-    material: { ru: "розовое золото 585", ro: "aur roz 585" },
     stones: { ru: "с бриллиантами", ro: "cu diamante" },
-    visual: "ring rose",
     popular: 9,
   },
   {
@@ -14,9 +12,7 @@ window.PRODUCTS = [
     category: "ring",
     title: { ru: "Модель 2057", ro: "Model 2057" },
     type: { ru: "Кольцо", ro: "Inel" },
-    material: { ru: "белое золото 585", ro: "aur alb 585" },
     stones: { ru: "с бриллиантом", ro: "cu diamant" },
-    visual: "ring white gold",
     popular: 8,
   },
   {
@@ -24,9 +20,7 @@ window.PRODUCTS = [
     category: "signet",
     title: { ru: "Модель 3011", ro: "Model 3011" },
     type: { ru: "Печатка", ro: "Inel barbatesc" },
-    material: { ru: "жёлтое золото 585", ro: "aur galben 585" },
     stones: { ru: "с ониксом", ro: "cu onix" },
-    visual: "signet gold",
     popular: 10,
   },
   {
@@ -34,9 +28,7 @@ window.PRODUCTS = [
     category: "pendant",
     title: { ru: "Модель 4008", ro: "Model 4008" },
     type: { ru: "Подвеска", ro: "Pandantiv" },
-    material: { ru: "белое золото 585", ro: "aur alb 585" },
     stones: { ru: "с бриллиантами", ro: "cu diamante" },
-    visual: "pendant silver",
     popular: 7,
   },
   {
@@ -44,9 +36,7 @@ window.PRODUCTS = [
     category: "earrings",
     title: { ru: "Модель 5012", ro: "Model 5012" },
     type: { ru: "Серьги", ro: "Cercei" },
-    material: { ru: "розовое золото 585", ro: "aur roz 585" },
     stones: { ru: "с фианитами", ro: "cu zirconii" },
-    visual: "earrings rose",
     popular: 6,
   },
   {
@@ -54,9 +44,7 @@ window.PRODUCTS = [
     category: "bracelet",
     title: { ru: "Модель 6003", ro: "Model 6003" },
     type: { ru: "Браслет", ro: "Bratara" },
-    material: { ru: "жёлтое золото 585", ro: "aur galben 585" },
     stones: { ru: "византийское плетение", ro: "impletitura bizantina" },
-    visual: "bracelet gold",
     popular: 8,
   },
   {
@@ -64,9 +52,7 @@ window.PRODUCTS = [
     category: "exclusive",
     title: { ru: "Модель 1033", ro: "Model 1033" },
     type: { ru: "Эксклюзивное кольцо", ro: "Inel exclusiv" },
-    material: { ru: "платина 950", ro: "platina 950" },
     stones: { ru: "с бриллиантами", ro: "cu diamante" },
-    visual: "ring platina",
     popular: 10,
   },
   {
@@ -74,9 +60,7 @@ window.PRODUCTS = [
     category: "earrings",
     title: { ru: "Модель 5021", ro: "Model 5021" },
     type: { ru: "Серьги", ro: "Cercei" },
-    material: { ru: "белое золото 585", ro: "aur alb 585" },
     stones: { ru: "с бриллиантами", ro: "cu diamante" },
-    visual: "earrings white gold",
     popular: 7,
   },
   {
@@ -84,9 +68,7 @@ window.PRODUCTS = [
     category: "chain",
     title: { ru: "Модель 7108", ro: "Model 7108" },
     type: { ru: "Цепь", ro: "Lant" },
-    material: { ru: "жёлтое золото 585", ro: "aur galben 585" },
     stones: { ru: "якорное плетение", ro: "impletitura ancora" },
-    visual: "chain gold",
     popular: 5,
   },
   {
@@ -94,9 +76,7 @@ window.PRODUCTS = [
     category: "cross",
     title: { ru: "Модель 8114", ro: "Model 8114" },
     type: { ru: "Крестик", ro: "Cruce" },
-    material: { ru: "белое золото 585", ro: "aur alb 585" },
     stones: { ru: "с гравировкой", ro: "cu gravura" },
-    visual: "cross white gold",
     popular: 6,
   },
   {
@@ -104,9 +84,7 @@ window.PRODUCTS = [
     category: "cross",
     title: { ru: "Модель 8120", ro: "Model 8120" },
     type: { ru: "Иконка", ro: "Iconita" },
-    material: { ru: "жёлтое золото 585", ro: "aur galben 585" },
     stones: { ru: "ручная доработка", ro: "finisaj manual" },
-    visual: "pendant gold",
     popular: 5,
   },
   {
@@ -114,9 +92,7 @@ window.PRODUCTS = [
     category: "exclusive",
     title: { ru: "Модель 9302", ro: "Model 9302" },
     type: { ru: "Авторский комплект", ro: "Set exclusiv" },
-    material: { ru: "комбинированное золото", ro: "aur combinat" },
     stones: { ru: "с сапфирами", ro: "cu safire" },
-    visual: "ring gold",
     popular: 9,
   },
 ];

@@ -26,11 +26,6 @@
     return items;
   }
 
-  function parseMaterial(mat) {
-    const m = mat.match(/^(.*?)\s*(\d{3,4})\s*$/);
-    return m ? { name: m[1], purity: m[2] } : { name: mat, purity: '' };
-  }
-
   function makeCard(p, delay) {
     const l      = window.currentLang || 'ru';
     const inCart = typeof window.isInCart === 'function' && window.isInCart(p.id);
@@ -39,7 +34,6 @@
     card.tabIndex  = 0;
     card.dataset.productId = p.id;
     card.style.animationDelay = delay + 'ms';
-    const mat    = parseMaterial(p.material[l]);
     card.innerHTML = `
       <div class="card-image-wrap">
         <img class="card-img" src="https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/m${p.id}.webp" alt="${p.type[l]}" loading="lazy">

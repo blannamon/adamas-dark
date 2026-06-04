@@ -48,18 +48,6 @@
   var selectedSize   = null;
   var editMode       = false;
 
-  function detectMetal(materialRu) {
-    if (materialRu.indexOf('розовое') !== -1) return 'rose';
-    if (materialRu.indexOf('белое')   !== -1) return 'white';
-    if (materialRu.indexOf('серебро') !== -1) return 'silver';
-    return 'yellow';
-  }
-
-  function detectPurity(materialStr) {
-    var m = materialStr.match(/\d{3,4}/);
-    return m ? m[0] : '585';
-  }
-
   function renderMetalDots() {
     metalWrap.innerHTML = '';
     METALS.forEach(function (metal) {

@@ -592,12 +592,44 @@ body {
 }
 .confirm-yes:hover { opacity: 0.85; }
 
+/* ── MOBILE BACK BUTTON ───────────────────────────────── */
+.btn-back-mobile {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 22px;
+  background: none; border: none;
+  color: var(--text-muted);
+  font-family: 'Manrope', sans-serif;
+  font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.btn-back-mobile:hover { color: var(--text-sec); }
+.btn-back-mobile svg { flex-shrink: 0; }
+
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 900px) {
   .bilingual-grid { grid-template-columns: 1fr; }
   .bilingual-col:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
   .bilingual-col:last-child  { padding-left: 0; }
   .upload-grid { grid-template-columns: 1fr; }
+  .form-row { flex-wrap: wrap; }
+  .form-group.w-half,
+  .form-group.w-third { flex: 1 1 100%; }
+}
+
+@media (max-width: 768px) {
+  :root { --sidebar-w: 100%; }
+  #app { flex-direction: column; }
+  .sidebar { width: 100%; height: 100dvh; border-right: none; border-bottom: 1px solid var(--border); }
+  .main { padding: 24px 16px 80px; }
+  #app.show-form .sidebar { display: none; }
+  #app:not(.show-form) .main { display: none; }
+  .btn-back-mobile { display: flex; }
+  .form-actions { flex-wrap: wrap; gap: 8px; }
+  .btn-delete { margin-left: 0; width: 100%; text-align: center; }
 }
 </style>
 </head>
@@ -655,6 +687,11 @@ body {
   <!-- MAIN -->
   <main class="main" id="main-content">
 
+    <button class="btn-back-mobile" id="btn-back-mobile">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Все товары
+    </button>
+
     <!-- Empty / welcome state -->
     <div id="empty-state" class="empty-state">
       <div class="empty-title">Выбери товар</div>
@@ -692,12 +729,6 @@ body {
             <input type="number" id="f-popular" placeholder="5" min="0" max="10">
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Visual тег (для фильтрации)</label>
-            <input type="text" id="f-visual" placeholder="ring rose">
-          </div>
-        </div>
       </div>
 
       <!-- BILINGUAL FIELDS -->
@@ -717,10 +748,6 @@ body {
               <input type="text" id="f-type-ru" placeholder="Кольцо">
             </div>
             <div class="form-group">
-              <label>Материал (material_ru)</label>
-              <input type="text" id="f-material-ru" placeholder="розовое золото 585">
-            </div>
-            <div class="form-group">
               <label>Вставки / описание (stones_ru)</label>
               <input type="text" id="f-stones-ru" placeholder="с бриллиантами">
             </div>
@@ -736,10 +763,6 @@ body {
             <div class="form-group">
               <label>Tip bijuterie (type_ro)</label>
               <input type="text" id="f-type-ro" placeholder="Inel">
-            </div>
-            <div class="form-group">
-              <label>Material (material_ro)</label>
-              <input type="text" id="f-material-ro" placeholder="aur roz 585">
             </div>
             <div class="form-group">
               <label>Pietre / descriere (stones_ro)</label>
@@ -797,7 +820,8 @@ body {
   const productForm = document.getElementById('product-form');
   const formTitle   = document.getElementById('form-title');
   const formStatus  = document.getElementById('form-status');
-  const btnDelete   = document.getElementById('btn-delete');
+  const btnDelete       = document.getElementById('btn-delete');
+  const btnBackMobile   = document.getElementById('btn-back-mobile');
 
   function thumbUrl(name) { return `${STORAGE_BASE}/${name}`; }
 
@@ -888,7 +912,7 @@ body {
     editingId = null;
     _currentExisting = [];
     pendingUploads = [];
-    fillForm({ id: '', category: 'ring', popular: 5, visual: '', title_ru: '', title_ro: '', type_ru: '', type_ro: '', material_ru: '', material_ro: '', stones_ru: '', stones_ro: '' });
+    fillForm({ id: '', category: 'ring', popular: 5, title_ru: '', title_ro: '', type_ru: '', type_ro: '', stones_ru: '', stones_ro: '' });
     formTitle.textContent = 'Новый товар';
     btnDelete.classList.add('hidden');
     document.getElementById('f-id').disabled = false;
@@ -916,23 +940,31 @@ body {
   function showForm() {
     emptyState.classList.add('hidden');
     productForm.classList.remove('hidden');
+    app.classList.add('show-form');
     hideStatus();
     document.getElementById('main-content').scrollTop = 0;
   }
+
+  function goBackToList() {
+    app.classList.remove('show-form');
+    emptyState.classList.remove('hidden');
+    productForm.classList.add('hidden');
+    editingId = null;
+    renderList(products);
+  }
+
+  btnBackMobile.addEventListener('click', goBackToList);
 
   function fillForm(p) {
     document.getElementById('f-id').value          = p.id          || '';
     document.getElementById('f-category').value    = p.category    || 'ring';
     document.getElementById('f-popular').value     = p.popular     ?? 5;
-    document.getElementById('f-visual').value      = p.visual      || '';
-    document.getElementById('f-title-ru').value    = p.title_ru    || '';
-    document.getElementById('f-title-ro').value    = p.title_ro    || '';
-    document.getElementById('f-type-ru').value     = p.type_ru     || '';
-    document.getElementById('f-type-ro').value     = p.type_ro     || '';
-    document.getElementById('f-material-ru').value = p.material_ru || '';
-    document.getElementById('f-material-ro').value = p.material_ro || '';
-    document.getElementById('f-stones-ru').value   = p.stones_ru   || '';
-    document.getElementById('f-stones-ro').value   = p.stones_ro   || '';
+    document.getElementById('f-title-ru').value = p.title_ru || '';
+    document.getElementById('f-title-ro').value = p.title_ro || '';
+    document.getElementById('f-type-ru').value  = p.type_ru  || '';
+    document.getElementById('f-type-ro').value  = p.type_ro  || '';
+    document.getElementById('f-stones-ru').value = p.stones_ru || '';
+    document.getElementById('f-stones-ro').value = p.stones_ro || '';
   }
 
   function readForm() {
@@ -940,13 +972,10 @@ body {
       id:          Number(document.getElementById('f-id').value),
       category:    document.getElementById('f-category').value,
       popular:     Number(document.getElementById('f-popular').value) || 5,
-      visual:      document.getElementById('f-visual').value.trim(),
       title_ru:    document.getElementById('f-title-ru').value.trim(),
       title_ro:    document.getElementById('f-title-ro').value.trim(),
       type_ru:     document.getElementById('f-type-ru').value.trim(),
       type_ro:     document.getElementById('f-type-ro').value.trim(),
-      material_ru: document.getElementById('f-material-ru').value.trim(),
-      material_ro: document.getElementById('f-material-ro').value.trim(),
       stones_ru:   document.getElementById('f-stones-ru').value.trim(),
       stones_ro:   document.getElementById('f-stones-ro').value.trim(),
     };
@@ -954,12 +983,7 @@ body {
 
   // ── SAVE ──────────────────────────────────────────────────────────
   document.getElementById('btn-save').addEventListener('click', saveProduct);
-  document.getElementById('btn-cancel').addEventListener('click', () => {
-    emptyState.classList.remove('hidden');
-    productForm.classList.add('hidden');
-    editingId = null;
-    renderList(products);
-  });
+  document.getElementById('btn-cancel').addEventListener('click', goBackToList);
 
   async function saveProduct() {
     const data  = readForm();
@@ -1019,6 +1043,7 @@ body {
       return;
     }
 
+    app.classList.remove('show-form');
     emptyState.classList.remove('hidden');
     productForm.classList.add('hidden');
     editingId = null;
