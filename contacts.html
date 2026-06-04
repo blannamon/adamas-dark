@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Контакты — AdamasGold</title>
+  <meta name="description" content="Контакты ювелирной мастерской AdamasGold в Кишинёве. Адрес: ул. Букурешть 49. Телефон: +373 621 936 54. Часы работы, карта и форма обратной связи.">
+  <link rel="canonical" href="https://adamasdark.netlify.app/contacts.html">
+  <meta property="og:title" content="Контакты — AdamasGold">
+  <meta property="og:description" content="Ювелирная мастерская AdamasGold в Кишинёве. Адрес, телефон, часы работы и форма обратной связи.">
+  <meta property="og:image" content="https://adamasdark.netlify.app/assets/hero-image-mobile.png">
+  <meta property="og:url" content="https://adamasdark.netlify.app/contacts.html">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="assets/favicon-ivory.png">
+  <link rel="apple-touch-icon" href="assets/favicon-ivory.png">
+  <link rel="manifest" href="manifest.json">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://adamasdark.netlify.app/#business",
+    "name": "AdamasGold",
+    "url": "https://adamasdark.netlify.app",
+    "telephone": "+37362193654",
+    "email": "juwelir@adamasgold.md",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "str. București 49",
+      "addressLocality": "Chișinău",
+      "addressCountry": "MD"
+    },
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "10:00",
+      "closes": "19:00"
+    }],
+    "sameAs": [
+      "https://instagram.com/adamasgold.md",
+      "https://www.facebook.com/juwelirmoldova"
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="contacts.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link" aria-label="Adamas Gold">
+        <span class="brand"></span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link" data-i18n="nav_catalog">Каталог</a>
+        <div class="nav-dropdown-wrap">
+          <a href="workshop-services.html" class="nav-link nav-has-dropdown"><span data-i18n="nav_workshop">Услуги мастерской</span><svg class="nav-dropdown-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="nav-dropdown" role="menu">
+            <a href="workshop-article.html?slug=restavratsiya" class="nav-dropdown-item" data-i18n="dropdown_restavratsiya">Реставрация украшений</a>
+            <a href="workshop-article.html?slug=zolochenie" class="nav-dropdown-item" data-i18n="dropdown_zolochenie">Золочение и родирование</a>
+            <a href="workshop-article.html?slug=remont" class="nav-dropdown-item" data-i18n="dropdown_remont">Ремонт украшений</a>
+            <a href="workshop-article.html?slug=emal" class="nav-dropdown-item" data-i18n="dropdown_emal">Нанесение эмали</a>
+            <a href="workshop-article.html?slug=3d-modelirovanie" class="nav-dropdown-item" data-i18n="dropdown_3d">3D моделирование</a>
+            <a href="workshop-article.html?slug=izgotovlenie" class="nav-dropdown-item" data-i18n="dropdown_izgotovlenie">Изготовление на заказ</a>
+          </div>
+        </div>
+        <a href="portfolio.html" class="nav-link" data-i18n="nav_portfolio">Наши работы</a>
+        <a href="contacts.html" class="nav-link active" data-i18n="nav_contacts">Контакты</a>
+      </nav>
+      <div class="header-right">
+        <div class="lang-switcher">
+          <span class="lang active" data-lang="ru">Ru</span>
+          <span class="lang-sep">/</span>
+          <span class="lang" data-lang="ro">Ro</span>
+        </div>
+        <button class="header-cart-btn" id="header-cart-btn" aria-label="Корзина">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Меню" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-nav-link" data-i18n="nav_catalog">Каталог</a>
+      <a href="workshop-services.html" class="mobile-nav-link" data-i18n="nav_workshop">Услуги мастерской</a>
+      <a href="portfolio.html" class="mobile-nav-link" data-i18n="nav_portfolio">Наши работы</a>
+      <a href="contacts.html" class="mobile-nav-link active" data-i18n="nav_contacts">Контакты</a>
+    </nav>
+    <div class="mobile-lang-switcher">
+      <span class="lang active" data-lang="ru">Ru</span>
+      <span class="lang-sep">/</span>
+      <span class="lang" data-lang="ro">Ro</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="ct-hero">
+    <div class="ct-hero-noise"></div>
+    <div class="ct-hero-glow"></div>
+    <div class="ct-hero-inner">
+      <div class="ct-title-group">
+        <h1 class="ct-hero-title" data-i18n="ct_hero_title">КОНТАКТЫ</h1>
+        <div class="ct-hero-divider">
+          <span class="ct-hero-line"></span>
+          <span class="ct-hero-diamond">◆</span>
+          <span class="ct-hero-line"></span>
+        </div>
+      </div>
+      <p class="ct-hero-subtitle" data-i18n="ct_hero_subtitle">Будем рады ответить на ваши вопросы. Свяжитесь с нами удобным способом или оставьте заявку.</p>
+    </div>
+  </section>
+
+  <!-- CONTACTS SECTION -->
+  <section class="ct-section">
+    <div class="ct-inner">
+
+      <!-- LEFT: Info -->
+      <div class="ct-info-col">
+        <h2 class="ct-col-title" data-i18n="ct_info_title">Как с нами связаться</h2>
+
+        <ul class="ct-info-list">
+
+          <li class="ct-info-item">
+            <div class="ct-info-icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="ct-info-content">
+              <span class="ct-info-label" data-i18n="ct_address_label">Адрес</span>
+              <a href="https://www.google.com/maps?q=47.01818411433997,28.83282134469749" target="_blank" rel="noopener" class="ct-info-value ct-info-link" data-i18n="ct_address_val">г. Кишинёв, ул. Букурешть 49</a>
+            </div>
+          </li>
+
+          <li class="ct-info-item">
+            <div class="ct-info-icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.4 1.24h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 7.91 7.91l1.12-1.12a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="ct-info-content">
+              <span class="ct-info-label" data-i18n="ct_phone_label">Телефон</span>
+              <a href="tel:+37362193654" class="ct-info-value ct-info-link">+373 621 936 54</a>
+            </div>
+          </li>
+
+          <li class="ct-info-item">
+            <div class="ct-info-icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            </div>
+            <div class="ct-info-content">
+              <span class="ct-info-label" data-i18n="ct_email_label">Email</span>
+              <a href="mailto:juwelir@adamasgold.md" class="ct-info-value ct-info-link">juwelir@adamasgold.md</a>
+            </div>
+          </li>
+
+          <li class="ct-info-item">
+            <div class="ct-info-icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="ct-info-content">
+              <span class="ct-info-label" data-i18n="ct_hours_label">Часы работы</span>
+              <span class="ct-info-value" data-i18n="ct_hours_val">Пн–Пт: 10:00–19:00</span>
+            </div>
+          </li>
+
+        </ul>
+
+        <div class="ct-social-block">
+          <p class="ct-social-label" data-i18n="ct_social_label">Мы в соцсетях</p>
+          <div class="ct-social-links">
+            <a href="https://instagram.com/adamasgold.md" target="_blank" rel="noopener" class="ct-social-link" aria-label="Instagram">
+              <span class="ct-social-icon" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+              </span>
+              <span>Instagram</span>
+            </a>
+            <a href="https://www.facebook.com/juwelirmoldova" target="_blank" rel="noopener" class="ct-social-link" aria-label="Facebook">
+              <span class="ct-social-icon" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </span>
+              <span>Facebook</span>
+            </a>
+            <a href="https://www.google.com/maps?q=47.01818411433997,28.83282134469749" target="_blank" rel="noopener" class="ct-social-link" aria-label="Google Maps">
+              <span class="ct-social-icon" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <span>Google Maps</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="ct-divider" aria-hidden="true"></div>
+
+      <!-- RIGHT: Form -->
+      <div class="ct-form-col">
+        <h2 class="ct-col-title" data-i18n="ct_form_title">Написать нам</h2>
+
+        <form class="ct-form" id="ct-form" novalidate>
+          <div class="ct-form-group">
+            <label class="ct-form-label" for="ct-name">
+              <span data-i18n="ct_form_name">Имя</span>
+            </label>
+            <input class="ct-form-input" type="text" id="ct-name" name="name" autocomplete="given-name" required>
+          </div>
+          <div class="ct-form-group">
+            <label class="ct-form-label" for="ct-phone">
+              <span data-i18n="ct_form_phone">Телефон</span>
+            </label>
+            <input class="ct-form-input" type="tel" id="ct-phone" name="phone" autocomplete="tel">
+          </div>
+          <div class="ct-form-group">
+            <label class="ct-form-label" for="ct-message">
+              <span data-i18n="ct_form_message">Сообщение</span>
+            </label>
+            <textarea class="ct-form-textarea" id="ct-message" name="message" rows="5"></textarea>
+          </div>
+          <button class="ct-form-submit" type="submit">
+            <span data-i18n="ct_form_submit">Отправить</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <div class="ct-form-success" id="ct-form-success" hidden aria-live="polite">
+          <div class="ct-success-checkmark" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <p class="ct-success-text" data-i18n="ct_form_success">Сообщение отправлено! Мы свяжемся с вами в ближайшее время.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="ct-map-section">
+    <div class="ct-map-label" aria-hidden="true">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span data-i18n="ct_address_val">г. Кишинёв, ул. Букурешть 49</span>
+    </div>
+    <div class="ct-map-wrap">
+      <div id="ct-leaflet-map" style="width:100%;height:100%;"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo-img" aria-label="Adamas Gold"></span>
+        <p class="footer-tagline" data-i18n="footer_tagline">Ювелирная мастерская Adamas Gold</p>
+        <p class="footer-desc" data-i18n="footer_desc">Авторские ювелирные изделия на заказ. От идеи — до воплощения в драгоценном металле.</p>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col1_title">О нас</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="index.html" data-i18n="footer_link_catalog">Каталог изделий</a></li>
+          <li><a href="workshop-services.html" data-i18n="footer_link_workshop">Ювелирная мастерская</a></li>
+          <li><a href="#" data-i18n="footer_link_about">О компании</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col2_title">Услуги мастерской</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="workshop-article.html?id=izgotovlenie" data-i18n="footer_link_custom">Изготовление на заказ</a></li>
+          <li><a href="workshop-article.html?id=remont" data-i18n="footer_link_repair">Ремонт украшений</a></li>
+          <li><a href="#" data-i18n="footer_link_engrave">Гравировка</a></li>
+          <li><a href="#" data-i18n="footer_link_appraise">Оценка изделий</a></li>
+        </ul>
+      </div>
+      <div class="footer-contacts-social-wrap">
+        <div class="footer-col">
+          <h4 class="footer-col-title" data-i18n="footer_col3_title">Контакты</h4>
+          <ul class="footer-contacts">
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.4 1.24h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 7.91 7.91l1.12-1.12a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+373 621 936 54</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+              <span>juwelir@adamasgold.md</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-i18n-html="footer_address">г.&nbsp;Кишинёв,<br>ул.&nbsp;Букурешть&nbsp;49</span>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <a href="https://instagram.com/adamasgold.md" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.facebook.com/juwelirmoldova" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.google.com/maps?q=47.01818411433997,28.83282134469749" target="_blank" rel="noopener" class="social-icon" aria-label="Google Maps">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer_copyright">© 2026 AdamasGold. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="translations.js"></script>
+  <script src="mobile.js"></script>
+  <script src="contacts.js"></script>
+  <script>
+    var lat = 47.01823851589521;
+    var lng = 28.832841580300823;
+    var map = L.map('ct-leaflet-map', { zoomControl: true, scrollWheelZoom: false }).setView([lat, lng], 17);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(map);
+    var redIcon = L.divIcon({
+      className: '',
+      html: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" viewBox="0 0 28 40"><path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 26 14 26S28 23.333 28 14C28 6.268 21.732 0 14 0z" fill="#e53e3e"/><circle cx="14" cy="14" r="5.5" fill="white" opacity="0.9"/></svg>',
+      iconSize: [28, 40],
+      iconAnchor: [14, 40],
+      popupAnchor: [0, -42]
+    });
+    L.marker([lat, lng], { icon: redIcon }).addTo(map).bindPopup('<b>Adamas Gold</b><br>ул. Букурешть 49');
+  </script>
+</body>
+</html>

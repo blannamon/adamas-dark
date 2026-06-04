@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/blannamon/admsgoldver2#readme",
   "dependencies": {
-    "puppeteer": "^25.0.2"
+    "puppeteer": "^25.0.2",
+    "sharp": "^0.34.5"
   }
 }

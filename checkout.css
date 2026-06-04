@@ -737,6 +737,10 @@
     padding: 40px 20px 36px;
   }
 
+  .checkout-hero-title {
+    text-align: center;
+  }
+
   .checkout-main {
     padding: 32px 20px 72px;
   }

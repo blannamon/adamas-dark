@@ -70,6 +70,13 @@
     var l       = window.currentLang || 'ru';
     var mat     = parseMaterial(product.material[l]);
     var imgPath = 'assets/renders/Dark/renders_thumbs/m' + product.id + '.webp';
+    // Additional photos: m{id}-2.png, m{id}-3.png, m{id}-4.png
+    var photoCandidates = [
+      imgPath,
+      'assets/renders/Dark/renders_thumbs/m' + product.id + '-2.webp',
+      'assets/renders/Dark/renders_thumbs/m' + product.id + '-3.webp',
+      'assets/renders/Dark/renders_thumbs/m' + product.id + '-4.webp',
+    ];
 
     document.title = 'AdamasGold — ' + product.title[l];
 
@@ -94,9 +101,19 @@
     var mainImg = document.getElementById('gallery-main-img');
     if (mainImg) { mainImg.src = imgPath; mainImg.alt = product.type[l]; }
 
-    document.querySelectorAll('.gallery-thumb-img').forEach(function (img) {
-      img.src = imgPath;
-      img.alt = product.type[l];
+    document.querySelectorAll('.gallery-thumb').forEach(function (thumb, i) {
+      var imgEl = thumb.querySelector('.gallery-thumb-img');
+      if (!photoCandidates[i]) { thumb.style.display = 'none'; return; }
+      imgEl.alt = product.type[l];
+      imgEl.src = photoCandidates[i];
+      imgEl.onerror = function () {
+        thumb.style.display = 'none';
+        imgEl.onerror = null;
+      };
+      imgEl.onload = function () {
+        thumb.style.display = '';
+        imgEl.onload = null;
+      };
     });
 
     setText('spec-type',     product.id);

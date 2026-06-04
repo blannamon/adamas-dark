@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdamasGold — Услуги мастерской</title>
+  <meta name="description" content="">
+  <link rel="canonical" id="seo-canonical" href="https://adamasdark.netlify.app/workshop-article.html">
+  <link rel="alternate" id="seo-hreflang-ru" hreflang="ru" href="https://adamasdark.netlify.app/workshop-article.html">
+  <link rel="alternate" id="seo-hreflang-ro" hreflang="ro" href="https://adamasdark.netlify.app/workshop-article.html">
+  <link rel="alternate" hreflang="x-default" href="https://adamasdark.netlify.app/workshop-article.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AdamasGold">
+  <meta property="og:title" id="og-title" content="">
+  <meta property="og:description" id="og-description" content="">
+  <meta property="og:image" id="og-image" content="https://adamasdark.netlify.app/assets/hero-image-mobile.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" id="og-url" content="">
+  <script type="application/ld+json" id="seo-schema">{}</script>
+  <link rel="icon" type="image/png" href="assets/favicon-ivory.png">
+  <link rel="apple-touch-icon" href="assets/favicon-ivory.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="workshop.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link" aria-label="Adamas Gold">
+        <span class="brand"></span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link" data-i18n="nav_catalog">Каталог</a>
+        <div class="nav-dropdown-wrap">
+          <a href="workshop-services.html" class="nav-link nav-has-dropdown active"><span data-i18n="nav_workshop">Услуги мастерской</span><svg class="nav-dropdown-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="nav-dropdown" role="menu">
+            <a href="workshop-article.html?slug=restavratsiya" class="nav-dropdown-item" data-i18n="dropdown_restavratsiya">Реставрация украшений</a>
+            <a href="workshop-article.html?slug=zolochenie" class="nav-dropdown-item" data-i18n="dropdown_zolochenie">Золочение и родирование</a>
+            <a href="workshop-article.html?slug=remont" class="nav-dropdown-item" data-i18n="dropdown_remont">Ремонт украшений</a>
+            <a href="workshop-article.html?slug=emal" class="nav-dropdown-item" data-i18n="dropdown_emal">Нанесение эмали</a>
+            <a href="workshop-article.html?slug=3d-modelirovanie" class="nav-dropdown-item" data-i18n="dropdown_3d">3D моделирование</a>
+            <a href="workshop-article.html?slug=izgotovlenie" class="nav-dropdown-item" data-i18n="dropdown_izgotovlenie">Изготовление на заказ</a>
+          </div>
+        </div>
+        <a href="portfolio.html" class="nav-link" data-i18n="nav_portfolio">Наши работы</a>
+        <a href="contacts.html" class="nav-link" data-i18n="nav_contacts">Контакты</a>
+      </nav>
+      <div class="header-right">
+        <div class="lang-switcher">
+          <span class="lang active" data-lang="ru">Ru</span>
+          <span class="lang-sep">/</span>
+          <span class="lang" data-lang="ro">Ro</span>
+        </div>
+        <button class="header-cart-btn" id="header-cart-btn" aria-label="Корзина">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Меню" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-nav-link" data-i18n="nav_catalog">Каталог</a>
+      <a href="workshop-services.html" class="mobile-nav-link active" data-i18n="nav_workshop">Услуги мастерской</a>
+      <a href="portfolio.html" class="mobile-nav-link" data-i18n="nav_portfolio">Наши работы</a>
+      <a href="contacts.html" class="mobile-nav-link" data-i18n="nav_contacts">Контакты</a>
+    </nav>
+    <div class="mobile-lang-switcher">
+      <span class="lang active" data-lang="ru">Ru</span>
+      <span class="lang-sep">/</span>
+      <span class="lang" data-lang="ro">Ro</span>
+    </div>
+  </div>
+
+  <!-- ARTICLE HERO -->
+  <section class="ws-hero article-hero" id="article-hero">
+    <div class="ws-hero-inner article-hero-inner">
+
+      <div class="article-hero-meta">
+        <span class="article-hero-tag" id="article-tag">—</span>
+        <span class="article-hero-readtime" id="article-readtime">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          —
+        </span>
+      </div>
+      <h1 class="article-hero-title" id="article-title">—</h1>
+      <p class="article-hero-lead" id="article-lead">—</p>
+    </div>
+  </section>
+
+  <!-- ARTICLE HERO IMAGE -->
+  <div class="ws-article-hero-image" id="article-hero-image" style="display:none">
+    <img id="article-hero-img" src="" alt="">
+  </div>
+
+  <!-- ARTICLE LAYOUT -->
+  <div class="article-layout">
+
+    <!-- BODY -->
+    <article class="article-body" id="article-body">
+      <!-- rendered by JS -->
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar" id="article-sidebar" aria-label="Навигация по статье">
+
+      <!-- TOC -->
+      <div class="sidebar-block" id="toc-block">
+        <p class="sidebar-block-label" id="toc-label">Содержание</p>
+        <nav class="toc-list" id="toc-list" aria-label="Содержание статьи">
+          <!-- rendered by JS -->
+        </nav>
+      </div>
+
+      <!-- Contact -->
+      <div class="sidebar-block">
+        <p class="sidebar-block-label" id="sidebar-contact-label">Связаться с мастером</p>
+        <p class="sidebar-contact-title" id="sidebar-contact-title">Задайте вопрос</p>
+        <p class="sidebar-contact-text" id="sidebar-contact-text">Наш мастер ответит на любые вопросы и рассчитает стоимость работ.</p>
+        <a href="tel:+37362193654" class="sidebar-phone">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.4 1.24h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 7.91 7.91l1.12-1.12a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +373 621 936 54
+        </a>
+        <a href="mailto:juwelir@adamasgold.md" class="sidebar-contact-btn" id="sidebar-contact-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          <span id="sidebar-btn-label">Написать</span>
+        </a>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- RELATED ARTICLES -->
+  <section class="related-section">
+    <p class="related-label" id="related-label">Другие услуги мастерской</p>
+    <h2 class="related-title" id="related-title">Что ещё мы делаем</h2>
+    <div class="related-grid" id="related-grid">
+      <!-- rendered by JS -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo-img" aria-label="Adamas Gold"></span>
+        <p class="footer-tagline" data-i18n="footer_tagline">Ювелирная мастерская Adamas Gold</p>
+        <p class="footer-desc" data-i18n="footer_desc">Авторские ювелирные изделия на заказ. От идеи — до воплощения в драгоценном металле.</p>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col1_title">О нас</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="index.html" data-i18n="footer_link_catalog">Каталог изделий</a></li>
+          <li><a href="workshop-services.html" data-i18n="footer_link_workshop">Ювелирная мастерская</a></li>
+          <li><a href="#" data-i18n="footer_link_about">О компании</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-accordion">
+        <h4 class="footer-col-title footer-accordion-trigger"><span data-i18n="footer_col2_title">Услуги мастерской</span><svg class="footer-accordion-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h4>
+        <ul>
+          <li><a href="workshop-article.html?id=izgotovlenie" data-i18n="footer_link_custom">Изготовление на заказ</a></li>
+          <li><a href="workshop-article.html?id=remont" data-i18n="footer_link_repair">Ремонт украшений</a></li>
+          <li><a href="#" data-i18n="footer_link_engrave">Гравировка</a></li>
+          <li><a href="#" data-i18n="footer_link_appraise">Оценка изделий</a></li>
+        </ul>
+      </div>
+      <div class="footer-contacts-social-wrap">
+        <div class="footer-col">
+          <h4 class="footer-col-title" data-i18n="footer_col3_title">Контакты</h4>
+          <ul class="footer-contacts">
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.4 1.24h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 7.91 7.91l1.12-1.12a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+373 621 936 54</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+              <span>juwelir@adamasgold.md</span>
+            </li>
+            <li>
+              <svg class="contact-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-i18n-html="footer_address">г.&nbsp;Кишинёв,<br>ул.&nbsp;Бухарест,&nbsp;49</span>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <a href="https://instagram.com/adamasgold.md" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.facebook.com/juwelirmoldova" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer_copyright">© 2026 AdamasGold. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="translations.js"></script>
+  <script src="workshop-data.js"></script>
+  <script src="mobile.js"></script>
+  <script>
+    /* ── UI Translations for article page ── */
+    const ART_T = {
+      ru: {
+        toc_label:            'Содержание',
+        sidebar_contact_label:'Связаться с мастером',
+        sidebar_contact_title:'Задайте вопрос',
+        sidebar_contact_text: 'Наш мастер ответит на любые вопросы и рассчитает стоимость работ.',
+        sidebar_btn_label:    'Написать',
+        related_label:        'Другие услуги мастерской',
+        related_title:        'Что ещё мы делаем',
+        related_read:         'Читать',
+        faq_title:            'Часто задаваемые вопросы',
+        process_title:        'Этапы работы',
+        not_found:            'Статья не найдена',
+        not_found_sub:        'Вернитесь к списку услуг.',
+        back:                 '← Все услуги',
+      },
+      ro: {
+        toc_label:            'Cuprins',
+        sidebar_contact_label:'Contactați meșterul',
+        sidebar_contact_title:'Adresați o întrebare',
+        sidebar_contact_text: 'Meșterul nostru va răspunde la orice întrebare și va calcula costul lucrărilor.',
+        sidebar_btn_label:    'Scrieți',
+        related_label:        'Alte servicii ale atelierului',
+        related_title:        'Ce mai facem',
+        related_read:         'Citește',
+        faq_title:            'Întrebări frecvente',
+        process_title:        'Etapele lucrului',
+        not_found:            'Articolul nu a fost găsit',
+        not_found_sub:        'Reveniți la lista serviciilor.',
+        back:                 '← Toate serviciile',
+      }
+    };
+
+    // ── RENDER SECTION ────────────────────────
+    function renderSection(sec, lang) {
+      const T = ART_T[lang];
+      if (sec.type === 'text') {
+        return `
+          <div class="article-section" id="${sec.id}">
+            <h2 class="article-section-title">${sec.title}</h2>
+            ${sec.paragraphs.map(p => `<p class="article-p">${p}</p>`).join('')}
+          </div>`;
+      }
+      if (sec.type === 'list') {
+        return `
+          <div class="article-section" id="${sec.id}">
+            <h2 class="article-section-title">${sec.title}</h2>
+            <div class="service-list">
+              ${sec.items.map(item => `
+                <div class="service-list-item">
+                  <div class="service-list-dot"></div>
+                  <div class="service-list-text"><strong>${item.title}</strong>${item.text}</div>
+                </div>`).join('')}
+            </div>
+          </div>`;
+      }
+      if (sec.type === 'process') {
+        return `
+          <div class="article-section" id="${sec.id}">
+            <h2 class="article-section-title">${sec.title || T.process_title}</h2>
+            <div class="process-steps">
+              ${sec.steps.map((step, i) => `
+                <div class="process-step">
+                  <div class="process-step-num">${i + 1}</div>
+                  <div class="process-step-body">
+                    <p class="process-step-title">${step.title}</p>
+                    <p class="process-step-text">${step.text}</p>
+                  </div>
+                </div>`).join('')}
+            </div>
+          </div>`;
+      }
+      if (sec.type === 'callout') {
+        return `<div class="article-callout" id="${sec.id}"><p class="article-callout-text">${sec.text}</p></div>`;
+      }
+      return '';
+    }
+
+    // ── RENDER ARTICLE ────────────────────────
+    function renderArticle(article, lang) {
+      const a = article[lang];
+      const T = ART_T[lang];
+
+      // Update meta
+      const cleanTitle = a.title.replace(/<[^>]*>/g, '');
+      document.title = `${cleanTitle} — AdamasGold`;
+      document.querySelector('meta[name="description"]').content = a.excerpt;
+
+      // Dynamic SEO — canonical, OG, Schema.org
+      const BASE = 'https://adamasdark.netlify.app';
+      const pageUrl = `${BASE}/workshop-article.html?id=${article.slug}`;
+      const imgUrl  = article.image
+        ? (article.image.startsWith('http') ? article.image : `${BASE}/${article.image}`)
+        : `${BASE}/assets/hero-image-mobile.png`;
+
+      // Canonical + hreflang
+      const canonical = document.getElementById('seo-canonical');
+      if (canonical) canonical.href = pageUrl;
+      const hru = document.getElementById('seo-hreflang-ru');
+      if (hru) hru.href = pageUrl;
+      const hro = document.getElementById('seo-hreflang-ro');
+      if (hro) hro.href = pageUrl;
+
+      // OG tags
+      const ogTitle = document.getElementById('og-title');
+      if (ogTitle) ogTitle.content = `${cleanTitle} — AdamasGold`;
+      const ogDesc = document.getElementById('og-description');
+      if (ogDesc) ogDesc.content = a.excerpt;
+      const ogImg = document.getElementById('og-image');
+      if (ogImg) ogImg.content = imgUrl;
+      const ogUrl = document.getElementById('og-url');
+      if (ogUrl) ogUrl.content = pageUrl;
+
+      // Schema.org Article + BreadcrumbList
+      const schema = document.getElementById('seo-schema');
+      if (schema) {
+        schema.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'Article',
+              '@id': pageUrl + '#article',
+              'headline': cleanTitle,
+              'description': a.excerpt,
+              'image': imgUrl,
+              'url': pageUrl,
+              'inLanguage': lang,
+              'publisher': {
+                '@type': 'Organization',
+                'name': 'AdamasGold',
+                'url': BASE,
+                '@id': BASE + '/#organization'
+              },
+              'isPartOf': { '@id': BASE + '/#website' }
+            },
+            {
+              '@type': 'BreadcrumbList',
+              '@id': pageUrl + '#breadcrumb',
+              'itemListElement': [
+                { '@type': 'ListItem', 'position': 1, 'name': 'AdamasGold', 'item': BASE },
+                { '@type': 'ListItem', 'position': 2, 'name': lang === 'ro' ? 'Atelier de bijuterii' : 'Ювелирная мастерская', 'item': BASE + '/workshop-services.html' },
+                { '@type': 'ListItem', 'position': 3, 'name': cleanTitle, 'item': pageUrl }
+              ]
+            }
+          ]
+        });
+      }
+
+      // Breadcrumb
+      const bcEl = document.getElementById('bc-article');
+      if (bcEl) bcEl.textContent = a.tag;
+
+      // Hero
+      document.getElementById('article-tag').textContent = a.tag;
+      const rtEl = document.getElementById('article-readtime');
+      rtEl.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        ${a.readTime}`;
+      document.getElementById('article-title').innerHTML = a.title;
+      document.getElementById('article-lead').textContent = a.lead;
+
+      // Hero image — inject as full-bleed background of the hero section
+      const heroSection = document.getElementById('article-hero');
+      const heroImgWrap = document.getElementById('article-hero-image');
+      if (heroImgWrap) heroImgWrap.style.display = 'none'; // hide the old separate block
+
+      // Remove old bg if re-rendering
+      const oldBg = heroSection.querySelector('.article-hero-bg');
+      if (oldBg) oldBg.remove();
+      heroSection.classList.remove('has-image');
+
+      if (article.image) {
+        const bgDiv = document.createElement('div');
+        bgDiv.className = 'article-hero-bg';
+        bgDiv.innerHTML = '<img src="' + article.image + '" alt="' + a.title.replace(/<[^>]*>/g, '') + '" ' +
+          'onerror="this.closest(\'.ws-hero\').classList.remove(\'has-image\')">';
+        heroSection.insertBefore(bgDiv, heroSection.firstChild);
+        heroSection.classList.add('has-image');
+      }
+
+      // Body
+      const body = document.getElementById('article-body');
+      let html = a.sections.map(sec => renderSection(sec, lang)).join('');
+
+      // FAQ
+      if (a.faq && a.faq.length) {
+        html += `
+          <div class="article-section" id="faq">
+            <div class="article-divider"><span class="article-divider-diamond"></span></div>
+            <h2 class="article-section-title">${T.faq_title}</h2>
+            <div class="faq-list">
+              ${a.faq.map((item, i) => `
+                <div class="faq-item" id="faq-${i}">
+                  <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+                    <span class="faq-question-text">${item.q}</span>
+                    <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="faq-answer" role="region">
+                    <p class="faq-answer-inner">${item.a}</p>
+                  </div>
+                </div>`).join('')}
+            </div>
+          </div>`;
+      }
+
+      body.innerHTML = html;
+
+      // TOC
+      const tocList = document.getElementById('toc-list');
+      const tocItems = a.toc || [];
+      tocList.innerHTML = tocItems.map(item =>
+        `<a href="#${item.id}" class="toc-link">${item.label}</a>`
+      ).join('');
+
+      // Add faq to toc
+      if (a.faq && a.faq.length) {
+        tocList.innerHTML += `<a href="#faq" class="toc-link">${T.faq_title}</a>`;
+      }
+
+      // Sidebar UI labels
+      document.getElementById('toc-label').textContent = T.toc_label;
+      document.getElementById('sidebar-contact-label').textContent = T.sidebar_contact_label;
+      document.getElementById('sidebar-contact-title').textContent = T.sidebar_contact_title;
+      document.getElementById('sidebar-contact-text').textContent = T.sidebar_contact_text;
+      document.getElementById('sidebar-btn-label').textContent = T.sidebar_btn_label;
+    }
+
+    // ── RENDER RELATED ────────────────────────
+    function renderRelated(currentSlug, lang) {
+      const T = ART_T[lang];
+      const others = window.WORKSHOP_ARTICLES.filter(a => a.slug !== currentSlug).slice(0, 3);
+      document.getElementById('related-label').textContent = T.related_label;
+      document.getElementById('related-title').textContent = T.related_title;
+      document.getElementById('related-grid').innerHTML = others.map(article => {
+        const a = article[lang];
+        const imgBlock = '<div class="ws-card-img">' +
+          (article.image ? `<img src="${article.image}" alt="${a.title}" onerror="this.style.display='none'">` : '') +
+          '</div>';
+        return `
+          <a href="workshop-article.html?id=${article.slug}" class="ws-card">
+            ${imgBlock}
+            <p class="ws-card-tag">${a.tag}</p>
+            <h3 class="ws-card-title">${a.title}</h3>
+            <p class="ws-card-excerpt">${a.excerpt}</p>
+            <div class="ws-card-footer">
+              <span class="ws-card-readtime">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                ${a.readTime}
+              </span>
+              <span class="ws-card-cta">
+                ${T.related_read}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </a>`;
+      }).join('');
+    }
+
+    // ── FAQ TOGGLE ────────────────────────────
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    // ── TOC ACTIVE STATE ──────────────────────
+    function initTocObserver() {
+      const tocLinks = document.querySelectorAll('.toc-link');
+      if (!tocLinks.length) return;
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+
+      document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+    }
+
+    // ── INIT ──────────────────────────────────
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('id') || 'restavratsiya';
+
+    function renderPage(lang) {
+      const article = window.WORKSHOP_ARTICLES.find(function(a) { return a.slug === slug; });
+      if (article) {
+        renderArticle(article, lang);
+        renderRelated(slug, lang);
+        setTimeout(initTocObserver, 100);
+      } else {
+        var T = ART_T[lang] || ART_T.ru;
+        document.getElementById('article-body').innerHTML =
+          '<p class="article-p">' + T.not_found + '</p>' +
+          '<p class="article-p">' + T.not_found_sub + '</p>' +
+          '<a href="workshop-services.html" class="ws-cta-btn" style="margin-top:16px;display:inline-flex">' + T.back + '</a>';
+      }
+    }
+
+    // Hook into translations.js renderCatalog callback to re-render on lang switch
+    window.renderCatalog = function() {
+      renderPage(window.currentLang || 'ru');
+    };
+
+    // ── PARALLAX: hero image moves at 35% of scroll speed ──────────────
+    (function initParallax() {
+      let ticking = false;
+      function applyParallax() {
+        if (window.innerWidth < 768) { ticking = false; return; }
+        const hero = document.getElementById('article-hero');
+        const img  = hero ? hero.querySelector('.article-hero-bg img') : null;
+        if (!img) return;
+        img.style.transform = 'translateY(' + (window.scrollY * 0.4) + 'px)';
+        ticking = false;
+      }
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(applyParallax);
+          ticking = true;
+        }
+      }, { passive: true });
+    })();
+
+    // ── TOC SCROLL OFFSET: compensate for fixed header ───────────────
+    (function initTocScrollOffset() {
+      function getHeaderHeight() {
+        const h = document.querySelector('.site-header');
+        return h ? h.getBoundingClientRect().height : 80;
+      }
+
+      function applyScrollMargins() {
+        const offset = getHeaderHeight() + 16; // 16px extra breathing room
+        document.querySelectorAll('[id]').forEach(el => {
+          el.style.scrollMarginTop = offset + 'px';
+        });
+      }
+
+      applyScrollMargins();
+      window.addEventListener('resize', applyScrollMargins, { passive: true });
+    })();
+
+  </script>
+</body>
+</html>

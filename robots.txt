@@ -2,5 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /checkout.html
 
-# Sitemap будет добавлен после интеграции с Supabase и генерации динамического sitemap.xml
-# Sitemap: https://adamasgold.com/sitemap.xml
+Sitemap: https://adamasdark.netlify.app/sitemap.xml

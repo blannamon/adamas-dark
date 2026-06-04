@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adamas — Админ-панель</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #0b0b08;
+  --bg-card:      #131310;
+  --bg-elevated:  #1b1b15;
+  --bg-hover:     #201f19;
+  --gold:         #D99D2C;
+  --gold-light:   #e8b44e;
+  --gold-dim:     rgba(217,157,44,0.14);
+  --gold-border:  rgba(217,157,44,0.35);
+  --text-primary: #f0ead6;
+  --text-sec:     #8e8372;
+  --text-muted:   #565044;
+  --border:       #222219;
+  --border-card:  #1e1e17;
+  --danger:       #c0392b;
+  --danger-dim:   rgba(192,57,43,0.12);
+  --radius:       5px;
+  --sidebar-w:    280px;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── LOGIN SCREEN ─────────────────────────────────────── */
+#login-screen {
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+}
+#login-screen.hidden { display: none; }
+
+.login-box {
+  width: 360px;
+  padding: 48px 40px 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 4px 16px rgba(217,157,44,0.05);
+  animation: fadeUp 0.4s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.login-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.login-sub {
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.login-box label {
+  display: block;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 7px;
+}
+.login-box input {
+  display: block; width: 100%;
+  padding: 11px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 18px;
+}
+.login-box input:focus { border-color: var(--gold-border); }
+.login-btn {
+  width: 100%; padding: 12px;
+  background: var(--gold);
+  border: none; border-radius: var(--radius);
+  color: #0b0b08;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 4px;
+}
+.login-btn:hover  { background: var(--gold-light); }
+.login-btn:active { transform: scale(0.98); }
+.login-err {
+  margin-top: 14px;
+  font-size: 12px; color: #e74c3c; text-align: center;
+  min-height: 18px;
+}
+
+/* ── LAYOUT ───────────────────────────────────────────── */
+#app { display: flex; height: 100vh; overflow: hidden; }
+#app.hidden { display: none; }
+
+/* ── SIDEBAR ──────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  display: flex; flex-direction: column;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+.sidebar-header {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.sidebar-label {
+  font-size: 10px; font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-top: 2px;
+}
+.sidebar-search {
+  margin: 14px 20px 0;
+  flex-shrink: 0;
+}
+.sidebar-search input {
+  width: 100%; padding: 8px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px; outline: none;
+  transition: border-color 0.2s;
+}
+.sidebar-search input:focus { border-color: var(--gold-border); }
+.sidebar-search input::placeholder { color: var(--text-muted); }
+
+.sidebar-list {
+  flex: 1; overflow-y: auto;
+  padding: 10px 0;
+}
+.sidebar-list::-webkit-scrollbar { width: 4px; }
+.sidebar-list::-webkit-scrollbar-track { background: transparent; }
+.sidebar-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.product-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  display: flex; align-items: center; gap: 10px;
+}
+.product-item:hover  { background: var(--bg-hover); }
+.product-item.active { background: var(--gold-dim); border-left-color: var(--gold); }
+.product-item-thumb {
+  width: 36px; height: 36px;
+  border-radius: 3px;
+  object-fit: cover;
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+.product-item-info { min-width: 0; }
+.product-item-id {
+  font-size: 13px; font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.product-item-cat {
+  font-size: 11px; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex; gap: 8px;
+}
+.btn-new {
+  flex: 1;
+  padding: 9px 14px;
+  background: var(--gold);
+  border: none; border-radius: var(--radius);
+  color: #0b0b08;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-new:hover { background: var(--gold-light); }
+.btn-logout {
+  padding: 9px 12px;
+  background: transparent;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-logout:hover { border-color: var(--text-muted); color: var(--text-sec); }
+
+/* ── MAIN AREA ────────────────────────────────────────── */
+.main {
+  flex: 1; overflow-y: auto;
+  background: var(--bg);
+  padding: 32px 40px 60px;
+}
+.main::-webkit-scrollbar { width: 6px; }
+.main::-webkit-scrollbar-track { background: transparent; }
+.main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── NOTICE BANNER ────────────────────────────────────── */
+.notice {
+  padding: 11px 16px;
+  border-radius: var(--radius);
+  font-size: 12.5px;
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.notice-warn  { background: rgba(217,157,44,0.1); border: 1px solid rgba(217,157,44,0.25); color: #c9a346; }
+.notice-empty { background: var(--bg-card); border: 1px solid var(--border-card); color: var(--text-sec); }
+.notice.hidden { display: none; }
+
+/* ── FORM HEADER ──────────────────────────────────────── */
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 900;
+  color: var(--text-primary);
+  margin-bottom: 28px;
+}
+
+/* ── FORM ─────────────────────────────────────────────── */
+.form-section {
+  margin-bottom: 32px;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 7px;
+}
+.form-section-title {
+  font-size: 10.5px; font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-row { display: flex; gap: 16px; margin-bottom: 16px; }
+.form-row:last-child { margin-bottom: 0; }
+.form-group { flex: 1; min-width: 0; }
+.form-group.w-half { flex: 0 0 calc(50% - 8px); }
+.form-group.w-third { flex: 0 0 calc(33.333% - 11px); }
+
+.form-group label {
+  display: block;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.07em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group select {
+  display: block; width: 100%;
+  padding: 10px 13px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px; outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus { border-color: var(--gold-border); }
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23565044' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+.form-group select option { background: var(--bg-elevated); }
+.form-group input[type=number]::-webkit-outer-spin-button,
+.form-group input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
+
+/* ── BILINGUAL GRID ───────────────────────────────────── */
+.bilingual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.bilingual-col { padding: 0; }
+.bilingual-col:first-child { padding-right: 20px; border-right: 1px solid var(--border); }
+.bilingual-col:last-child  { padding-left: 20px; }
+.bilingual-lang {
+  font-size: 11.5px; font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 7px;
+}
+.bilingual-lang span { color: var(--text-muted); font-weight: 400; }
+.bilingual-col .form-group { margin-bottom: 14px; }
+.bilingual-col .form-group:last-child { margin-bottom: 0; }
+
+/* ── PHOTO GRID ───────────────────────────────────────── */
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+}
+.photo-card {
+  position: relative;
+  width: 140px; height: 140px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-card);
+  flex-shrink: 0;
+}
+.photo-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.photo-card-badge {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.7);
+  border-radius: 3px;
+  padding: 2px 7px;
+  font-size: 10px; font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.07em; text-transform: uppercase;
+  pointer-events: none;
+}
+.photo-card-del {
+  position: absolute; top: 6px; right: 6px;
+  width: 24px; height: 24px;
+  background: rgba(0,0,0,0.75);
+  border: none; border-radius: 50%;
+  color: #ccc; font-size: 15px; line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.15s, background 0.15s;
+}
+.photo-card-del:hover { background: rgba(192,57,43,0.85); color: #fff; }
+.photo-card-name {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+  padding: 18px 6px 5px;
+  font-size: 10px; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* Add-photo button card */
+.photo-add-card {
+  width: 140px; height: 140px;
+  border-radius: 6px;
+  border: 1.5px dashed var(--border-card);
+  background: var(--bg-elevated);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  flex-shrink: 0;
+}
+.photo-add-card:hover { border-color: var(--gold-border); background: #1e1e18; }
+.photo-add-card input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.photo-add-icon {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--border-card);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.photo-add-label {
+  font-size: 11px; color: var(--text-muted); text-align: center;
+  pointer-events: none;
+}
+.photo-note {
+  margin-top: 10px;
+  font-size: 11px; color: var(--text-muted); line-height: 1.5;
+}
+/* Pending upload cards (not yet saved) */
+.photo-card.pending { border-color: rgba(217,157,44,0.4); }
+.photo-card-pending-badge {
+  position: absolute; top: 6px; left: 6px;
+  background: rgba(217,157,44,0.85);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 9.5px; font-weight: 700;
+  color: #0b0b08;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+
+/* ── FORM ACTIONS ─────────────────────────────────────── */
+.form-actions {
+  display: flex; gap: 10px; align-items: center;
+  padding-top: 4px;
+}
+.btn-save {
+  padding: 11px 28px;
+  background: var(--gold);
+  border: none; border-radius: var(--radius);
+  color: #0b0b08;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12.5px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-save:hover  { background: var(--gold-light); }
+.btn-save:active { transform: scale(0.97); }
+.btn-cancel {
+  padding: 11px 20px;
+  background: transparent;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  color: var(--text-sec);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12.5px; font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-cancel:hover { border-color: var(--text-muted); color: var(--text-primary); }
+.btn-delete {
+  padding: 11px 20px;
+  background: transparent;
+  border: 1px solid rgba(192,57,43,0.3);
+  border-radius: var(--radius);
+  color: var(--danger);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12.5px; font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  margin-left: auto;
+}
+.btn-delete:hover { background: var(--danger-dim); border-color: var(--danger); }
+.btn-delete.hidden { display: none; }
+
+.form-status {
+  font-size: 12px;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  display: none;
+  margin-bottom: 16px;
+}
+.form-status.success { display: block; background: rgba(46,125,50,0.15); border: 1px solid rgba(46,125,50,0.3); color: #81c784; }
+.form-status.error   { display: block; background: rgba(192,57,43,0.12); border: 1px solid rgba(192,57,43,0.3); color: #e57373; }
+
+/* ── EMPTY STATE ──────────────────────────────────────── */
+.empty-state {
+  padding: 60px 0;
+  text-align: center;
+}
+.empty-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.empty-sub { font-size: 13px; color: var(--text-muted); opacity: 0.7; }
+
+/* ── SPINNER ──────────────────────────────────────────── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border-card);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── COUNT BADGE ──────────────────────────────────────── */
+.count-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 18px; padding: 0 6px;
+  background: var(--bg-elevated);
+  border-radius: 9px;
+  font-size: 10.5px; font-weight: 600; color: var(--text-muted);
+  margin-left: 8px;
+}
+
+/* ── UTILITY ──────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── CONFIRM MODAL ────────────────────────────────────── */
+.confirm-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.confirm-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: 24px 28px 20px;
+  width: 280px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 2px 8px rgba(217,157,44,0.06);
+  animation: scaleIn 0.15s ease;
+}
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+.confirm-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.confirm-text {
+  font-size: 12.5px; color: var(--text-sec);
+  margin-bottom: 20px; line-height: 1.5;
+}
+.confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.confirm-no {
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  color: var(--text-sec);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12.5px; font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.confirm-no:hover { border-color: var(--text-muted); color: var(--text-primary); }
+.confirm-yes {
+  padding: 8px 18px;
+  background: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12.5px; font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.confirm-yes:hover { opacity: 0.85; }
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 900px) {
+  .bilingual-grid { grid-template-columns: 1fr; }
+  .bilingual-col:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
+  .bilingual-col:last-child  { padding-left: 0; }
+  .upload-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- CONFIRM MODAL -->
+<div id="confirm-overlay" class="confirm-overlay hidden">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirm-title">Удалить фото?</div>
+    <div class="confirm-text" id="confirm-text"></div>
+    <div class="confirm-actions">
+      <button class="confirm-no" id="confirm-no">Отмена</button>
+      <button class="confirm-yes" id="confirm-yes">Удалить</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Adamas</div>
+    <div class="login-sub">Admin Panel</div>
+    <label for="f-login">Логин</label>
+    <input type="text" id="f-login" autocomplete="username">
+    <label for="f-pass">Пароль</label>
+    <input type="password" id="f-pass" autocomplete="current-password">
+    <button class="login-btn" id="login-btn">Войти</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">Adamas</div>
+      <div class="sidebar-label">Управление товарами</div>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" id="search-input" placeholder="Поиск по ID или названию…">
+    </div>
+    <div class="sidebar-list" id="product-list">
+      <div style="padding:20px;color:var(--text-muted);font-size:12px;text-align:center;">
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn-new" id="btn-new-product">+ Новый товар</button>
+      <button class="btn-logout" id="btn-logout" title="Выйти">⏏</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content">
+
+    <div id="notice-key" class="notice notice-warn hidden">
+      ⚠ Supabase service key не настроен. Открой <code style="font-size:11px;opacity:0.8;">admin-server.mjs</code> и вставь ключ из Supabase → Settings → API → service_role.
+    </div>
+
+    <!-- Empty / welcome state -->
+    <div id="empty-state" class="empty-state">
+      <div class="empty-title">Выбери товар</div>
+      <div class="empty-sub">Выбери товар из списка или создай новый</div>
+    </div>
+
+    <!-- Product form -->
+    <div id="product-form" class="hidden">
+      <div class="form-title" id="form-title">Новый товар</div>
+      <div class="form-status" id="form-status"></div>
+
+      <!-- BASE INFO -->
+      <div class="form-section">
+        <div class="form-section-title">Основная информация</div>
+        <div class="form-row">
+          <div class="form-group w-third">
+            <label>ID модели</label>
+            <input type="number" id="f-id" placeholder="1024" min="1">
+          </div>
+          <div class="form-group w-third">
+            <label>Категория</label>
+            <select id="f-category">
+              <option value="ring">ring — Кольцо</option>
+              <option value="signet">signet — Печатка</option>
+              <option value="pendant">pendant — Подвеска</option>
+              <option value="earrings">earrings — Серьги</option>
+              <option value="bracelet">bracelet — Браслет</option>
+              <option value="chain">chain — Цепь</option>
+              <option value="cross">cross — Крест / Иконка</option>
+              <option value="exclusive">exclusive — Эксклюзив</option>
+            </select>
+          </div>
+          <div class="form-group w-third">
+            <label>Популярность (0–10)</label>
+            <input type="number" id="f-popular" placeholder="5" min="0" max="10">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Visual тег (для фильтрации)</label>
+            <input type="text" id="f-visual" placeholder="ring rose">
+          </div>
+        </div>
+      </div>
+
+      <!-- BILINGUAL FIELDS -->
+      <div class="form-section">
+        <div class="form-section-title">Описание товара</div>
+        <div class="bilingual-grid">
+
+          <!-- RUSSIAN -->
+          <div class="bilingual-col">
+            <div class="bilingual-lang">🇷🇺 Русский</div>
+            <div class="form-group">
+              <label>Название (title_ru)</label>
+              <input type="text" id="f-title-ru" placeholder="Модель 1024">
+            </div>
+            <div class="form-group">
+              <label>Тип украшения (type_ru)</label>
+              <input type="text" id="f-type-ru" placeholder="Кольцо">
+            </div>
+            <div class="form-group">
+              <label>Материал (material_ru)</label>
+              <input type="text" id="f-material-ru" placeholder="розовое золото 585">
+            </div>
+            <div class="form-group">
+              <label>Вставки / описание (stones_ru)</label>
+              <input type="text" id="f-stones-ru" placeholder="с бриллиантами">
+            </div>
+          </div>
+
+          <!-- ROMANIAN -->
+          <div class="bilingual-col">
+            <div class="bilingual-lang">🇷🇴 Română</div>
+            <div class="form-group">
+              <label>Titlu (title_ro)</label>
+              <input type="text" id="f-title-ro" placeholder="Model 1024">
+            </div>
+            <div class="form-group">
+              <label>Tip bijuterie (type_ro)</label>
+              <input type="text" id="f-type-ro" placeholder="Inel">
+            </div>
+            <div class="form-group">
+              <label>Material (material_ro)</label>
+              <input type="text" id="f-material-ro" placeholder="aur roz 585">
+            </div>
+            <div class="form-group">
+              <label>Pietre / descriere (stones_ro)</label>
+              <input type="text" id="f-stones-ro" placeholder="cu diamante">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PHOTOS -->
+      <div class="form-section">
+        <div class="form-section-title">Фотографии товара</div>
+        <div class="photo-grid" id="photo-grid">
+          <!-- populated by JS -->
+        </div>
+        <div class="photo-note">
+          Первое фото — главное (<code style="font-size:10.5px;opacity:0.7;">m{id}.png</code>), используется в каталоге.<br>
+          Дополнительные сохраняются как <code style="font-size:10.5px;opacity:0.7;">m{id}-2.png</code>, <code style="font-size:10.5px;opacity:0.7;">m{id}-3.png</code>&hellip;
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="form-actions">
+        <button class="btn-save" id="btn-save">Сохранить</button>
+        <button class="btn-cancel" id="btn-cancel">Отмена</button>
+        <button class="btn-delete hidden" id="btn-delete">Удалить</button>
+      </div>
+
+    </div><!-- /product-form -->
+  </main>
+</div><!-- /app -->
+
+<script>
+(function () {
+  const API   = 'http://localhost:3001/api';
+  let token   = sessionStorage.getItem('admin-token') || '';
+  let products = [];
+  let editingId = null;   // null = new product
+  let darkBase64 = null;
+
+  // ── DOM refs
+  const loginScreen  = document.getElementById('login-screen');
+  const app          = document.getElementById('app');
+  const loginErr     = document.getElementById('login-err');
+  const productList  = document.getElementById('product-list');
+  const searchInput  = document.getElementById('search-input');
+  const emptyState   = document.getElementById('empty-state');
+  const productForm  = document.getElementById('product-form');
+  const formTitle    = document.getElementById('form-title');
+  const formStatus   = document.getElementById('form-status');
+  const noticeKey    = document.getElementById('notice-key');
+  const btnDelete    = document.getElementById('btn-delete');
+  const dropDark     = document.getElementById('drop-dark');
+  const dropBeige    = document.getElementById('drop-beige');
+
+  // ── INIT ──────────────────────────────────────────────────────────
+  async function init() {
+    // Check service key
+    try {
+      const r = await fetch(API.replace('/api', '') + '/api/status');
+      const d = await r.json();
+      if (!d.keyConfigured) noticeKey.classList.remove('hidden');
+    } catch {}
+
+    if (token) {
+      showApp();
+    }
+  }
+
+  // ── AUTH ──────────────────────────────────────────────────────────
+  document.getElementById('login-btn').addEventListener('click', doLogin);
+  document.getElementById('f-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('f-login').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+  async function doLogin() {
+    const login    = document.getElementById('f-login').value.trim();
+    const password = document.getElementById('f-pass').value;
+    loginErr.textContent = '';
+    try {
+      const r = await fetch(API + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login, password }),
+      });
+      const d = await r.json();
+      if (d.ok) {
+        token = d.token;
+        sessionStorage.setItem('admin-token', token);
+        showApp();
+      } else {
+        loginErr.textContent = d.error || 'Ошибка';
+      }
+    } catch {
+      loginErr.textContent = 'Сервер недоступен (порт 3001)';
+    }
+  }
+
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    token = '';
+    sessionStorage.removeItem('admin-token');
+    app.classList.add('hidden');
+    loginScreen.classList.remove('hidden');
+  });
+
+  function showApp() {
+    loginScreen.classList.add('hidden');
+    app.classList.remove('hidden');
+    loadProducts();
+  }
+
+  // ── LOAD PRODUCTS ─────────────────────────────────────────────────
+  async function loadProducts() {
+    productList.innerHTML = '<div style="padding:20px;color:var(--text-muted);font-size:12px;text-align:center;"><div class="spinner"></div></div>';
+    try {
+      const r = await fetch(API + '/products', { headers: { 'x-admin-token': token } });
+      if (r.status === 401) { logout(); return; }
+      products = await r.json();
+      renderList(products);
+    } catch {
+      productList.innerHTML = '<div style="padding:16px;color:#e57373;font-size:12px;">Ошибка загрузки</div>';
+    }
+  }
+
+  function renderList(items) {
+    if (!items.length) {
+      productList.innerHTML = '<div style="padding:20px;color:var(--text-muted);font-size:12px;text-align:center;">Нет товаров</div>';
+      return;
+    }
+    productList.innerHTML = items.map(p => `
+      <div class="product-item${editingId === p.id ? ' active' : ''}" data-id="${p.id}">
+        <img class="product-item-thumb"
+          src="assets/renders/Dark/renders_thumbs/m${p.id}.webp"
+          onerror="this.style.display='none'"
+          alt="">
+        <div class="product-item-info">
+          <div class="product-item-id">Модель ${p.id}</div>
+          <div class="product-item-cat">${p.category}</div>
+        </div>
+      </div>
+    `).join('');
+
+    productList.querySelectorAll('.product-item').forEach(el => {
+      el.addEventListener('click', () => openProduct(Number(el.dataset.id)));
+    });
+  }
+
+  // ── SEARCH ────────────────────────────────────────────────────────
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    if (!q) { renderList(products); return; }
+    renderList(products.filter(p =>
+      String(p.id).includes(q) ||
+      (p.title_ru || '').toLowerCase().includes(q) ||
+      (p.category || '').includes(q)
+    ));
+  });
+
+  // ── OPEN / RESET FORM ─────────────────────────────────────────────
+  document.getElementById('btn-new-product').addEventListener('click', () => openNew());
+
+  function openNew() {
+    editingId = null;
+    clearImages();
+    fillForm({
+      id: '', category: 'ring', popular: 5, visual: '',
+      title_ru: '', title_ro: '',
+      type_ru: '', type_ro: '',
+      material_ru: '', material_ro: '',
+      stones_ru: '', stones_ro: '',
+    });
+    formTitle.textContent = 'Новый товар';
+    btnDelete.classList.add('hidden');
+    document.getElementById('f-id').disabled = false;
+    showForm();
+    renderList(products);
+  }
+
+  function openProduct(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    editingId = id;
+    clearImages();
+    fillForm(p);
+    loadPhotosAndRender(id);
+    formTitle.textContent = `Модель ${id}`;
+    btnDelete.classList.remove('hidden');
+    document.getElementById('f-id').value    = id;
+    document.getElementById('f-id').disabled = true;
+    showForm();
+    renderList(products);
+  }
+
+  function showForm() {
+    emptyState.classList.add('hidden');
+    productForm.classList.remove('hidden');
+    hideStatus();
+    document.getElementById('main-content').scrollTop = 0;
+  }
+
+  function fillForm(p) {
+    document.getElementById('f-id').value          = p.id       || '';
+    document.getElementById('f-category').value    = p.category || 'ring';
+    document.getElementById('f-popular').value     = p.popular  ?? 5;
+    document.getElementById('f-visual').value      = p.visual   || '';
+    document.getElementById('f-title-ru').value    = p.title_ru || '';
+    document.getElementById('f-title-ro').value    = p.title_ro || '';
+    document.getElementById('f-type-ru').value     = p.type_ru  || '';
+    document.getElementById('f-type-ro').value     = p.type_ro  || '';
+    document.getElementById('f-material-ru').value = p.material_ru || '';
+    document.getElementById('f-material-ro').value = p.material_ro || '';
+    document.getElementById('f-stones-ru').value   = p.stones_ru  || '';
+    document.getElementById('f-stones-ro').value   = p.stones_ro  || '';
+  }
+
+  function readForm() {
+    return {
+      id:          Number(document.getElementById('f-id').value),
+      category:    document.getElementById('f-category').value,
+      popular:     Number(document.getElementById('f-popular').value) || 5,
+      visual:      document.getElementById('f-visual').value.trim(),
+      title_ru:    document.getElementById('f-title-ru').value.trim(),
+      title_ro:    document.getElementById('f-title-ro').value.trim(),
+      type_ru:     document.getElementById('f-type-ru').value.trim(),
+      type_ro:     document.getElementById('f-type-ro').value.trim(),
+      material_ru: document.getElementById('f-material-ru').value.trim(),
+      material_ro: document.getElementById('f-material-ro').value.trim(),
+      stones_ru:   document.getElementById('f-stones-ru').value.trim(),
+      stones_ro:   document.getElementById('f-stones-ro').value.trim(),
+    };
+  }
+
+  // ── SAVE ──────────────────────────────────────────────────────────
+  document.getElementById('btn-save').addEventListener('click', saveProduct);
+  document.getElementById('btn-cancel').addEventListener('click', () => {
+    emptyState.classList.remove('hidden');
+    productForm.classList.add('hidden');
+    editingId = null;
+    renderList(products);
+  });
+
+  async function saveProduct() {
+    const data  = readForm();
+    if (!data.id)       { showStatus('Укажи ID модели', 'error'); return; }
+    if (!data.title_ru) { showStatus('Заполни название (RU)', 'error'); return; }
+
+    const savedId = editingId;           // snapshot до первого await
+    const isNew   = savedId === null;
+    const payload = { ...data };
+
+    try {
+      const r = await fetch(
+        isNew ? API + '/products' : API + '/products/' + savedId,
+        {
+          method: isNew ? 'POST' : 'PUT',
+          headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (r.status === 401) { logout(); return; }
+      if (r.ok) {
+        const id = data.id;
+        await uploadPendingPhotos(id);
+        showStatus(isNew ? 'Товар добавлен!' : 'Изменения сохранены!', 'success');
+        await loadProducts();
+        await loadPhotosAndRender(id);
+        renderList(products);
+        // Явно удерживаем модель выбранной после всех async-операций
+        editingId = id;
+        emptyState.classList.add('hidden');
+        productForm.classList.remove('hidden');
+        if (isNew) {
+          btnDelete.classList.remove('hidden');
+          document.getElementById('f-id').disabled = true;
+        }
+      } else {
+        const d = await r.json().catch(() => ({}));
+        showStatus('Ошибка: ' + (d.message || d.error || r.status), 'error');
+      }
+    } catch (e) {
+      showStatus('Сетевая ошибка: ' + e.message, 'error');
+    }
+  }
+
+  // ── DELETE ────────────────────────────────────────────────────────
+  btnDelete.addEventListener('click', async () => {
+    if (!editingId) return;
+    if (!confirm(`Удалить Модель ${editingId}? Это действие нельзя отменить.`)) return;
+    try {
+      const r = await fetch(API + '/products/' + editingId, {
+        method: 'DELETE',
+        headers: { 'x-admin-token': token },
+      });
+      if (r.ok) {
+        emptyState.classList.remove('hidden');
+        productForm.classList.add('hidden');
+        editingId = null;
+        await loadProducts();
+      } else {
+        showStatus('Ошибка удаления', 'error');
+      }
+    } catch (e) {
+      showStatus('Сетевая ошибка: ' + e.message, 'error');
+    }
+  });
+
+  // ── STATUS ────────────────────────────────────────────────────────
+  let statusTimer = null;
+  function showStatus(msg, type) {
+    formStatus.textContent = msg;
+    formStatus.className   = 'form-status ' + type;
+    clearTimeout(statusTimer);
+    if (type === 'success') statusTimer = setTimeout(hideStatus, 4000);
+  }
+  function hideStatus() {
+    formStatus.className = 'form-status';
+    formStatus.style.display = 'none';
+  }
+
+  // ── PHOTO GRID ────────────────────────────────────────────────────
+  let pendingUploads  = [];
+  let _currentExisting = [];
+
+  function clearImages() {
+    pendingUploads = [];
+    darkBase64     = null;
+    // Не сбрасываем _currentExisting здесь — его обновит loadPhotosAndRender
+    // Отрисовываем с текущими существующими, чтобы не мигать
+    renderPhotoGrid(_currentExisting, []);
+  }
+
+  async function loadPhotosAndRender(id) {
+    let existing = [];
+    try {
+      const r = await fetch(`${API}/photos/${id}`, { headers: { 'x-admin-token': token } });
+      existing = r.ok ? await r.json() : [];
+    } catch {}
+    // Обновляем только если всё ещё редактируем ту же модель
+    if (editingId !== id) return;
+    _currentExisting = existing;
+    renderPhotoGrid(existing, pendingUploads);
+  }
+
+  function rerenderGrid() {
+    renderPhotoGrid(_currentExisting, pendingUploads);
+  }
+
+  function renderPhotoGrid(existing, pending) {
+    const grid = document.getElementById('photo-grid');
+    grid.innerHTML = '';
+
+    existing.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'photo-card';
+      const img = document.createElement('img');
+      img.src = p.url + '?t=' + Date.now();
+      img.alt = p.filename;
+      card.appendChild(img);
+      if (p.isMain) {
+        const b = document.createElement('div');
+        b.className = 'photo-card-badge'; b.textContent = 'Главное';
+        card.appendChild(b);
+      } else {
+        const n = document.createElement('div');
+        n.className = 'photo-card-name'; n.textContent = p.filename;
+        card.appendChild(n);
+      }
+      const del = document.createElement('button');
+      del.className = 'photo-card-del'; del.type = 'button'; del.innerHTML = '×';
+      del.title = 'Удалить';
+      del.addEventListener('click', () => deletePhoto(p.filename, card));
+      card.appendChild(del);
+      grid.appendChild(card);
+    });
+
+    pending.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'photo-card pending';
+      const img = document.createElement('img');
+      img.src = p.dataUrl; img.alt = 'new';
+      card.appendChild(img);
+      const b = document.createElement('div');
+      b.className = 'photo-card-pending-badge'; b.textContent = 'Новое';
+      card.appendChild(b);
+      const del = document.createElement('button');
+      del.className = 'photo-card-del'; del.type = 'button'; del.innerHTML = '×';
+      del.addEventListener('click', () => { pendingUploads.splice(i, 1); rerenderGrid(); });
+      card.appendChild(del);
+      grid.appendChild(card);
+    });
+
+    // Add button
+    const addCard = document.createElement('div');
+    addCard.className = 'photo-add-card';
+    addCard.innerHTML = `
+      <input type="file" accept="image/*" multiple>
+      <div class="photo-add-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </div>
+      <div class="photo-add-label">Добавить фото</div>
+    `;
+    addCard.querySelector('input').addEventListener('change', e => {
+      Array.from(e.target.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          pendingUploads.push({ dataUrl: reader.result });
+          rerenderGrid();
+        };
+        reader.readAsDataURL(file);
+      });
+      e.target.value = '';
+    });
+    grid.appendChild(addCard);
+  }
+
+  // ── CONFIRM MODAL ─────────────────────────────────────────────────
+  const confirmOverlay = document.getElementById('confirm-overlay');
+  const confirmText    = document.getElementById('confirm-text');
+  const confirmYes     = document.getElementById('confirm-yes');
+  const confirmNo      = document.getElementById('confirm-no');
+
+  function showConfirm(text) {
+    return new Promise(resolve => {
+      confirmText.textContent = text;
+      confirmOverlay.classList.remove('hidden');
+      const cleanup = (result) => {
+        confirmOverlay.classList.add('hidden');
+        confirmYes.removeEventListener('click', onYes);
+        confirmNo.removeEventListener('click', onNo);
+        confirmOverlay.removeEventListener('click', onOverlay);
+        resolve(result);
+      };
+      const onYes     = () => cleanup(true);
+      const onNo      = () => cleanup(false);
+      const onOverlay = (e) => { if (e.target === confirmOverlay) cleanup(false); };
+      confirmYes.addEventListener('click', onYes);
+      confirmNo.addEventListener('click', onNo);
+      confirmOverlay.addEventListener('click', onOverlay);
+    });
+  }
+
+  async function deletePhoto(filename, card) {
+    const id = editingId; // snapshot до любого await
+    if (!id) return;
+    const ok = await showConfirm(filename);
+    if (!ok) return;
+    card.style.opacity = '0.4';
+    try {
+      const r = await fetch(`${API}/photos/${id}/${filename}`, {
+        method: 'DELETE', headers: { 'x-admin-token': token },
+      });
+      if (r.ok) {
+        await loadPhotosAndRender(id);
+        // Явно удерживаем модель выбранной
+        editingId = id;
+        emptyState.classList.add('hidden');
+        productForm.classList.remove('hidden');
+      } else {
+        card.style.opacity = '1';
+      }
+    } catch { card.style.opacity = '1'; }
+  }
+
+  async function uploadPendingPhotos(id) {
+    if (!pendingUploads.length) return;
+    await fetch(`${API}/photos/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ images: pendingUploads.map(p => p.dataUrl) }),
+    });
+    pendingUploads = [];
+  }
+
+  // ── START ─────────────────────────────────────────────────────────
+  init();
+
+})();
+</script>
+</body>
+</html>

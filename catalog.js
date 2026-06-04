@@ -1,17 +1,17 @@
 (function () {
-  const grid         = document.getElementById('products-grid');
-  const countEl      = document.getElementById('count');
-  const loadMoreBtn  = document.getElementById('btn-load-more');
-  const filterBtns   = document.querySelectorAll('.filter-btn');
-  const sortSelect   = document.getElementById('sort-select');
-  const sortWrap     = document.querySelector('.sort-wrap');
-  const sortDropdown = document.getElementById('sort-dropdown');
-  const sortOptions  = sortDropdown.querySelectorAll('.sort-option');
+  const grid          = document.getElementById('products-grid');
+  const countEl       = document.getElementById('count');
+  const paginationEl  = document.getElementById('catalog-pagination');
+  const filterBtns    = document.querySelectorAll('.filter-btn');
+  const sortSelect    = document.getElementById('sort-select');
+  const sortWrap      = document.querySelector('.sort-wrap');
+  const sortDropdown  = document.getElementById('sort-dropdown');
+  const sortOptions   = sortDropdown.querySelectorAll('.sort-option');
 
-  const PER_PAGE = 6;
+  function getPerPage() { return window.innerWidth < 768 ? 8 : 9; }
   let currentCategory = 'all';
   let currentSort     = 'popular_desc';
-  let visibleCount    = PER_PAGE;
+  let currentPage     = 1;
 
   function filtered() {
     let items = [...window.PRODUCTS];
@@ -94,16 +94,95 @@
     });
   }
 
+  /* ── PAGINATION ─────────────────────────── */
+
+  function totalPages(items) {
+    return Math.max(1, Math.ceil(items.length / getPerPage()));
+  }
+
+  function renderPagination(items) {
+    if (!paginationEl) return;
+    const pages = totalPages(items);
+
+    if (pages <= 1) {
+      paginationEl.innerHTML = '';
+      return;
+    }
+
+    let pagesToShow = [];
+    if (pages <= 7) {
+      for (let i = 1; i <= pages; i++) pagesToShow.push(i);
+    } else if (currentPage <= 4) {
+      pagesToShow = [1, 2, 3, 4, 5, '…', pages];
+    } else if (currentPage >= pages - 3) {
+      pagesToShow = [1, '…', pages - 4, pages - 3, pages - 2, pages - 1, pages];
+    } else {
+      pagesToShow = [1, '…', currentPage - 1, currentPage, currentPage + 1, '…', pages];
+    }
+
+    let html = `<button class="pg-arrow${currentPage === 1 ? ' disabled' : ''}" id="pg-prev" aria-label="Предыдущая страница" ${currentPage === 1 ? 'disabled' : ''}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>`;
+
+    pagesToShow.forEach(p => {
+      if (p === '…') {
+        html += `<span class="pg-ellipsis">…</span>`;
+      } else {
+        html += `<button class="pg-num${p === currentPage ? ' active' : ''}" data-page="${p}" aria-label="Страница ${p}"${p === currentPage ? ' aria-current="page"' : ''}>${p}</button>`;
+      }
+    });
+
+    html += `<button class="pg-arrow${currentPage === pages ? ' disabled' : ''}" id="pg-next" aria-label="Следующая страница" ${currentPage === pages ? 'disabled' : ''}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>`;
+
+    paginationEl.innerHTML = html;
+
+    paginationEl.querySelectorAll('.pg-num').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentPage = Number(btn.dataset.page);
+        render();
+        scrollToCatalog();
+      });
+    });
+
+    const prevBtn = paginationEl.querySelector('#pg-prev');
+    const nextBtn = paginationEl.querySelector('#pg-next');
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) { currentPage--; render(); scrollToCatalog(); }
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        if (currentPage < pages) { currentPage++; render(); scrollToCatalog(); }
+      });
+    }
+  }
+
+  function scrollToCatalog() {
+    const catalogSection = document.querySelector('.catalog-section');
+    if (catalogSection) {
+      const top = catalogSection.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  /* ── RENDER CATALOG ─────────────────────── */
+
   function render() {
     const items = filtered();
     countEl.textContent = items.length;
     grid.innerHTML = '';
 
-    const shown = items.slice(0, visibleCount);
+    const start = (currentPage - 1) * getPerPage();
+    const shown = items.slice(start, start + getPerPage());
     shown.forEach((p, i) => grid.appendChild(makeCard(p, i * 40)));
 
-    loadMoreBtn.style.display = visibleCount >= items.length ? 'none' : '';
+    renderPagination(items);
     fixCardMetaOverflow();
+    renderArticlesPreview();
   }
 
   /* update existing card buttons without full re-render */
@@ -120,23 +199,74 @@
     });
   };
 
+  /* ── ARTICLE PREVIEW ────────────────────── */
+
+  function renderArticlesPreview() {
+    const previewGrid = document.getElementById('articles-preview-grid');
+    if (!previewGrid || !window.WORKSHOP_ARTICLES) return;
+
+    const lang     = window.currentLang || 'ru';
+    const readMore = typeof window.t === 'function' ? window.t('articles_read_more') : 'Читать';
+    const articles = window.WORKSHOP_ARTICLES.slice(0, 6);
+
+    previewGrid.innerHTML = articles.map(function (article) {
+      const a = article[lang] || article.ru;
+      const imgHtml = article.image
+        ? `<img src="${article.image}" alt="${a.tag}" loading="lazy" onerror="this.parentElement.style.display='none'">`
+        : `<div class="ap-card-icon">${article.icon}</div>`;
+
+      return `<a href="workshop-article.html?id=${article.slug}" class="ap-card">
+        <div class="ap-card-img">${imgHtml}</div>
+        <div class="ap-card-body">
+          <p class="ap-card-tag">${a.tag}</p>
+          <h3 class="ap-card-title">${a.title.replace(/<br>/g, ' ')}</h3>
+          <p class="ap-card-excerpt">${a.excerpt}</p>
+          <div class="ap-card-footer">
+            <span class="ap-card-readtime">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${a.readTime}
+            </span>
+            <span class="ap-card-cta">${readMore}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </a>`;
+    }).join('');
+
+    /* apply i18n to static text elements in the section */
+    const titleEl    = document.querySelector('[data-i18n="articles_section_title"]');
+    const subtitleEl = document.querySelector('[data-i18n="articles_section_subtitle"]');
+    const allLinkEl  = document.querySelector('[data-i18n="articles_section_all_link"]');
+    const btnEl      = document.querySelector('[data-i18n="articles_section_btn"]');
+    if (typeof window.t === 'function') {
+      if (titleEl)    titleEl.textContent    = window.t('articles_section_title');
+      if (subtitleEl) subtitleEl.textContent = window.t('articles_section_subtitle');
+      if (allLinkEl)  allLinkEl.textContent  = window.t('articles_section_all_link');
+      if (btnEl)      btnEl.textContent      = window.t('articles_section_btn');
+    }
+  }
+
+  /* ── FILTERS ────────────────────────────── */
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentCategory = btn.dataset.category;
-      visibleCount    = PER_PAGE;
+      currentPage     = 1;
       render();
     });
   });
 
   sortSelect.addEventListener('change', () => {
-    currentSort  = sortSelect.value;
-    visibleCount = PER_PAGE;
+    currentSort = sortSelect.value;
+    currentPage = 1;
     render();
   });
 
-  /* custom dropdown */
+  /* ── CUSTOM SORT DROPDOWN ───────────────── */
+
   function closeSortDropdown() {
     sortWrap.classList.remove('open');
     sortDropdown.classList.remove('open');
@@ -166,15 +296,7 @@
     if (e.key === 'Escape') closeSortDropdown();
   });
 
-  loadMoreBtn.addEventListener('click', () => {
-    const items = filtered();
-    const prevCount = visibleCount;
-    visibleCount = Math.min(visibleCount + PER_PAGE, items.length);
-    const newCards = items.slice(prevCount, visibleCount);
-    newCards.forEach((p, i) => grid.appendChild(makeCard(p, i * 60)));
-    loadMoreBtn.style.display = visibleCount >= items.length ? 'none' : '';
-    fixCardMetaOverflow();
-  });
+  /* ── INIT ───────────────────────────────── */
 
   window.renderCatalog = render;
 
