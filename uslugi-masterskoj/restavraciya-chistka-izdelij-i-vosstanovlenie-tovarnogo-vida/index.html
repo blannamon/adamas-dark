@@ -526,7 +526,7 @@
       document.getElementById('related-grid').innerHTML = others.map(function(art) {
         var a = art[lang];
         return '<a href="' + art.urlPath + '" class="ws-card">' +
-          '<div class="ws-card-img">' + (art.image ? '<img src="/' + art.image + '" alt="' + a.title.replace(/<[^>]*>/g, '') + '" onerror="this.style.display='none'">' : '') + '</div>' +
+          '<div class="ws-card-img">' + (art.image ? '<img src="' + art.image + '" alt="' + a.title.replace(/<[^>]*>/g, '') + '" onerror="this.style.display=\'none\'">' : '') + '</div>' +
           '<p class="ws-card-tag">' + a.tag + '</p>' +
           '<h3 class="ws-card-title">' + a.title + '</h3>' +
           '<p class="ws-card-excerpt">' + a.excerpt + '</p>' +
