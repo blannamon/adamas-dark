@@ -62,7 +62,7 @@
 
       el.innerHTML =
         '<div class="checkout-item-image">' +
-          '<img src="assets/renders/Dark/renders_thumbs/m' + item.id + '.webp"' +
+          '<img src="https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/m' + item.id + '.webp"' +
                ' alt="' + (item.title ? item.title[l] : '') + '" loading="lazy">' +
         '</div>' +
         '<div class="checkout-item-body">' +

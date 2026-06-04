@@ -6,6 +6,7 @@
 <title>Adamas — Админ-панель</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
   --bg:           #0b0b08;
@@ -347,6 +348,10 @@ body {
   border: 1.5px solid var(--border-card);
   flex-shrink: 0;
 }
+.photo-card.main-photo {
+  width: 200px; height: 200px;
+  border-color: var(--gold-border);
+}
 .photo-card img {
   width: 100%; height: 100%;
   object-fit: cover;
@@ -373,6 +378,21 @@ body {
   transition: color 0.15s, background 0.15s;
 }
 .photo-card-del:hover { background: rgba(192,57,43,0.85); color: #fff; }
+.photo-card-setmain {
+  position: absolute; bottom: 6px; right: 6px;
+  padding: 3px 8px;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(217,157,44,0.5);
+  border-radius: 3px;
+  color: var(--gold);
+  font-family: 'Manrope', sans-serif;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1.4;
+}
+.photo-card-setmain:hover { background: rgba(217,157,44,0.2); border-color: var(--gold); }
 .photo-card-name {
   position: absolute; bottom: 0; left: 0; right: 0;
   background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
@@ -586,7 +606,7 @@ body {
 <!-- CONFIRM MODAL -->
 <div id="confirm-overlay" class="confirm-overlay hidden">
   <div class="confirm-box">
-    <div class="confirm-title" id="confirm-title">Удалить фото?</div>
+    <div class="confirm-title" id="confirm-title">Подтверждение</div>
     <div class="confirm-text" id="confirm-text"></div>
     <div class="confirm-actions">
       <button class="confirm-no" id="confirm-no">Отмена</button>
@@ -600,8 +620,8 @@ body {
   <div class="login-box">
     <div class="login-logo">Adamas</div>
     <div class="login-sub">Admin Panel</div>
-    <label for="f-login">Логин</label>
-    <input type="text" id="f-login" autocomplete="username">
+    <label for="f-login">Email</label>
+    <input type="email" id="f-login" autocomplete="username">
     <label for="f-pass">Пароль</label>
     <input type="password" id="f-pass" autocomplete="current-password">
     <button class="login-btn" id="login-btn">Войти</button>
@@ -634,10 +654,6 @@ body {
 
   <!-- MAIN -->
   <main class="main" id="main-content">
-
-    <div id="notice-key" class="notice notice-warn hidden">
-      ⚠ Supabase service key не настроен. Открой <code style="font-size:11px;opacity:0.8;">admin-server.mjs</code> и вставь ключ из Supabase → Settings → API → service_role.
-    </div>
 
     <!-- Empty / welcome state -->
     <div id="empty-state" class="empty-state">
@@ -741,8 +757,8 @@ body {
           <!-- populated by JS -->
         </div>
         <div class="photo-note">
-          Первое фото — главное (<code style="font-size:10.5px;opacity:0.7;">m{id}.png</code>), используется в каталоге.<br>
-          Дополнительные сохраняются как <code style="font-size:10.5px;opacity:0.7;">m{id}-2.png</code>, <code style="font-size:10.5px;opacity:0.7;">m{id}-3.png</code>&hellip;
+          Первое фото — главное (<code style="font-size:10.5px;opacity:0.7;">m{id}.webp</code>), используется в каталоге.<br>
+          Дополнительные сохраняются как <code style="font-size:10.5px;opacity:0.7;">m{id}-2.webp</code>, <code style="font-size:10.5px;opacity:0.7;">m{id}-3.webp</code>&hellip;
         </div>
       </div>
 
@@ -759,72 +775,57 @@ body {
 
 <script>
 (function () {
-  const API   = 'http://localhost:3001/api';
-  let token   = sessionStorage.getItem('admin-token') || '';
-  let products = [];
-  let editingId = null;   // null = new product
-  let darkBase64 = null;
+  const SUPABASE_URL  = 'https://rqrsmlbrsgmvsfxfthba.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxcnNtbGJyc2dtdnNmeGZ0aGJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MTE4MjcsImV4cCI6MjA5NTM4NzgyN30.0JNhYQxBSS7HPhOR5lrNXLiP5zyT8jW-6jbsrJMzwBo';
+  const BUCKET        = 'product-images';
+  const STORAGE_BASE  = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/thumbs`;
 
-  // ── DOM refs
-  const loginScreen  = document.getElementById('login-screen');
-  const app          = document.getElementById('app');
-  const loginErr     = document.getElementById('login-err');
-  const productList  = document.getElementById('product-list');
-  const searchInput  = document.getElementById('search-input');
-  const emptyState   = document.getElementById('empty-state');
-  const productForm  = document.getElementById('product-form');
-  const formTitle    = document.getElementById('form-title');
-  const formStatus   = document.getElementById('form-status');
-  const noticeKey    = document.getElementById('notice-key');
-  const btnDelete    = document.getElementById('btn-delete');
-  const dropDark     = document.getElementById('drop-dark');
-  const dropBeige    = document.getElementById('drop-beige');
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  let products        = [];
+  let editingId       = null;
+  let pendingUploads  = [];
+  let _currentExisting = [];
+
+  // ── DOM refs ──────────────────────────────────────────────────────
+  const loginScreen = document.getElementById('login-screen');
+  const app         = document.getElementById('app');
+  const loginErr    = document.getElementById('login-err');
+  const productList = document.getElementById('product-list');
+  const searchInput = document.getElementById('search-input');
+  const emptyState  = document.getElementById('empty-state');
+  const productForm = document.getElementById('product-form');
+  const formTitle   = document.getElementById('form-title');
+  const formStatus  = document.getElementById('form-status');
+  const btnDelete   = document.getElementById('btn-delete');
+
+  function thumbUrl(name) { return `${STORAGE_BASE}/${name}`; }
 
   // ── INIT ──────────────────────────────────────────────────────────
   async function init() {
-    // Check service key
-    try {
-      const r = await fetch(API.replace('/api', '') + '/api/status');
-      const d = await r.json();
-      if (!d.keyConfigured) noticeKey.classList.remove('hidden');
-    } catch {}
-
-    if (token) {
-      showApp();
-    }
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) showApp();
   }
 
   // ── AUTH ──────────────────────────────────────────────────────────
   document.getElementById('login-btn').addEventListener('click', doLogin);
-  document.getElementById('f-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('f-pass').addEventListener('keydown',  e => { if (e.key === 'Enter') doLogin(); });
   document.getElementById('f-login').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
   async function doLogin() {
-    const login    = document.getElementById('f-login').value.trim();
+    const email    = document.getElementById('f-login').value.trim();
     const password = document.getElementById('f-pass').value;
     loginErr.textContent = '';
-    try {
-      const r = await fetch(API + '/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ login, password }),
-      });
-      const d = await r.json();
-      if (d.ok) {
-        token = d.token;
-        sessionStorage.setItem('admin-token', token);
-        showApp();
-      } else {
-        loginErr.textContent = d.error || 'Ошибка';
-      }
-    } catch {
-      loginErr.textContent = 'Сервер недоступен (порт 3001)';
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      loginErr.textContent = error.message;
+    } else {
+      showApp();
     }
   }
 
-  document.getElementById('btn-logout').addEventListener('click', () => {
-    token = '';
-    sessionStorage.removeItem('admin-token');
+  document.getElementById('btn-logout').addEventListener('click', async () => {
+    await sb.auth.signOut();
     app.classList.add('hidden');
     loginScreen.classList.remove('hidden');
   });
@@ -838,14 +839,13 @@ body {
   // ── LOAD PRODUCTS ─────────────────────────────────────────────────
   async function loadProducts() {
     productList.innerHTML = '<div style="padding:20px;color:var(--text-muted);font-size:12px;text-align:center;"><div class="spinner"></div></div>';
-    try {
-      const r = await fetch(API + '/products', { headers: { 'x-admin-token': token } });
-      if (r.status === 401) { logout(); return; }
-      products = await r.json();
-      renderList(products);
-    } catch {
+    const { data, error } = await sb.from('products').select('*').order('id');
+    if (error) {
       productList.innerHTML = '<div style="padding:16px;color:#e57373;font-size:12px;">Ошибка загрузки</div>';
+      return;
     }
+    products = data;
+    renderList(products);
   }
 
   function renderList(items) {
@@ -856,7 +856,7 @@ body {
     productList.innerHTML = items.map(p => `
       <div class="product-item${editingId === p.id ? ' active' : ''}" data-id="${p.id}">
         <img class="product-item-thumb"
-          src="assets/renders/Dark/renders_thumbs/m${p.id}.webp"
+          src="${thumbUrl(`m${p.id}.webp`)}"
           onerror="this.style.display='none'"
           alt="">
         <div class="product-item-info">
@@ -865,7 +865,6 @@ body {
         </div>
       </div>
     `).join('');
-
     productList.querySelectorAll('.product-item').forEach(el => {
       el.addEventListener('click', () => openProduct(Number(el.dataset.id)));
     });
@@ -883,21 +882,17 @@ body {
   });
 
   // ── OPEN / RESET FORM ─────────────────────────────────────────────
-  document.getElementById('btn-new-product').addEventListener('click', () => openNew());
+  document.getElementById('btn-new-product').addEventListener('click', openNew);
 
   function openNew() {
     editingId = null;
-    clearImages();
-    fillForm({
-      id: '', category: 'ring', popular: 5, visual: '',
-      title_ru: '', title_ro: '',
-      type_ru: '', type_ro: '',
-      material_ru: '', material_ro: '',
-      stones_ru: '', stones_ro: '',
-    });
+    _currentExisting = [];
+    pendingUploads = [];
+    fillForm({ id: '', category: 'ring', popular: 5, visual: '', title_ru: '', title_ro: '', type_ru: '', type_ro: '', material_ru: '', material_ro: '', stones_ru: '', stones_ro: '' });
     formTitle.textContent = 'Новый товар';
     btnDelete.classList.add('hidden');
     document.getElementById('f-id').disabled = false;
+    renderPhotoGrid([], []);
     showForm();
     renderList(products);
   }
@@ -906,7 +901,8 @@ body {
     const p = products.find(x => x.id === id);
     if (!p) return;
     editingId = id;
-    clearImages();
+    _currentExisting = [];
+    pendingUploads = [];
     fillForm(p);
     loadPhotosAndRender(id);
     formTitle.textContent = `Модель ${id}`;
@@ -925,18 +921,18 @@ body {
   }
 
   function fillForm(p) {
-    document.getElementById('f-id').value          = p.id       || '';
-    document.getElementById('f-category').value    = p.category || 'ring';
-    document.getElementById('f-popular').value     = p.popular  ?? 5;
-    document.getElementById('f-visual').value      = p.visual   || '';
-    document.getElementById('f-title-ru').value    = p.title_ru || '';
-    document.getElementById('f-title-ro').value    = p.title_ro || '';
-    document.getElementById('f-type-ru').value     = p.type_ru  || '';
-    document.getElementById('f-type-ro').value     = p.type_ro  || '';
+    document.getElementById('f-id').value          = p.id          || '';
+    document.getElementById('f-category').value    = p.category    || 'ring';
+    document.getElementById('f-popular').value     = p.popular     ?? 5;
+    document.getElementById('f-visual').value      = p.visual      || '';
+    document.getElementById('f-title-ru').value    = p.title_ru    || '';
+    document.getElementById('f-title-ro').value    = p.title_ro    || '';
+    document.getElementById('f-type-ru').value     = p.type_ru     || '';
+    document.getElementById('f-type-ro').value     = p.type_ro     || '';
     document.getElementById('f-material-ru').value = p.material_ru || '';
     document.getElementById('f-material-ro').value = p.material_ro || '';
-    document.getElementById('f-stones-ru').value   = p.stones_ru  || '';
-    document.getElementById('f-stones-ro').value   = p.stones_ro  || '';
+    document.getElementById('f-stones-ru').value   = p.stones_ru   || '';
+    document.getElementById('f-stones-ro').value   = p.stones_ro   || '';
   }
 
   function readForm() {
@@ -970,64 +966,63 @@ body {
     if (!data.id)       { showStatus('Укажи ID модели', 'error'); return; }
     if (!data.title_ru) { showStatus('Заполни название (RU)', 'error'); return; }
 
-    const savedId = editingId;           // snapshot до первого await
-    const isNew   = savedId === null;
-    const payload = { ...data };
+    const isNew = editingId === null;
+    let error;
 
-    try {
-      const r = await fetch(
-        isNew ? API + '/products' : API + '/products/' + savedId,
-        {
-          method: isNew ? 'POST' : 'PUT',
-          headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
-          body: JSON.stringify(payload),
-        }
-      );
-      if (r.status === 401) { logout(); return; }
-      if (r.ok) {
-        const id = data.id;
-        await uploadPendingPhotos(id);
-        showStatus(isNew ? 'Товар добавлен!' : 'Изменения сохранены!', 'success');
-        await loadProducts();
-        await loadPhotosAndRender(id);
-        renderList(products);
-        // Явно удерживаем модель выбранной после всех async-операций
-        editingId = id;
-        emptyState.classList.add('hidden');
-        productForm.classList.remove('hidden');
-        if (isNew) {
-          btnDelete.classList.remove('hidden');
-          document.getElementById('f-id').disabled = true;
-        }
-      } else {
-        const d = await r.json().catch(() => ({}));
-        showStatus('Ошибка: ' + (d.message || d.error || r.status), 'error');
-      }
-    } catch (e) {
-      showStatus('Сетевая ошибка: ' + e.message, 'error');
+    if (isNew) {
+      ({ error } = await sb.from('products').insert(data));
+    } else {
+      ({ error } = await sb.from('products').update(data).eq('id', editingId));
+    }
+
+    if (error) {
+      showStatus('Ошибка: ' + (error.message || error.code), 'error');
+      return;
+    }
+
+    const id = data.id;
+    await uploadPendingPhotos(id);
+    showStatus(isNew ? 'Товар добавлен!' : 'Изменения сохранены!', 'success');
+    editingId = id;
+    await loadProducts();
+    await loadPhotosAndRender(id);
+    renderList(products);
+    emptyState.classList.add('hidden');
+    productForm.classList.remove('hidden');
+    if (isNew) {
+      btnDelete.classList.remove('hidden');
+      document.getElementById('f-id').disabled = true;
     }
   }
 
-  // ── DELETE ────────────────────────────────────────────────────────
+  // ── DELETE PRODUCT (+ photos) ─────────────────────────────────────
   btnDelete.addEventListener('click', async () => {
     if (!editingId) return;
-    if (!confirm(`Удалить Модель ${editingId}? Это действие нельзя отменить.`)) return;
-    try {
-      const r = await fetch(API + '/products/' + editingId, {
-        method: 'DELETE',
-        headers: { 'x-admin-token': token },
-      });
-      if (r.ok) {
-        emptyState.classList.remove('hidden');
-        productForm.classList.add('hidden');
-        editingId = null;
-        await loadProducts();
-      } else {
-        showStatus('Ошибка удаления', 'error');
-      }
-    } catch (e) {
-      showStatus('Сетевая ошибка: ' + e.message, 'error');
+    const id = editingId;
+    const ok = await showConfirm(`Удалить Модель ${id} и все её фото? Это действие нельзя отменить.`, `Удалить Модель ${id}?`);
+    if (!ok) return;
+
+    // Delete photos from Storage
+    const { data: allFiles } = await sb.storage.from(BUCKET).list('thumbs');
+    const pattern = new RegExp(`^m${id}(-\\d+)?\\.webp$`);
+    const toDelete = (allFiles || [])
+      .filter(f => pattern.test(f.name))
+      .map(f => `thumbs/${f.name}`);
+    if (toDelete.length) {
+      await sb.storage.from(BUCKET).remove(toDelete);
     }
+
+    // Delete product row
+    const { error } = await sb.from('products').delete().eq('id', id);
+    if (error) {
+      showStatus('Ошибка удаления: ' + error.message, 'error');
+      return;
+    }
+
+    emptyState.classList.remove('hidden');
+    productForm.classList.add('hidden');
+    editingId = null;
+    await loadProducts();
   });
 
   // ── STATUS ────────────────────────────────────────────────────────
@@ -1044,32 +1039,27 @@ body {
   }
 
   // ── PHOTO GRID ────────────────────────────────────────────────────
-  let pendingUploads  = [];
-  let _currentExisting = [];
-
-  function clearImages() {
-    pendingUploads = [];
-    darkBase64     = null;
-    // Не сбрасываем _currentExisting здесь — его обновит loadPhotosAndRender
-    // Отрисовываем с текущими существующими, чтобы не мигать
-    renderPhotoGrid(_currentExisting, []);
-  }
-
   async function loadPhotosAndRender(id) {
-    let existing = [];
-    try {
-      const r = await fetch(`${API}/photos/${id}`, { headers: { 'x-admin-token': token } });
-      existing = r.ok ? await r.json() : [];
-    } catch {}
-    // Обновляем только если всё ещё редактируем ту же модель
+    const { data: allFiles } = await sb.storage.from(BUCKET).list('thumbs');
     if (editingId !== id) return;
-    _currentExisting = existing;
-    renderPhotoGrid(existing, pendingUploads);
-  }
 
-  function rerenderGrid() {
+    const pattern = new RegExp(`^m${id}(-\\d+)?\\.webp$`);
+    const matching = (allFiles || []).filter(f => pattern.test(f.name));
+    matching.sort((a, b) => {
+      if (a.name === `m${id}.webp`) return -1;
+      if (b.name === `m${id}.webp`) return 1;
+      return a.name.localeCompare(b.name);
+    });
+
+    _currentExisting = matching.map(f => ({
+      filename: f.name,
+      url: thumbUrl(f.name),
+      isMain: f.name === `m${id}.webp`,
+    }));
     renderPhotoGrid(_currentExisting, pendingUploads);
   }
+
+  function rerenderGrid() { renderPhotoGrid(_currentExisting, pendingUploads); }
 
   function renderPhotoGrid(existing, pending) {
     const grid = document.getElementById('photo-grid');
@@ -1077,23 +1067,19 @@ body {
 
     existing.forEach(p => {
       const card = document.createElement('div');
-      card.className = 'photo-card';
+      card.className = p.isMain ? 'photo-card main-photo' : 'photo-card';
       const img = document.createElement('img');
       img.src = p.url + '?t=' + Date.now();
       img.alt = p.filename;
       card.appendChild(img);
-      if (p.isMain) {
-        const b = document.createElement('div');
-        b.className = 'photo-card-badge'; b.textContent = 'Главное';
-        card.appendChild(b);
-      } else {
-        const n = document.createElement('div');
-        n.className = 'photo-card-name'; n.textContent = p.filename;
-        card.appendChild(n);
+      if (!p.isMain) {
+        const setMain = document.createElement('button');
+        setMain.className = 'photo-card-setmain'; setMain.type = 'button'; setMain.textContent = 'Главное';
+        setMain.addEventListener('click', () => setMainPhoto(p.filename, setMain));
+        card.appendChild(setMain);
       }
       const del = document.createElement('button');
       del.className = 'photo-card-del'; del.type = 'button'; del.innerHTML = '×';
-      del.title = 'Удалить';
       del.addEventListener('click', () => deletePhoto(p.filename, card));
       card.appendChild(del);
       grid.appendChild(card);
@@ -1115,7 +1101,6 @@ body {
       grid.appendChild(card);
     });
 
-    // Add button
     const addCard = document.createElement('div');
     addCard.className = 'photo-add-card';
     addCard.innerHTML = `
@@ -1130,10 +1115,7 @@ body {
     addCard.querySelector('input').addEventListener('change', e => {
       Array.from(e.target.files).forEach(file => {
         const reader = new FileReader();
-        reader.onload = () => {
-          pendingUploads.push({ dataUrl: reader.result });
-          rerenderGrid();
-        };
+        reader.onload = () => { pendingUploads.push({ dataUrl: reader.result, file }); rerenderGrid(); };
         reader.readAsDataURL(file);
       });
       e.target.value = '';
@@ -1147,11 +1129,12 @@ body {
   const confirmYes     = document.getElementById('confirm-yes');
   const confirmNo      = document.getElementById('confirm-no');
 
-  function showConfirm(text) {
+  function showConfirm(text, title) {
     return new Promise(resolve => {
+      document.getElementById('confirm-title').textContent = title || 'Подтверждение';
       confirmText.textContent = text;
       confirmOverlay.classList.remove('hidden');
-      const cleanup = (result) => {
+      const cleanup = result => {
         confirmOverlay.classList.add('hidden');
         confirmYes.removeEventListener('click', onYes);
         confirmNo.removeEventListener('click', onNo);
@@ -1160,43 +1143,90 @@ body {
       };
       const onYes     = () => cleanup(true);
       const onNo      = () => cleanup(false);
-      const onOverlay = (e) => { if (e.target === confirmOverlay) cleanup(false); };
+      const onOverlay = e => { if (e.target === confirmOverlay) cleanup(false); };
       confirmYes.addEventListener('click', onYes);
       confirmNo.addEventListener('click', onNo);
       confirmOverlay.addEventListener('click', onOverlay);
     });
   }
 
+  // ── DELETE PHOTO ──────────────────────────────────────────────────
   async function deletePhoto(filename, card) {
-    const id = editingId; // snapshot до любого await
+    const id = editingId;
     if (!id) return;
-    const ok = await showConfirm(filename);
+    const ok = await showConfirm(`Удалить фото ${filename}?`, 'Удалить фото?');
     if (!ok) return;
     card.style.opacity = '0.4';
-    try {
-      const r = await fetch(`${API}/photos/${id}/${filename}`, {
-        method: 'DELETE', headers: { 'x-admin-token': token },
-      });
-      if (r.ok) {
-        await loadPhotosAndRender(id);
-        // Явно удерживаем модель выбранной
-        editingId = id;
-        emptyState.classList.add('hidden');
-        productForm.classList.remove('hidden');
-      } else {
-        card.style.opacity = '1';
-      }
-    } catch { card.style.opacity = '1'; }
+    const { error } = await sb.storage.from(BUCKET).remove([`thumbs/${filename}`]);
+    if (!error) {
+      await loadPhotosAndRender(id);
+      editingId = id;
+      emptyState.classList.add('hidden');
+      productForm.classList.remove('hidden');
+    } else {
+      card.style.opacity = '1';
+    }
   }
 
+  // ── SET MAIN PHOTO (swap with current main) ────────────────────────
+  async function setMainPhoto(filename, btn) {
+    const id = editingId;
+    if (!id) return;
+    btn.textContent = '…'; btn.disabled = true;
+
+    const mainName = `m${id}.webp`;
+    try {
+      const [mainBlob, secBlob] = await Promise.all([
+        fetch(thumbUrl(mainName) + '?t=' + Date.now()).then(r => r.blob()),
+        fetch(thumbUrl(filename)  + '?t=' + Date.now()).then(r => r.blob()),
+      ]);
+      await Promise.all([
+        sb.storage.from(BUCKET).upload(`thumbs/${mainName}`, secBlob,  { contentType: 'image/webp', upsert: true }),
+        sb.storage.from(BUCKET).upload(`thumbs/${filename}`,  mainBlob, { contentType: 'image/webp', upsert: true }),
+      ]);
+      await loadPhotosAndRender(id);
+      editingId = id;
+      emptyState.classList.add('hidden');
+      productForm.classList.remove('hidden');
+    } catch {
+      btn.textContent = 'Главное'; btn.disabled = false;
+    }
+  }
+
+  // ── UPLOAD PENDING PHOTOS ─────────────────────────────────────────
   async function uploadPendingPhotos(id) {
     if (!pendingUploads.length) return;
-    await fetch(`${API}/photos/${id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
-      body: JSON.stringify({ images: pendingUploads.map(p => p.dataUrl) }),
-    });
+
+    const { data: allFiles } = await sb.storage.from(BUCKET).list('thumbs');
+    const pattern = new RegExp(`^m${id}(-\\d+)?\\.webp$`);
+    const existing = (allFiles || []).filter(f => pattern.test(f.name)).map(f => f.name);
+
+    for (const p of pendingUploads) {
+      const blob = p.file || dataUrlToBlob(p.dataUrl);
+      let filename;
+      if (!existing.includes(`m${id}.webp`)) {
+        filename = `m${id}.webp`;
+      } else {
+        const suffixes = existing
+          .filter(n => n !== `m${id}.webp`)
+          .map(n => { const m = n.match(/-(\d+)\.webp$/); return m ? parseInt(m[1]) : 0; });
+        filename = `m${id}-${(suffixes.length ? Math.max(...suffixes) : 1) + 1}.webp`;
+      }
+      await sb.storage.from(BUCKET).upload(`thumbs/${filename}`, blob, {
+        contentType: blob.type || 'image/webp', upsert: true,
+      });
+      existing.push(filename);
+    }
     pendingUploads = [];
+  }
+
+  function dataUrlToBlob(dataUrl) {
+    const [meta, data] = dataUrl.split(',');
+    const mime  = meta.match(/:(.*?);/)[1];
+    const bytes = atob(data);
+    const arr   = new Uint8Array(bytes.length);
+    for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+    return new Blob([arr], { type: mime });
   }
 
   // ── START ─────────────────────────────────────────────────────────

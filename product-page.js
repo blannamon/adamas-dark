@@ -69,13 +69,13 @@
   function renderProduct() {
     var l       = window.currentLang || 'ru';
     var mat     = parseMaterial(product.material[l]);
-    var imgPath = 'assets/renders/Dark/renders_thumbs/m' + product.id + '.webp';
-    // Additional photos: m{id}-2.png, m{id}-3.png, m{id}-4.png
+    var _sb = 'https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/';
+    var imgPath = _sb + 'm' + product.id + '.webp';
     var photoCandidates = [
       imgPath,
-      'assets/renders/Dark/renders_thumbs/m' + product.id + '-2.webp',
-      'assets/renders/Dark/renders_thumbs/m' + product.id + '-3.webp',
-      'assets/renders/Dark/renders_thumbs/m' + product.id + '-4.webp',
+      _sb + 'm' + product.id + '-2.webp',
+      _sb + 'm' + product.id + '-3.webp',
+      _sb + 'm' + product.id + '-4.webp',
     ];
 
     document.title = 'AdamasGold — ' + product.title[l];
@@ -89,7 +89,7 @@
     setMeta('description', metaDesc);
     setOg('og:title',       'AdamasGold — ' + product.title[l]);
     setOg('og:description', metaDesc);
-    setOg('og:image',       baseUrl + '/assets/renders/Dark/renders_thumbs/m' + product.id + '.webp');
+    setOg('og:image',       'https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/m' + product.id + '.webp');
     setOg('og:url',         pageUrl);
     setOg('og:type',        'product');
 
@@ -243,7 +243,7 @@
 
       card.innerHTML =
         '<div class="card-image-wrap">' +
-          '<img class="card-img" src="assets/renders/Dark/renders_thumbs/m' + p.id + '.webp" alt="' + p.type[l] + '" loading="lazy">' +
+          '<img class="card-img" src="https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/m' + p.id + '.webp" alt="' + p.type[l] + '" loading="lazy">' +
         '</div>' +
         '<div class="card-body">' +
           '<div class="card-info">' +

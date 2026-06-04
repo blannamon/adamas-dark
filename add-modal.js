@@ -137,7 +137,7 @@
     editMode = !!(options && options.edit);
     var l = window.currentLang || 'ru';
 
-    imgEl.src = 'assets/renders/Dark/renders_thumbs/m' + product.id + '.webp';
+    imgEl.src = 'https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/m' + product.id + '.webp';
     imgEl.alt = product.title[l];
     titleEl.textContent = product.title[l];
 

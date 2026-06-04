@@ -42,7 +42,7 @@
     const mat    = parseMaterial(p.material[l]);
     card.innerHTML = `
       <div class="card-image-wrap">
-        <img class="card-img" src="assets/renders/Dark/renders_thumbs/m${p.id}.webp" alt="${p.type[l]}" loading="lazy">
+        <img class="card-img" src="https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/m${p.id}.webp" alt="${p.type[l]}" loading="lazy">
       </div>
       <div class="card-body">
         <div class="card-info">

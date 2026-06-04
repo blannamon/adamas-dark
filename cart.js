@@ -49,7 +49,7 @@
       el.className = 'cart-item';
       el.innerHTML =
         '<div class="cart-item-img-wrap">' +
-          '<img class="cart-item-img" src="assets/renders/Dark/renders_thumbs/m' + item.id + '.webp" alt="' + item.title[l] + '" loading="lazy">' +
+          '<img class="cart-item-img" src="https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/m' + item.id + '.webp" alt="' + item.title[l] + '" loading="lazy">' +
         '</div>' +
         '<div class="cart-item-info">' +
           '<div class="cart-item-title-row">' +
