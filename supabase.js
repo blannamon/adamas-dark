@@ -4,12 +4,13 @@
 
   function mapProduct(p) {
     return {
-      id:       p.id,
-      category: p.category,
-      title:    { ru: p.title_ru, ro: p.title_ro },
-      type:     { ru: p.type_ru,  ro: p.type_ro },
-      stones:   { ru: p.stones_ru, ro: p.stones_ro },
-      popular:  p.popular
+      id:          p.id,
+      category:    p.category,
+      title:       { ru: p.title_ru, ro: p.title_ro },
+      type:        { ru: p.type_ru,  ro: p.type_ro },
+      stones:      { ru: p.stones_ru, ro: p.stones_ro },
+      description: { ru: p.description_ru || '', ro: p.description_ro || '' },
+      popular:     p.popular
     };
   }
 

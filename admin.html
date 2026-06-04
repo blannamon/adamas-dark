@@ -301,7 +301,22 @@ body {
   appearance: none;
 }
 .form-group input:focus,
-.form-group select:focus { border-color: var(--gold-border); }
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--gold-border); }
+.form-group textarea {
+  display: block; width: 100%;
+  padding: 10px 13px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px; outline: none;
+  transition: border-color 0.2s;
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.55;
+}
 .form-group select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23565044' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -751,6 +766,10 @@ body {
               <label>Вставки / описание (stones_ru)</label>
               <input type="text" id="f-stones-ru" placeholder="с бриллиантами">
             </div>
+            <div class="form-group">
+              <label>Описание (description_ru)</label>
+              <textarea id="f-description-ru" placeholder="Описание товара на русском…"></textarea>
+            </div>
           </div>
 
           <!-- ROMANIAN -->
@@ -767,6 +786,10 @@ body {
             <div class="form-group">
               <label>Pietre / descriere (stones_ro)</label>
               <input type="text" id="f-stones-ro" placeholder="cu diamante">
+            </div>
+            <div class="form-group">
+              <label>Descriere (description_ro)</label>
+              <textarea id="f-description-ro" placeholder="Descrierea produsului în română…"></textarea>
             </div>
           </div>
 
@@ -912,7 +935,7 @@ body {
     editingId = null;
     _currentExisting = [];
     pendingUploads = [];
-    fillForm({ id: '', category: 'ring', popular: 5, title_ru: '', title_ro: '', type_ru: '', type_ro: '', stones_ru: '', stones_ro: '' });
+    fillForm({ id: '', category: 'ring', popular: 5, title_ru: '', title_ro: '', type_ru: '', type_ro: '', stones_ru: '', stones_ro: '', description_ru: '', description_ro: '' });
     formTitle.textContent = 'Новый товар';
     btnDelete.classList.add('hidden');
     document.getElementById('f-id').disabled = false;
@@ -965,6 +988,8 @@ body {
     document.getElementById('f-type-ro').value  = p.type_ro  || '';
     document.getElementById('f-stones-ru').value = p.stones_ru || '';
     document.getElementById('f-stones-ro').value = p.stones_ro || '';
+    document.getElementById('f-description-ru').value = p.description_ru || '';
+    document.getElementById('f-description-ro').value = p.description_ro || '';
   }
 
   function readForm() {
@@ -976,8 +1001,10 @@ body {
       title_ro:    document.getElementById('f-title-ro').value.trim(),
       type_ru:     document.getElementById('f-type-ru').value.trim(),
       type_ro:     document.getElementById('f-type-ro').value.trim(),
-      stones_ru:   document.getElementById('f-stones-ru').value.trim(),
-      stones_ro:   document.getElementById('f-stones-ro').value.trim(),
+      stones_ru:      document.getElementById('f-stones-ru').value.trim(),
+      stones_ro:      document.getElementById('f-stones-ro').value.trim(),
+      description_ru: document.getElementById('f-description-ru').value.trim(),
+      description_ro: document.getElementById('f-description-ro').value.trim(),
     };
   }
 

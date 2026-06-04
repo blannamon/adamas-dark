@@ -62,6 +62,8 @@
 
   /* ── render product info ───────────────── */
   function renderProduct() {
+    var fresh = (window.PRODUCTS || []).find(function (p) { return p.id === productId; });
+    if (fresh) product = fresh;
     var l   = window.currentLang || 'ru';
     var _sb = 'https://rqrsmlbrsgmvsfxfthba.supabase.co/storage/v1/object/public/product-images/thumbs/';
     var imgPath = _sb + 'm' + product.id + '.webp';
@@ -113,6 +115,18 @@
     setText('spec-stones',     product.stones[l]);
     setText('tab-spec-type',   product.id);
     setText('tab-spec-stones', product.stones[l]);
+
+    var descEl = document.getElementById('product-description-text');
+    if (descEl) {
+      var desc = product.description && product.description[l];
+      if (desc) {
+        descEl.textContent = desc;
+        descEl.removeAttribute('data-i18n');
+      } else {
+        descEl.dataset.i18n = 'product_tab_desc_text';
+        descEl.textContent  = window.t('product_tab_desc_text');
+      }
+    }
 
     updateCartButton();
   }

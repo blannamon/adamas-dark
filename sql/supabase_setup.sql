@@ -14,6 +14,10 @@ CREATE TABLE products (
   popular     integer DEFAULT 0
 );
 
+-- Добавить поля описания (запустить отдельно если таблица уже существует)
+-- ALTER TABLE products ADD COLUMN IF NOT EXISTS description_ru text DEFAULT '';
+-- ALTER TABLE products ADD COLUMN IF NOT EXISTS description_ro text DEFAULT '';
+
 -- Включить публичное чтение (RLS)
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read" ON products FOR SELECT USING (true);
