@@ -1,2 +1,0 @@
-  --gold:         #D99D2C;
-  --gold-light:   #e8b44e;
