@@ -27,18 +27,28 @@ http.createServer((req, res) => {
   let urlPath = req.url.split("?")[0];
   if (urlPath === "/") urlPath = "/index.html";
 
-  const filePath = path.join(__dirname, urlPath);
+  // Try the path as-is, then append index.html for directory URLs (Netlify pretty URLs)
+  const candidates = [
+    path.join(__dirname, urlPath),
+    path.join(__dirname, urlPath, "index.html"),
+    path.join(__dirname, urlPath.replace(/\/$/, "") + ".html"),
+  ];
 
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
+  function tryNext(i) {
+    if (i >= candidates.length) {
       res.writeHead(404);
       res.end("Not found");
       return;
     }
-    const ext = path.extname(filePath);
-    res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
-    res.end(data);
-  });
+    fs.readFile(candidates[i], (err, data) => {
+      if (err) { tryNext(i + 1); return; }
+      const ext = path.extname(candidates[i]);
+      res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
+      res.end(data);
+    });
+  }
+
+  tryNext(0);
 }).listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

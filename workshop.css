@@ -749,6 +749,7 @@
   text-decoration: none;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   margin-bottom: 12px;
   transition: color 0.2s;

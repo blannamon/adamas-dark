@@ -1,17 +1,23 @@
 import { writeFileSync } from 'fs';
 
-const BASE = 'https://adamasdark.netlify.app';
+const BASE = 'https://adamasgold.md';
 const SUPABASE_URL = 'https://rqrsmlbrsgmvsfxfthba.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxcnNtbGJyc2dtdnNmeGZ0aGJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MTE4MjcsImV4cCI6MjA5NTM4NzgyN30.0JNhYQxBSS7HPhOR5lrNXLiP5zyT8jW-6jbsrJMzwBo';
 
 const today = new Date().toISOString().split('T')[0];
 
 const STATIC_PAGES = [
-  { loc: `${BASE}/`,                        changefreq: 'weekly',  priority: '1.0' },
-  { loc: `${BASE}/portfolio.html`,          changefreq: 'monthly', priority: '0.7' },
-  { loc: `${BASE}/contacts.html`,           changefreq: 'monthly', priority: '0.6' },
-  { loc: `${BASE}/workshop-services.html`,  changefreq: 'monthly', priority: '0.8' },
-  { loc: `${BASE}/workshop-articles.html`,  changefreq: 'weekly',  priority: '0.7' },
+  { loc: `${BASE}/`,                              changefreq: 'weekly',  priority: '1.0' },
+  { loc: `${BASE}/portfolio.html`,                changefreq: 'monthly', priority: '0.7' },
+  { loc: `${BASE}/contacts.html`,                 changefreq: 'monthly', priority: '0.6' },
+  { loc: `${BASE}/uslugi-masterskoj/`,        changefreq: 'monthly', priority: '0.8' },
+  { loc: `${BASE}/workshop-articles.html`,        changefreq: 'weekly',  priority: '0.7' },
+  { loc: `${BASE}/uslugi-masterskoj/restavraciya-chistka-izdelij-i-vosstanovlenie-tovarnogo-vida/`,    changefreq: 'monthly', priority: '0.8' },
+  { loc: `${BASE}/uslugi-masterskoj/zolochenie-serebrenie-rodirovanie-yuvelirnyx-izdelij/`,           changefreq: 'monthly', priority: '0.8' },
+  { loc: `${BASE}/uslugi-masterskoj/remont-yuvelirnyx-izdelij-zamena-zamkov-pajka-izmenenie-razmera/`, changefreq: 'monthly', priority: '0.8' },
+  { loc: `${BASE}/uslugi-masterskoj/nanesenie-emali-na-yuvelirnye-izdeliya/`,                         changefreq: 'monthly', priority: '0.8' },
+  { loc: `${BASE}/uslugi-masterskoj/3d-modelirovanie-yuvelirnyx-izdelij/`,                            changefreq: 'monthly', priority: '0.8' },
+  { loc: `${BASE}/uslugi-masterskoj/izgotovlenie-yuvelirnyx-izdelij-po-foto-eskizu-ili-obrazcu/`,     changefreq: 'monthly', priority: '0.8' },
 ];
 
 function url({ loc, changefreq, priority }) {

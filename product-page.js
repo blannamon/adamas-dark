@@ -14,15 +14,15 @@
 
   function init() {
   // TODO (Supabase): update baseUrl to production domain and pageUrl format when routing changes
-  var baseUrl = 'https://adamasdark.netlify.app';
+  var baseUrl = 'https://adamasgold.md';
   var pageUrl = baseUrl + '/product.html?id=' + product.id;
 
   /* ── canonical ─────────────────────────── */
   (function () {
-    var link = document.createElement('link');
+    var link = document.querySelector('link[rel="canonical"]') || document.createElement('link');
     link.rel  = 'canonical';
     link.href = pageUrl;
-    document.head.appendChild(link);
+    if (!link.parentNode) document.head.appendChild(link);
   }());
 
   /* ── breadcrumb schema ──────────────────── */

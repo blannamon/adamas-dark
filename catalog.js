@@ -209,7 +209,7 @@
         ? `<img src="${article.image}" alt="${a.tag}" loading="lazy" onerror="this.parentElement.style.display='none'">`
         : `<div class="ap-card-icon">${article.icon}</div>`;
 
-      return `<a href="workshop-article.html?id=${article.slug}" class="ap-card">
+      return `<a href="${article.urlPath}" class="ap-card">
         <div class="ap-card-img">${imgHtml}</div>
         <div class="ap-card-body">
           <p class="ap-card-tag">${a.tag}</p>

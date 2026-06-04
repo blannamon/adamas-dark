@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /checkout.html
 
-Sitemap: https://adamasdark.netlify.app/sitemap.xml
+Sitemap: https://adamasgold.md/sitemap.xml
