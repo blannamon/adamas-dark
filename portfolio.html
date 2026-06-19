@@ -264,20 +264,62 @@
   <script src="cart.js"></script>
   <script src="mobile.js"></script>
   <script>
+    const PORTFOLIO_FOLDER = 'assets/Our Works Selected/';
     const PORTFOLIO_PHOTOS = [
-      { src: 'assets/renders/Beige/model1024.png', alt: '' },
-      { src: 'assets/renders/Beige/model1033.png', alt: '' },
-      { src: 'assets/renders/Beige/model2057.png', alt: '' },
-      { src: 'assets/renders/Beige/model3011.png', alt: '' },
-      { src: 'assets/renders/Beige/model4008.png', alt: '' },
-      { src: 'assets/renders/Beige/model5012.png', alt: '' },
-      { src: 'assets/renders/Beige/model5021.png', alt: '' },
-      { src: 'assets/renders/Beige/model6003.png', alt: '' },
-      { src: 'assets/renders/Beige/model7108.png', alt: '' },
-      { src: 'assets/renders/Beige/model8114.png', alt: '' },
-      { src: 'assets/renders/Beige/model8120.png', alt: '' },
-      { src: 'assets/renders/Beige/model9302.png', alt: '' },
-    ];
+      'IMG_0098.jpg',
+      'IMG_0099.jpg',
+      'IMG_0184.jpg',
+      'IMG_1060.jpg',
+      'IMG_1302.jpg',
+      'IMG_1447.jpg',
+      'IMG_1569.jpg',
+      'IMG_1610.jpg',
+      'IMG_2016.jpg',
+      'IMG_2035.jpg',
+      'IMG_2090.jpg',
+      'IMG_2092.jpg',
+      'IMG_2149.jpg',
+      'IMG_2152.jpg',
+      'IMG_2182.JPG',
+      'IMG_2669.jpg',
+      'IMG_2831.jpg',
+      'IMG_2832.jpg',
+      'IMG_2833.jpg',
+      'IMG_2927.jpg',
+      'IMG_3076.jpg',
+      'IMG_3077.jpg',
+      'IMG_3273.jpg',
+      'IMG_3277.jpg',
+      'IMG_3825.jpg',
+      'IMG_4063.jpg',
+      'IMG_4066.jpg',
+      'IMG_4129.jpg',
+      'IMG_4154.jpg',
+      'IMG_4178.jpg',
+      'IMG_4180.jpg',
+      'IMG_4327.jpg',
+      'IMG_5339 (2).jpg',
+      'IMG_5873.jpg',
+      'IMG_5980.jpg',
+      'IMG_6622.jpg',
+      'IMG_6961.jpg',
+      'IMG_7250.jpg',
+      'IMG_7262.jpg',
+      'IMG_7280.jpg',
+      'IMG_7284.jpg',
+      'IMG_7507.jpg',
+      'IMG_7742.jpg',
+      'IMG_8679.jpg',
+      'IMG_8960.JPG',
+      'IMG_9146.jpg',
+      'IMG_9962.jpg',
+      'IMG_9992.jpg',
+    ].map(function(fileName) {
+      return {
+        src: PORTFOLIO_FOLDER + encodeURIComponent(fileName),
+        alt: 'Работа ювелирной мастерской AdamasGold'
+      };
+    });
 
     const grid    = document.getElementById('portfolio-grid');
     const lightbox = document.getElementById('pf-lightbox');
