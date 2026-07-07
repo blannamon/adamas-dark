@@ -725,7 +725,7 @@ body {
         <div class="form-row">
           <div class="form-group w-third">
             <label>ID модели</label>
-            <input type="number" id="f-id" placeholder="1024" min="1">
+            <input type="number" id="f-id" placeholder="Создаётся автоматически" min="1" disabled>
           </div>
           <div class="form-group w-third">
             <label>Категория</label>
@@ -826,6 +826,8 @@ body {
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxcnNtbGJyc2dtdnNmeGZ0aGJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MTE4MjcsImV4cCI6MjA5NTM4NzgyN30.0JNhYQxBSS7HPhOR5lrNXLiP5zyT8jW-6jbsrJMzwBo';
   const BUCKET        = 'product-images';
   const STORAGE_BASE  = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/thumbs`;
+  const FIRST_AUTO_MODEL_ID = 1000;
+  const ID_GENERATION_RETRIES = 5;
 
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
@@ -908,7 +910,7 @@ body {
           onerror="this.style.display='none'"
           alt="">
         <div class="product-item-info">
-          <div class="product-item-id">Модель ${p.id}</div>
+          <div class="product-item-id">${escapeHtml(p.title_ru || `Модель ${p.id}`)}</div>
           <div class="product-item-cat">${p.category}</div>
         </div>
       </div>
@@ -916,6 +918,16 @@ body {
     productList.querySelectorAll('.product-item').forEach(el => {
       el.addEventListener('click', () => openProduct(Number(el.dataset.id)));
     });
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[ch]));
   }
 
   // ── SEARCH ────────────────────────────────────────────────────────
@@ -939,7 +951,7 @@ body {
     fillForm({ id: '', category: 'ring', popular: 5, title_ru: '', title_ro: '', type_ru: '', type_ro: '', stones_ru: '', stones_ro: '', description_ru: '', description_ro: '' });
     formTitle.textContent = 'Новый товар';
     btnDelete.classList.add('hidden');
-    document.getElementById('f-id').disabled = false;
+    document.getElementById('f-id').disabled = true;
     renderPhotoGrid([], []);
     showForm();
     renderList(products);
@@ -1013,16 +1025,67 @@ body {
   document.getElementById('btn-save').addEventListener('click', saveProduct);
   document.getElementById('btn-cancel').addEventListener('click', goBackToList);
 
+  async function fetchProductIds() {
+    const { data, error } = await sb.from('products').select('id');
+    if (error) throw error;
+    return (data || [])
+      .map(row => Number(row.id))
+      .filter(id => Number.isSafeInteger(id) && id > 0);
+  }
+
+  function createNextProductId(existingIds) {
+    const used = new Set(existingIds);
+    let nextId = Math.max(FIRST_AUTO_MODEL_ID - 1, ...existingIds) + 1;
+    while (used.has(nextId)) nextId += 1;
+    return nextId;
+  }
+
+  async function productIdAlreadyExists(id) {
+    const { data, error } = await sb
+      .from('products')
+      .select('id')
+      .eq('id', id)
+      .maybeSingle();
+    if (error) throw error;
+    return Boolean(data);
+  }
+
+  async function generateUniqueProductId() {
+    for (let attempt = 0; attempt < ID_GENERATION_RETRIES; attempt += 1) {
+      const existingIds = await fetchProductIds();
+      const candidateId = createNextProductId(existingIds);
+      const duplicateExists = await productIdAlreadyExists(candidateId);
+      if (!duplicateExists) return candidateId;
+    }
+    throw new Error('Не удалось создать уникальный ID. Попробуй сохранить ещё раз.');
+  }
+
+  function isDuplicateIdError(error) {
+    const message = (error && error.message) || '';
+    return Boolean(error && (error.code === '23505' || /duplicate key|products_pkey/i.test(message)));
+  }
+
   async function saveProduct() {
     const data  = readForm();
-    if (!data.id)       { showStatus('Укажи ID модели', 'error'); return; }
+    const isNew = editingId === null;
+    if (!isNew && !data.id) { showStatus('Укажи ID модели', 'error'); return; }
     if (!data.title_ru) { showStatus('Заполни название (RU)', 'error'); return; }
 
-    const isNew = editingId === null;
     let error;
 
     if (isNew) {
-      ({ error } = await sb.from('products').insert(data));
+      for (let attempt = 0; attempt < ID_GENERATION_RETRIES; attempt += 1) {
+        try {
+          data.id = await generateUniqueProductId();
+          document.getElementById('f-id').value = data.id;
+        } catch (idError) {
+          showStatus('Ошибка ID: ' + (idError.message || idError.code), 'error');
+          return;
+        }
+
+        ({ error } = await sb.from('products').insert(data));
+        if (!isDuplicateIdError(error)) break;
+      }
     } else {
       ({ error } = await sb.from('products').update(data).eq('id', editingId));
     }
@@ -1287,6 +1350,5 @@ body {
 
 })();
 </script>
-  <script src="//code-ya.jivosite.com/widget/dbJFIzjWEH" async></script>
 </body>
 </html>
