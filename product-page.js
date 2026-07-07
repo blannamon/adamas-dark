@@ -188,11 +188,90 @@
   /* ── gallery thumbnails ────────────────── */
   var thumbEls = document.querySelectorAll('.gallery-thumb');
   var mainImg  = document.getElementById('gallery-main-img');
+  var galleryMain = document.querySelector('.gallery-main');
+  var galleryZoomBtn = document.getElementById('gallery-zoom-btn');
+  var productLightbox = document.getElementById('product-lightbox');
+  var productLightboxImg = document.getElementById('product-lightbox-img');
+  var productLightboxCounter = document.getElementById('product-lightbox-counter');
+  var productLightboxClose = document.getElementById('product-lightbox-close');
+  var productLightboxBackdrop = document.getElementById('product-lightbox-backdrop');
+  var productLightboxPrev = document.getElementById('product-lightbox-prev');
+  var productLightboxNext = document.getElementById('product-lightbox-next');
+  var currentGalleryIndex = 0;
+  var currentLightboxIndex = 0;
+
+  function getGalleryItems() {
+    return Array.prototype.map.call(thumbEls, function (thumb) {
+      var imgEl = thumb.querySelector('.gallery-thumb-img');
+      return {
+        index: Number(thumb.dataset.index),
+        src: imgEl ? (imgEl.currentSrc || imgEl.src) : '',
+        alt: imgEl ? imgEl.alt : ''
+      };
+    }).filter(function (item, i) {
+      return thumbEls[i].style.display !== 'none' && item.src;
+    });
+  }
+
+  function updateLightboxImage() {
+    if (!productLightboxImg) return;
+    var items = getGalleryItems();
+    var item = items[currentLightboxIndex];
+    if (!item) return;
+
+    productLightboxImg.style.opacity = '0';
+    productLightboxImg.style.transform = 'scale(0.97)';
+    setTimeout(function () {
+      productLightboxImg.src = item.src;
+      productLightboxImg.alt = item.alt;
+      productLightboxImg.style.opacity = '1';
+      productLightboxImg.style.transform = 'scale(1)';
+      if (productLightboxCounter) {
+        productLightboxCounter.textContent = (currentLightboxIndex + 1) + ' / ' + items.length;
+      }
+      if (productLightboxPrev) productLightboxPrev.style.display = items.length > 1 ? '' : 'none';
+      if (productLightboxNext) productLightboxNext.style.display = items.length > 1 ? '' : 'none';
+    }, 120);
+  }
+
+  function openProductLightbox() {
+    if (!productLightbox || !productLightboxImg) return;
+    var items = getGalleryItems();
+    if (!items.length) return;
+
+    var selectedIndex = items.findIndex(function (item) {
+      return item.index === currentGalleryIndex;
+    });
+    currentLightboxIndex = selectedIndex >= 0 ? selectedIndex : 0;
+    updateLightboxImage();
+    productLightbox.classList.add('is-open');
+    productLightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () {
+      if (productLightboxClose) productLightboxClose.focus();
+    }, 50);
+  }
+
+  function closeProductLightbox() {
+    if (!productLightbox) return;
+    productLightbox.classList.remove('is-open');
+    productLightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (galleryZoomBtn) galleryZoomBtn.focus();
+  }
+
+  function navigateProductLightbox(dir) {
+    var items = getGalleryItems();
+    if (!items.length) return;
+    currentLightboxIndex = (currentLightboxIndex + dir + items.length) % items.length;
+    updateLightboxImage();
+  }
 
   thumbEls.forEach(function (thumb) {
     thumb.addEventListener('click', function () {
       thumbEls.forEach(function (t) { t.classList.remove('active'); });
       thumb.classList.add('active');
+      currentGalleryIndex = Number(thumb.dataset.index);
       if (mainImg) {
         mainImg.style.opacity   = '0';
         mainImg.style.transform = 'scale(0.97)';
@@ -203,6 +282,26 @@
         }, 185);
       }
     });
+  });
+
+  if (galleryMain) {
+    galleryMain.addEventListener('click', openProductLightbox);
+  }
+
+  if (productLightboxClose) productLightboxClose.addEventListener('click', closeProductLightbox);
+  if (productLightboxBackdrop) productLightboxBackdrop.addEventListener('click', closeProductLightbox);
+  if (productLightboxPrev) {
+    productLightboxPrev.addEventListener('click', function () { navigateProductLightbox(-1); });
+  }
+  if (productLightboxNext) {
+    productLightboxNext.addEventListener('click', function () { navigateProductLightbox(1); });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (!productLightbox || !productLightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeProductLightbox();
+    if (e.key === 'ArrowLeft') navigateProductLightbox(-1);
+    if (e.key === 'ArrowRight') navigateProductLightbox(1);
   });
 
   /* ── related products ──────────────────── */
