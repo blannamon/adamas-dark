@@ -219,12 +219,10 @@
       if (!cart.length) return;
 
       var detailsInput = document.getElementById('order-details');
-      var languageInput = document.getElementById('checkout-language');
       var errorEl = document.getElementById('checkout-form-error');
       var submitBtn = form.querySelector('.checkout-submit');
 
       if (detailsInput) detailsInput.value = formatOrderDetails(cart);
-      if (languageInput) languageInput.value = window.currentLang || 'ru';
       if (errorEl) {
         errorEl.hidden = true;
         errorEl.textContent = '';

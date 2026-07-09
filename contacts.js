@@ -104,8 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!valid) return;
 
     var submitBtn = form.querySelector('.ct-form-submit');
-    var languageInput = document.getElementById('ct-language');
-    if (languageInput) languageInput.value = window.currentLang || 'ru';
     if (errorEl) {
       errorEl.hidden = true;
       errorEl.textContent = '';
