@@ -237,22 +237,24 @@
             </label>
             <textarea class="ct-form-textarea" id="ct-message" name="message" rows="5"></textarea>
           </div>
-          <button class="ct-form-submit" type="submit">
-            <span data-i18n="ct_form_submit">Отправить</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+          <div class="ct-form-actions">
+            <button class="ct-form-submit" type="submit">
+              <span data-i18n="ct_form_submit">Отправить</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <div class="ct-form-success" id="ct-form-success" hidden aria-live="polite">
+              <div class="ct-success-checkmark" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="ct-success-copy">
+                <p class="ct-success-title" data-i18n="ct_form_success_title">Сообщение отправлено!</p>
+                <p class="ct-success-text" data-i18n="ct_form_success_text">Скоро свяжемся.</p>
+              </div>
+            </div>
+          </div>
           <p class="ct-form-error" id="ct-form-error" role="alert" hidden></p>
         </form>
-
-        <div class="ct-form-success" id="ct-form-success" hidden aria-live="polite">
-          <div class="ct-success-checkmark" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <div class="ct-success-copy">
-            <p class="ct-success-title" data-i18n="ct_form_success_title">Сообщение отправлено!</p>
-            <p class="ct-success-text" data-i18n="ct_form_success_text">Скоро свяжемся.</p>
-          </div>
-        </div>
       </div>
 
     </div>

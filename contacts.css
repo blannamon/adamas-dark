@@ -347,6 +347,13 @@
 
 /* ── SUBMIT BUTTON ────────────────────────── */
 
+.ct-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
 .ct-form-submit {
   align-self: flex-start;
   display: inline-flex;
@@ -406,14 +413,9 @@
 .ct-form-success {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   max-width: 100%;
-  margin-top: 18px;
-  padding: 13px 16px;
-  border: 1px solid rgba(242, 233, 210, 0.16);
-  border-radius: 999px;
-  background: rgba(19, 19, 16, 0.88);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+  padding: 0;
   animation: cardIn 0.4s ease both;
 }
 
@@ -441,7 +443,7 @@
   min-width: 0;
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 9px;
 }
 
 .ct-success-title,

@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var form    = document.getElementById('ct-form');
   var success = document.getElementById('ct-form-success');
   if (!form || !success) return;
+  var successTimer = null;
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -112,6 +113,11 @@ document.addEventListener('DOMContentLoaded', function () {
       errorEl.hidden = true;
       errorEl.textContent = '';
     }
+    success.hidden = true;
+    if (successTimer) {
+      clearTimeout(successTimer);
+      successTimer = null;
+    }
     if (submitBtn) {
       submitBtn.disabled = true;
     }
@@ -125,8 +131,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (!response.ok) throw new Error('Form submission failed: ' + response.status);
 
-      form.hidden = true;
+      form.reset();
+      inputs.forEach(function (inp) {
+        inp.classList.remove('error');
+      });
       success.hidden = false;
+      if (submitBtn) submitBtn.disabled = false;
+
+      successTimer = setTimeout(function () {
+        success.hidden = true;
+        successTimer = null;
+      }, 5000);
     } catch (error) {
       if (errorEl) {
         errorEl.textContent = (window.currentLang === 'ro')
