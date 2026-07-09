@@ -213,7 +213,14 @@
       <div class="ct-form-col">
         <h2 class="ct-col-title" data-i18n="ct_form_title">Написать нам</h2>
 
-        <form class="ct-form" id="ct-form" novalidate>
+        <form class="ct-form" id="ct-form" name="contact" method="POST"
+              data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="contact">
+          <input type="hidden" name="subject" value="Новое сообщение с сайта Adamas Gold">
+          <input type="hidden" name="language" id="ct-language" value="ru">
+          <p class="form-honeypot" aria-hidden="true">
+            <label>Не заполняйте это поле: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
           <div class="ct-form-group">
             <label class="ct-form-label" for="ct-name">
               <span data-i18n="ct_form_name">Имя</span>
@@ -236,6 +243,7 @@
             <span data-i18n="ct_form_submit">Отправить</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
+          <p class="ct-form-error" id="ct-form-error" role="alert" hidden></p>
         </form>
 
         <div class="ct-form-success" id="ct-form-success" hidden aria-live="polite">

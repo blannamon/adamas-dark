@@ -122,7 +122,15 @@
         <!-- Form -->
         <div class="checkout-form-wrap">
           <h3 class="checkout-form-title" data-i18n="checkout_form_title">Данные для связи</h3>
-          <form class="checkout-form" id="checkout-form" novalidate>
+          <form class="checkout-form" id="checkout-form" name="order" method="POST"
+                data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+            <input type="hidden" name="form-name" value="order">
+            <input type="hidden" name="subject" value="Новый заказ с сайта Adamas Gold">
+            <input type="hidden" name="language" id="checkout-language" value="ru">
+            <input type="hidden" name="order_details" id="order-details">
+            <p class="form-honeypot" aria-hidden="true">
+              <label>Не заполняйте это поле: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+            </p>
             <div class="checkout-form-row">
               <div class="checkout-field">
                 <label class="checkout-label" for="field-firstname" data-i18n="checkout_firstname">Имя</label>
@@ -155,6 +163,7 @@
               <span data-i18n="checkout_submit">Отправить заявку</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
+            <p class="checkout-form-error" id="checkout-form-error" role="alert" hidden></p>
           </form>
         </div>
 

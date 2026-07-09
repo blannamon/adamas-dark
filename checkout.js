@@ -188,11 +188,68 @@
     }
   }
 
+  function formatOrderDetails(cart) {
+    var l = window.currentLang || 'ru';
+
+    return cart.map(function (item, index) {
+      var lines = [
+        (index + 1) + '. ' + (item.title ? (item.title[l] || item.title.ru || '') : '') + ' (ID: ' + item.id + ')',
+        'Тип: ' + (item.type ? (item.type[l] || item.type.ru || '') : ''),
+        'Материал: ' + (item.material ? (item.material[l] || item.material.ru || '') : ''),
+        'Металл: ' + (item.metalId || ''),
+        'Проба: ' + (item.purity || '')
+      ];
+
+      if (item.size != null) {
+        lines.push((item.category === 'chain' || item.category === 'bracelet' ? 'Длина: ' : 'Размер: ') + item.size);
+      }
+      if (item.comment && item.comment.trim()) lines.push('Комментарий: ' + item.comment.trim());
+
+      return lines.join('\n');
+    }).join('\n\n');
+  }
+
   var form = document.getElementById('checkout-form');
   if (form) {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      if (validateForm()) showSuccess();
+      if (!validateForm()) return;
+
+      var cart = typeof window.getCart === 'function' ? window.getCart() : [];
+      if (!cart.length) return;
+
+      var detailsInput = document.getElementById('order-details');
+      var languageInput = document.getElementById('checkout-language');
+      var errorEl = document.getElementById('checkout-form-error');
+      var submitBtn = form.querySelector('.checkout-submit');
+
+      if (detailsInput) detailsInput.value = formatOrderDetails(cart);
+      if (languageInput) languageInput.value = window.currentLang || 'ru';
+      if (errorEl) {
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+      }
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        var response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        });
+
+        if (!response.ok) throw new Error('Order submission failed: ' + response.status);
+        showSuccess();
+      } catch (error) {
+        if (errorEl) {
+          errorEl.textContent = (window.currentLang === 'ro')
+            ? 'Comanda nu a putut fi trimisă. Încercați din nou.'
+            : 'Не удалось отправить заказ. Попробуйте ещё раз.';
+          errorEl.hidden = false;
+        }
+        if (submitBtn) submitBtn.disabled = false;
+        console.error(error);
+      }
     });
   }
 

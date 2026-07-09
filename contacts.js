@@ -85,10 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
   var success = document.getElementById('ct-form-success');
   if (!form || !success) return;
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     var nameInput = document.getElementById('ct-name');
+    var errorEl = document.getElementById('ct-form-error');
     var valid = true;
 
     // Basic validation: name required
@@ -102,17 +103,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!valid) return;
 
-    // Simulate async send (replace with real endpoint if needed)
     var submitBtn = form.querySelector('.ct-form-submit');
+    var languageInput = document.getElementById('ct-language');
+    if (languageInput) languageInput.value = window.currentLang || 'ru';
+    if (errorEl) {
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+    }
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.6';
     }
 
-    setTimeout(function () {
+    try {
+      var response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      });
+
+      if (!response.ok) throw new Error('Form submission failed: ' + response.status);
+
       form.hidden = true;
       success.hidden = false;
-    }, 600);
+    } catch (error) {
+      if (errorEl) {
+        errorEl.textContent = (window.currentLang === 'ro')
+          ? 'Mesajul nu a putut fi trimis. Încercați din nou.'
+          : 'Не удалось отправить сообщение. Попробуйте ещё раз.';
+        errorEl.hidden = false;
+      }
+      if (submitBtn) submitBtn.disabled = false;
+      console.error(error);
+    }
   });
 
   // Clear error on input

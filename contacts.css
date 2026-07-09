@@ -268,6 +268,18 @@
   gap: 22px;
 }
 
+.form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .ct-form-group {
   display: flex;
   flex-direction: column;
@@ -372,6 +384,22 @@
   color: var(--bg);
   transform: translateY(0);
 }
+
+.ct-form-submit:disabled {
+  cursor: wait;
+  opacity: 0.6;
+  transform: none;
+}
+
+.ct-form-error {
+  margin: -10px 0 0;
+  color: #c0705a;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ct-form-error[hidden] { display: none; }
 
 /* ── SUCCESS STATE ────────────────────────── */
 
