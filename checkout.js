@@ -195,9 +195,7 @@
       var lines = [
         (index + 1) + '. ' + (item.title ? (item.title[l] || item.title.ru || '') : '') + ' (ID: ' + item.id + ')',
         'Тип: ' + (item.type ? (item.type[l] || item.type.ru || '') : ''),
-        'Материал: ' + (item.material ? (item.material[l] || item.material.ru || '') : ''),
-        'Металл: ' + (item.metalId || ''),
-        'Проба: ' + (item.purity || '')
+        'Материал: ' + (item.material ? (item.material[l] || item.material.ru || '') : '')
       ];
 
       if (item.size != null) {
